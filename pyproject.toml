@@ -15,7 +15,7 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/aai-institute/tfl-training-ml-control"
 classifiers = [
-    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
 ]
 exclude = ["test/*"]
 packages = [

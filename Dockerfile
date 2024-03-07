@@ -2,7 +2,7 @@
 FROM jupyter/minimal-notebook:python-3.11 as BASE
 
 ARG CODE_DIR=/tmp/code
-ARG POETRY_VERSION=1.6.1
+ARG POETRY_VERSION=1.8.1
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -27,7 +27,7 @@ WORKDIR $CODE_DIR
 
 COPY --chown=${NB_UID}:${NB_GID} poetry.lock pyproject.toml .
 
-RUN poetry install --no-interaction --no-ansi --without=dev
+RUN poetry install --no-interaction --no-ansi --no-root --without=dev
 
 COPY --chown=${NB_UID}:${NB_GID} src/ src/
 COPY --chown=${NB_UID}:${NB_GID} README.md .
@@ -65,10 +65,6 @@ WORKDIR ${CODE_DIR}
 COPY --from=BASE ${CODE_DIR}/.venv ${CODE_DIR}/.venv
 # Copy built package from base image
 COPY --from=BASE ${CODE_DIR}/dist ${CODE_DIR}/dist
-
-# This goes directly into main jupyter, not poetry env
-COPY --chown=${NB_UID}:${NB_GID} build_scripts ./build_scripts
-RUN bash build_scripts/install_presentation_requirements.sh
 
 # Start of HACK: the home directory is overwritten by a mount when a jhub server is started off this image
 # Thus, we create a jovyan-owned directory to which we copy the code and then move it to the home dir as part
