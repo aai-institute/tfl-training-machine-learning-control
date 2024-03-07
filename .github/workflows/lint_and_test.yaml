@@ -1,0 +1,35 @@
+name: Lint and test code
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        required: false
+        type: string
+        default: '3.11'
+
+jobs:
+  lint_and_test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        lfs: true
+        persist-credentials: false
+    # lfs=true is not enough, see https://stackoverflow.com/questions/61463578/github-actions-actions-checkoutv2-lfs-true-flag-not-converting-pointers-to-act
+    # config tweak is needed b/c of annoying bugs in actions/checkout, see https://github.com/actions/checkout/issues/766
+    - name: Pull LFS Objects
+      run: |
+        git config --global --add safe.directory "$GITHUB_WORKSPACE"
+        git lfs pull
+    - name: Setup Virtual Environment
+      uses: ./.github/actions/poetry
+      with:
+        python_version: ${{ inputs.python_version }}
+        poetry_included_groups: dev
+    - name: Run pre-commit
+      run: pre-commit run --all-files --verbose
+    - name: Run pytest
+      run: pytest

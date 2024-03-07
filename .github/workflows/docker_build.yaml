@@ -1,22 +1,25 @@
-name: Build docker image with the presentation
+name: Build and push docker image
 
 on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      reason:
-        description: Why did you need to rebuild the image?
-        required: False
-        default: Image built from master was outdated
-
+      base_image_name:
+        required: true
+        type: string
+        description: Base name of the image to build and push
+    outputs:
+      image_name:
+        description: String that represents the built image name
+        value: ${{ jobs.docker_build_and_push.outputs.image_name }}
 
 jobs:
-  docker_build:
+  docker_build_and_push:
     runs-on: ubuntu-latest
+    outputs:
+      image_name: ${{ fromJson(steps.meta.outputs.json).tags[0] }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
@@ -25,30 +28,30 @@ jobs:
       - name: Pull LFS Objects
         run: git lfs pull
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
       - name: Login to GAR
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           registry: europe-west3-docker.pkg.dev
           username: _json_key
           password: ${{ secrets.GAR_JSON_KEY }}
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v5
         with:
-          flavor: |
-            latest=true
-          images: europe-west3-docker.pkg.dev/tfl-prod-ea3b/tfl-docker/tfl-training-ml-control
+          images: ${{ inputs.base_image_name }}
           tags: |
             type=sha
+            # set latest tag for default branch
+            type=raw,value=latest,enable={{is_default_branch}}
       - name: Build and push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=europe-west3-docker.pkg.dev/tfl-prod-ea3b/tfl-docker/tfl-training-ml-control:latest
+          cache-from: type=registry,ref=${{ inputs.base_image_name }}:latest
           cache-to: type=inline

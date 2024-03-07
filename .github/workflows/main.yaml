@@ -1,0 +1,44 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: Why do you need to run this pipeline manually?
+        required: False
+        default: I want to force a re-run
+
+env:
+  BASE_IMAGE_NAME: europe-west3-docker.pkg.dev/tfl-prod-ea3b/tfl-docker/tfl-training-ml-control
+
+jobs:
+  lint_and_test:
+    name: Lint and Test
+    uses: ./.github/workflows/lint_and_test.yaml
+  # HACK
+  # https://github.com/actions/runner/issues/2372#issuecomment-1591370444
+  get_env_vars:
+    name: Get Environment vars
+    runs-on: ubuntu-latest
+    outputs:
+      BASE_IMAGE_NAME: ${{ env.BASE_IMAGE_NAME }}
+    steps:
+      - run: echo "null"
+  build_and_push_image:
+    name: Docker Build and Push
+    uses: ./.github/workflows/docker_build.yaml
+    needs: [lint_and_test, get_env_vars]
+    secrets: inherit
+    with:
+      base_image_name: ${{ needs.get_env_vars.outputs.BASE_IMAGE_NAME }}
+  build_and_push_docs:
+    name: Docs Build and Push
+    uses: ./.github/workflows/docs_build.yaml
+    needs: [build_and_push_image]
+    secrets: inherit
+    with:
+      image_name: ${{ needs.build_and_push_image.outputs.image_name }}

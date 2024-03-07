@@ -141,3 +141,7 @@ dmypy.json
 
 # reports
 pylint.html
+
+# docs
+apidocs/
+_build

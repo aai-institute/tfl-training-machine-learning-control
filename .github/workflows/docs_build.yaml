@@ -1,23 +1,24 @@
+name: Build and push documentation
+
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      image_name:
+        required: true
+        type: string
 
 jobs:
-  test_and_render:
+  docs_build_and_push:
     runs-on: ubuntu-latest
     container:
-      image: europe-west3-docker.pkg.dev/tfl-prod-ea3b/tfl-docker/tfl-training-ml-control:latest
+      image: ${{ inputs.image_name }}
       options: --user root
       credentials:
         username: _json_key
         password: ${{ secrets.GAR_JSON_KEY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
@@ -28,21 +29,19 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git lfs pull
-      - name: Install package
-        run: poetry install --with dev
-      - name: Run tests
-        run: poetry run pytest
+      - name: Cache Jupyter Cache Directory
+        uses: actions/cache@v4
+        with:
+          key: jupyter-cache-${{ runner.os }}-${{ github.ref }}-${{ inputs.python_version }}
+          path: _build/.jupyter_cache
       - name: Build docs
-#       NOTE: feel free to delete the if-else and just keep the else line. It's simply a special case to make the
-#       automatically generated thesan_output fully representative. In normal cases, the notebooks are rendered
-#       locally and html is committed
-        run: poetry run bash build_scripts/build_docs.sh --skip-nbconvert --skip-jupyter-book
+        run: bash build_scripts/build_docs.sh
       - name: Prepare Pages
-        if: github.ref == 'refs/heads/master'
-        run: mv docs/_build/html/* public/
+        if: github.ref_name == github.event.repository.default_branch
+        run: mv _build/html/* public/
       - name: Deploy Pages
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        if: github.ref == 'refs/heads/master'
+        uses: JamesIves/github-pages-deploy-action@v4
+        if: github.ref_name == github.event.repository.default_branch
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages

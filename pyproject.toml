@@ -25,39 +25,36 @@ include=["src/training_ml_control/assets"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-ipykernel = "^6.25.2"
 ipywidgets = "^8.1.1"
-jupyter-contrib-nbextensions = "^0.7.0"
-notebook = "<7.0.0"
+notebook = "^7.1.1"
+jupyterlab = "^4.1.3"
+jupyterlab-myst = "^2.3.1"
+jupyterlab-rise = "^0.42.0"
+jupyterlab-lsp = "^5.1.0"
+jupyterlab-scenes = "^2.0.0"
 rise = "^5.7.1"
 matplotlib = "^3.8.0"
 seaborn = "^0.13.0"
-traitlets = "5.9.0"
-# special sauce b/c of a flaky bug in poetry on windows
-# see https://github.com/python-poetry/poetry/issues/7611#issuecomment-1466478926
-virtualenv = [
-    { version = "^20.4.3,!=20.4.5,!=20.4.6" },
-    { version = "<20.16.4", markers = "sys_platform == 'win32'" },
-]
-numba = "^0.57.1"
-# b/c of numba
-numpy = "<=1.24"
-overrides = "^7.4.0"
-packaging = "*"
-pandas = {extras = ["performance"], version = "^2.1.0"}
-gymnasium = {extras = ["classic-control", "mujoco"], version = "^0.28.0"}
+numpy = "^1.26.2"
+pandas = {extras = ["performance"], version = "^2.2.0"}
+gymnasium = {extras = ["classic-control"], version = "^0.29.0"}
 do-mpc = "^4.6.1"
 mediapy = "^1.1.9"
 networkx = "^3.1"
+
+[tool.poetry.group.docs.dependencies]
+jupyter-book = "^1.0.0"
+sphinx-autodoc2 = "^0.5.0"
+jupyter-contrib-nbextensions = "^0.7.0"
+sphinxcontrib-spelling = "^8.0.0"
+sphinxext-opengraph = "^0.9.1"
+sphinx-togglebutton = "^0.3.2"
+sphinx-exercise = "^0.4.1"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.3.3"
 pytest = "*"
 pytest-cov = "*"
-sphinx = "<7"
-sphinx_rtd_theme = "*"
-sphinxcontrib-bibtex = "*"
-sphinxcontrib-spelling = "^8.0.0"
 
 [tool.black]
 # Source https://github.com/psf/black#configuration-format

@@ -1,0 +1,75 @@
+# Book settings
+# Learn more at https://jupyterbook.org/customize/config.html
+
+title: Machine Learning Control Training
+author: appliedAI TransferLab
+copyright: '2023'
+logo: notebooks/_static/images/transferlab-logo.svg
+exclude_patterns: [".github", ".venv", "**.ipynb_checkpoints", "_config.yml", "_toc.yml"]
+# Auto-exclude files not in the toc
+only_build_toc_files: true
+
+execute:
+  execute_notebooks: cache
+  allow_errors: true
+  stderr_output: show
+  timeout: 60
+
+launch_buttons:
+  thebe: true
+  binderhub_url: "https://mybinder.org"
+
+repository:
+  url: https://github.com/aai-institute/tfl-training-machine-learning-control
+  branch: main
+
+html:
+  use_repository_button: true
+  use_issues_button: true
+  use_edit_page_button: true
+
+sphinx:
+  extra_extensions:
+  - 'autodoc2'
+  - 'sphinx.ext.autosummary'
+  - 'sphinx.ext.napoleon'
+  - 'sphinx.ext.viewcode'
+  - 'sphinxcontrib.bibtex'
+  - 'sphinxext.opengraph'
+  - 'sphinx_togglebutton'
+  - 'sphinx_exercise'
+  config:
+    language: en
+    autodoc2_packages: ['src/training_ml_control']
+    autodoc2_render_plugin: 'myst'
+    bibtex_bibfiles: ['notebooks/bibliography.bib']
+    ogp_site_url: https://aai-institute.github.io/tfl-training-machine-learning-control
+    mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+    mathjax3_config:
+      loader: { load: [ '[tex]/configmacros' ] }
+      tex:
+        packages: { '[+]': [ 'configmacros' ] }
+        macros:
+          vect: ["{\\mathbf{\\boldsymbol{#1}} }", 1]
+          E: "{\\mathbb{E}}"
+          P: "{\\mathbb{P}}"
+          R: "{\\mathbb{R}}"
+          abs: ["{\\left| #1 \\right|}", 1]
+          simpl: ["{\\Delta^{#1} }", 1]
+          amax: "{\\text{argmax}}"
+
+# Parse and render settings
+parse:
+  # default extensions to enable in the myst parser. See https://myst-parser.readthedocs.io/en/latest/using/syntax-optional.html
+  myst_enable_extensions:
+    - amsmath
+    - colon_fence
+    - dollarmath
+    - html_image
+    - linkify
+    - substitution
+    - tasklist
+  # URI schemes that will be recognised as external URLs in Markdown links
+  myst_url_schemes: [mailto, http, https]
+  # Allow display math ($$) within an inline context
+  myst_dmath_double_inline: true

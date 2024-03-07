@@ -1,0 +1,14 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: notebooks/home
+parts:
+  - caption: Notebook Pages
+    name: notebooks
+    chapters:
+    - glob: "notebooks/nb_*"
+  - caption: Code
+    name: code
+    chapters:
+      - glob: "apidocs/*"
