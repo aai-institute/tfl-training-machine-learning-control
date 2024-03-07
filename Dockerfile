@@ -2,7 +2,7 @@
 FROM jupyter/minimal-notebook:python-3.11 as BASE
 
 ARG CODE_DIR=/tmp/code
-ARG POETRY_VERSION=1.8.1
+ARG POETRY_VERSION=1.8.2
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONDONTWRITEBYTECODE=1 \
