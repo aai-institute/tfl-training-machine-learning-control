@@ -11,7 +11,7 @@ authors = [
     "Ivan Rodriguez <i.rodriguez@appliedai.de>",
     "Anes Benmerzoug <a.benmerzoug@appliedai.de>",
 ]
-license = "MIT"
+license = "CC-BY-SA 4.0"
 readme = "README.md"
 homepage = "https://github.com/aai-institute/tfl-training-ml-control"
 classifiers = [
