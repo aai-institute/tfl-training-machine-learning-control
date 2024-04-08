@@ -2,15 +2,24 @@ import os
 import random
 from collections.abc import Sequence
 from itertools import zip_longest
+from typing import Any
 
+import mediapy as media
 import numpy as np
 import pandas as pd
 from IPython.core.magic import Magics, line_magic, magics_class
-from IPython.display import HTML, Markdown, display
+from IPython.display import HTML, Markdown, Math, display
+from numpy.typing import NDArray
 
 from .constants import LATEX_MACROS
 
-__all__ = ["set_random_seed", "TflWorkshopMagic", "display_dataframes_side_by_side"]
+__all__ = [
+    "set_random_seed",
+    "TflWorkshopMagic",
+    "display_dataframes_side_by_side",
+    "display_array",
+    "show_video",
+]
 
 
 def set_random_seed(seed: int = 16) -> None:
@@ -105,3 +114,29 @@ def display_dataframes_side_by_side(
         output += "\xa0\xa0\xa0"
 
     display(HTML(output))
+
+
+def display_array(name: str, array: NDArray) -> None:
+    """Displays numpy arrays as latex bmatrix."""
+    matrix = ""
+    for row in array:
+        try:
+            for number in row:
+                matrix += f"{number} &"
+        except TypeError:
+            matrix += f"{row} &"
+        matrix = matrix[:-1] + r"\\"
+    array_string = rf"\begin{{equation*}}{name} = \begin{{bmatrix}}{matrix}\end{{bmatrix}}\end{{equation*}}"
+    display(Math(array_string))
+
+
+def show_video(
+    frames: list[NDArray], fps: float, *, title: str | None = None, **kwargs: Any
+) -> None:
+    """Renders the given frames as a video.
+
+    If no frames are passed, then it simply returns without doing anything.
+    """
+    if len(frames) == 0:
+        return
+    media.show_video(frames, fps=fps, title=title, **kwargs)

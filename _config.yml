@@ -4,7 +4,6 @@
 title: Machine Learning Control Training
 author: appliedAI TransferLab
 copyright: '2023'
-logo: notebooks/_static/images/transferlab-logo.svg
 exclude_patterns: [".github", ".venv", "**.ipynb_checkpoints", "_config.yml", "_toc.yml"]
 # Auto-exclude files not in the toc
 only_build_toc_files: true
@@ -39,6 +38,10 @@ sphinx:
   - 'sphinx_togglebutton'
   - 'sphinx_exercise'
   config:
+    html_theme_options:
+      logo:
+        image_light: notebooks/_static/images/transferlab-logo.svg
+        image_dark: notebooks/_static/images/transferlab-logo-dark.svg
     language: en
     autodoc2_packages: ['src/training_ml_control']
     autodoc2_render_plugin: 'myst'
@@ -68,7 +71,6 @@ parse:
     - html_image
     - linkify
     - substitution
-    - tasklist
   # URI schemes that will be recognised as external URLs in Markdown links
   myst_url_schemes: [mailto, http, https]
   # Allow display math ($$) within an inline context

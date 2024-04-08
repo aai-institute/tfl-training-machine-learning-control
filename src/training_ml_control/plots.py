@@ -1,4 +1,3 @@
-import control as ct
 import do_mpc
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,7 +12,6 @@ __all__ = [
     "plot_influence_of_K_on_pendulum",
     "plot_small_angle_approximation",
     "plot_second_order_step_response",
-    "plot_estimator_response",
     "plot_mass_spring_damper_results",
     "plot_inverted_pendulum_results",
     "animate_mass_spring_damper_simulation",
@@ -130,51 +128,6 @@ def plot_second_order_step_response() -> None:
     ax2.set_xlabel("Time")
     ax2.set_ylabel("Control")
     ax2.legend()
-
-
-def plot_estimator_response(
-    estimated_response: ct.timeresp.TimeResponseData,
-    *,
-    labels: list[str],
-    observations: NDArray | None = None,
-) -> None:
-    """As its name suggests, this function plots the response
-    of an estimator.
-    """
-    fig, (ax1, ax2) = plt.subplots(1, 2, sharex=True)
-    ax1.errorbar(
-        estimated_response.time,
-        estimated_response.outputs[0],
-        estimated_response.states[2],
-        fmt="r-",
-        label="Estimated",
-    )
-    if observations is not None:
-        ax1.plot(
-            estimated_response.time[: len(observations) - 1],
-            observations[1:, 0],
-            label="Ground Truth",
-        )
-    ax1.set_xlabel("Time")
-    ax1.set_ylabel(labels[0])
-    ax1.legend()
-    ax2.errorbar(
-        estimated_response.time,
-        estimated_response.outputs[1],
-        estimated_response.states[5],
-        fmt="r-",
-        label="Estimated",
-    )
-    if observations is not None:
-        ax2.plot(
-            estimated_response.time[: len(observations) - 1],
-            observations[1:, 1],
-            label="Ground Truth",
-        )
-    ax2.set_xlabel("Time")
-    ax2.set_ylabel(labels[1])
-    ax2.legend()
-    fig.tight_layout()
 
 
 def plot_mass_spring_damper_results(
