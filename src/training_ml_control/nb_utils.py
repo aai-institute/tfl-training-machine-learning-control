@@ -2,7 +2,7 @@ import os
 import random
 from collections.abc import Sequence
 from itertools import zip_longest
-from typing import Any
+from typing import Any, Literal
 
 import mediapy as media
 import numpy as np
@@ -131,7 +131,12 @@ def display_array(name: str, array: NDArray) -> None:
 
 
 def show_video(
-    frames: list[NDArray], fps: float, *, title: str | None = None, **kwargs: Any
+    frames: list[NDArray],
+    fps: float,
+    *,
+    title: str | None = None,
+    codec: str = "gif",
+    **kwargs: Any,
 ) -> None:
     """Renders the given frames as a video.
 
@@ -139,4 +144,4 @@ def show_video(
     """
     if len(frames) == 0:
         return
-    media.show_video(frames, fps=fps, title=title, **kwargs)
+    media.show_video(frames, fps=fps, title=title, codec=codec, **kwargs)

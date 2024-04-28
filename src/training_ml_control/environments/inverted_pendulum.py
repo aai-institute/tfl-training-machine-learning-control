@@ -102,6 +102,7 @@ class InvertedPendulumEnv(CartPoleEnv):
         masspole: float = 0.1,
         masscart: float = 1.0,
         length: float = 1.0,
+        theta_initial: float = 0.0,
         x_threshold: float = 3,
         theta_threshold: float = 24,
         force_max: float = 30.0,
@@ -117,6 +118,8 @@ class InvertedPendulumEnv(CartPoleEnv):
         self.dt = 0.02
         self.kinematics_integrator = "euler"
 
+        # Initial angle
+        self.theta_initial_radians = math.radians(theta_initial)
         # Angle at which to fail the episode
         self.theta_threshold_radians = math.radians(theta_threshold)
         # Cart position at which to fail the episode
@@ -152,7 +155,7 @@ class InvertedPendulumEnv(CartPoleEnv):
 
         self.steps_beyond_terminated = None
 
-        self.init_state = np.array([0.0, 0.0, 0.0, 0.0])
+        self.init_state = np.array([0.0, 0.0, self.theta_initial_radians, 0.0])
         self.state = self.init_state.copy()
 
     def step(self, action: float) -> tuple[NDArray, float, bool, bool, dict]:

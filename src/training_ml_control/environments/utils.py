@@ -7,12 +7,61 @@ from gymnasium.wrappers.render_collection import RenderCollection
 from numpy.typing import NDArray
 
 from training_ml_control.control import FeedbackController, Observer, RandomController
-from training_ml_control.inverted_pendulum import InvertedPendulumEnv
+from training_ml_control.environments.cart import CartEnv
+from training_ml_control.environments.grid_world import GridWorldEnv
+from training_ml_control.environments.inverted_pendulum import InvertedPendulumEnv
 
 __all__ = [
     "create_inverted_pendulum_environment",
+    "create_grid_world_environment",
+    "create_cart_environment",
     "simulate_environment",
 ]
+
+
+def create_cart_environment(
+    render_mode: str | None = "rgb_array",
+    *,
+    max_steps: int = 200,
+    goal_velocity: float = 0,
+    max_position: float = 10,
+    max_speed: float = 10,
+    max_force: float = 10,
+    goal_position: float = 9.0,
+) -> Env:
+    """Creates instance of CartEnv with some wrappers
+    to ensure correctness, limit the number of steps and store rendered frames.
+    """
+    env = CartEnv(
+        render_mode=render_mode,
+        goal_velocity=goal_velocity,
+        max_position=max_position,
+        max_speed=max_speed,
+        max_force=max_force,
+        goal_position=goal_position,
+    )
+    env = TimeLimit(env, max_steps)
+    # env = PassiveEnvChecker(env)
+    env = OrderEnforcing(env)
+    if render_mode is not None:
+        env = RenderCollection(env)
+    return env
+
+
+def create_grid_world_environment(
+    render_mode: str | None = "rgb_array",
+    *,
+    max_steps: int = 20,
+) -> Env:
+    """Creates instance of GridWorldEnv with some wrappers
+    to ensure correctness, limit the number of steps and store rendered frames.
+    """
+    env = GridWorldEnv(render_mode=render_mode, max_steps=max_steps)
+    # env = PassiveEnvChecker(env)
+    env = OrderEnforcing(env)
+    if render_mode is not None:
+        env = RenderCollection(env)
+    return env
 
 
 def create_inverted_pendulum_environment(
