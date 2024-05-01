@@ -40,7 +40,7 @@ There are multiple ways of viewing/executing the content.
    You can then start the container e.g., with
     
    ```shell
-   docker run -it -p 8888:8888 tfl-training-ml-control:local jupyter notebook --ip=0.0.0.0
+   docker run -it -p 8888:8888 tfl-training-ml-control:local jupyter lab --ip=0.0.0.0
    ```
 
 4. Finally, for creating source code documentation, you can run
@@ -66,7 +66,7 @@ There are multiple ways of viewing/executing the content.
    ```shell
    docker run -it --rm --privileged --net=host \
       --env DISPLAY --volume /tmp/.X11-unix:/tmp/.X11-unix \
-      tfl-training-ml-control:local jupyter notebook --ip=0.0.0.0
+      tfl-training-ml-control:local jupyter lab --ip=0.0.0.0
    ```
 
 > **Note** There is some non-trivial logic in the entrypoint that may collide
