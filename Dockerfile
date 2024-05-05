@@ -19,11 +19,6 @@ ENV PATH="${POETRY_HOME}/bin:$PATH"
 
 USER root
 
-# make is needed to install matplotlib 3.5.0 for python 3.11
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl make \
-    && rm -rf /var/lib/apt/lists/*
-
 RUN curl -sSL https://install.python-poetry.org | python - \
     && poetry self add poetry-plugin-export
 
