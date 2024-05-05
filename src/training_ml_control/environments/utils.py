@@ -1,5 +1,7 @@
+from collections import defaultdict
 from dataclasses import dataclass
 
+import networkx as nx
 import numpy as np
 from gymnasium import Env
 from gymnasium.wrappers import OrderEnforcing, PassiveEnvChecker, TimeLimit
@@ -16,6 +18,8 @@ __all__ = [
     "create_grid_world_environment",
     "create_cart_environment",
     "simulate_environment",
+    "value_iteration",
+    "compute_best_path_and_actions_from_values",
 ]
 
 
@@ -68,9 +72,9 @@ def create_inverted_pendulum_environment(
     render_mode: str | None = "rgb_array",
     *,
     max_steps: int = 500,
-    masspole: float = 0.1,
-    masscart: float = 1.0,
-    length: float = 1.0,
+    masspole: float | None = None,
+    masscart: float | None = None,
+    length: float | None = None,
     x_threshold: float = 3,
     theta_threshold: float = 24,
     force_max: float = 10.0,
@@ -166,3 +170,50 @@ def simulate_environment(
         estimated_observations=estimated_observations,
         actions=actions,
     )
+
+
+def value_iteration(G: nx.DiGraph) -> dict[tuple[int, int], float]:
+    values = defaultdict(lambda: 0.0)
+
+    delta = np.inf
+
+    while delta > 0.0:
+        delta = 0.0
+        Q = defaultdict(lambda: defaultdict(lambda: 0.0))
+        for node in G.nodes:
+            next_nodes = list(G.successors(node))
+            if not next_nodes:
+                continue
+            for next_node in G.successors(node):
+                new_value = 1.0 + values[next_node]
+                Q[node][next_node] = new_value
+            min_q = min(Q[node].values())
+            delta = max(delta, abs(values[node] - min_q))
+            values[node] = min_q
+    return values
+
+
+def compute_best_path_and_actions_from_values(
+    G: nx.DiGraph,
+    start_node: tuple[int, int],
+    target_node: tuple[int, int],
+    values: dict[tuple[int, int], float],
+) -> tuple[list[tuple[int, int]], list[int]]:
+    best_path = [start_node]
+    actions = []
+
+    current_node = start_node
+    while current_node != target_node:
+        next_nodes = list(G.successors(current_node))
+        if not next_nodes:
+            break
+        current_values = defaultdict(lambda: 0.0)
+        for next_node in G.successors(current_node):
+            value = 1.0 + values[next_node]
+            current_values[next_node] = value
+        best_next_node = min(current_values, key=current_values.get)
+        best_path.append(current_node)
+        action = G.edges[current_node][best_next_node].get("action")
+        actions.append(action)
+        current_node = best_next_node
+    return best_path, actions

@@ -12,6 +12,7 @@ __all__ = [
     "ConstantController",
     "RandomController",
     "build_lqr_controller",
+    "build_mpc_controller",
 ]
 
 
@@ -56,3 +57,38 @@ def build_lqr_controller(
     lqr.setup()
     lqr.set_setpoint(setpoint)
     return lqr
+
+
+def build_mpc_controller(
+    model: Model,
+    t_step: float,
+    n_horizon: int | None,
+    terminal_cost,
+    stage_cost,
+    x_limits: NDArray,
+    u_limits: NDArray,
+    force_penalty: float,
+) -> MPC:
+    mpc = MPC(model)
+    mpc_params = {
+        "n_horizon": n_horizon,
+        "t_step": t_step,
+        "state_discretization": "collocation",
+        "collocation_type": "radau",
+        "collocation_deg": 3,
+        "collocation_ni": 1,
+        "store_full_solution": True,
+        # Use MA27 linear solver in ipopt for faster calculations:
+        "nlpsol_opts": {"ipopt.linear_solver": "mumps"},
+    }
+    mpc.set_param(**mpc_params)
+    mpc.set_objective(mterm=terminal_cost, lterm=stage_cost)
+    mpc.set_rterm(force=force_penalty)
+    # lower and upper bounds of the position
+    mpc.bounds["lower", "_x", "position"] = x_limits[0]
+    mpc.bounds["upper", "_x", "position"] = x_limits[1]
+    # lower and upper bounds of the input
+    mpc.bounds["lower", "_u", "force"] = u_limits[0]
+    mpc.bounds["upper", "_u", "force"] = u_limits[1]
+    mpc.setup()
+    return mpc

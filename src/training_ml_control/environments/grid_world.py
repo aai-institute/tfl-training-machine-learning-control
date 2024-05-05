@@ -12,6 +12,7 @@ from minigrid.core.grid import Grid
 from minigrid.core.mission import MissionSpace
 from minigrid.core.world_object import Goal, Wall
 from minigrid.minigrid_env import MiniGridEnv
+from numpy.typing import NDArray
 
 __all__ = ["GridWorldEnv", "plot_grid_graph", "plot_grid_all_paths_graph"]
 
@@ -100,7 +101,7 @@ class SimplifiedGridEnv(MiniGridEnv):
         self.see_through_walls = see_through_walls
 
         # Current position and direction of the agent
-        self.agent_pos: np.ndarray | tuple[int, int] = None
+        self.agent_pos: NDArray | tuple[int, int] = None
         self.agent_dir: int = None
 
         # Current grid and mission and carrying
@@ -162,14 +163,12 @@ class SimplifiedGridEnv(MiniGridEnv):
 class GridWorldEnv(SimplifiedGridEnv):
     def __init__(
         self,
-        size: int = 6,
-        agent_start_pos: tuple[int, int] = (1, 1),
-        agent_start_dir: int = 0,
         max_steps: int | None = None,
         **kwargs,
     ):
-        self.agent_start_pos = agent_start_pos
-        self.agent_start_dir = agent_start_dir
+        size = 8
+        self.agent_start_pos = (size - 2, size - 2)
+        self.agent_start_dir = 2
 
         mission_space = MissionSpace(mission_func=self._gen_mission)
 
@@ -195,11 +194,16 @@ class GridWorldEnv(SimplifiedGridEnv):
         self.grid = Grid(width, height)
         # Generate the surrounding walls
         self.grid.wall_rect(0, 0, width, height)
-        self.grid.horz_wall(0, height - 2, width)
-        # Generate obstacle
-        self.grid.set(2, 2, Wall())
+        # Generate obstacles
+        self.grid.set(5, 1, Wall())
+        self.grid.set(1, 2, Wall())
+        self.grid.set(3, 2, Wall())
+        self.grid.set(6, 3, Wall())
+        self.grid.set(2, 4, Wall())
+        self.grid.set(4, 4, Wall())
+        self.grid.set(4, 6, Wall())
         # Place a goal square
-        self.put_obj(Goal(), width - 2, height - 4)
+        self.put_obj(Goal(), 1, int(height / 2))
         # Place the agent
         if self.agent_start_pos is not None:
             self.agent_pos = self.agent_start_pos
@@ -214,8 +218,8 @@ class GridWorldEnv(SimplifiedGridEnv):
         grid_representation = self.grid.encode()
         # Add nodes
         start_node = self.agent_start_pos
-        end_node: tuple[int, int] | None = None
-        G.add_node(start_node, start_node=True, end_node=False)
+        target_node: tuple[int, int] | None = None
+        G.add_node(start_node, start_node=True, target_node=False)
         for i in range(1, grid_representation.shape[0]):
             for j in range(1, grid_representation.shape[1]):
                 if grid_representation[i, j, 0] == OBJECT_TO_IDX["wall"]:
@@ -223,10 +227,10 @@ class GridWorldEnv(SimplifiedGridEnv):
                 # Determine if current node is goal
                 current_node = (i, j)
                 if grid_representation[i, j, 0] == OBJECT_TO_IDX["goal"]:
-                    end_node = current_node
-                    G.add_node(current_node, start_node=False, end_node=True)
+                    target_node = current_node
+                    G.add_node(current_node, start_node=False, target_node=True)
                 elif current_node != start_node:
-                    G.add_node(current_node, start_node=False, end_node=False)
+                    G.add_node(current_node, start_node=False, target_node=False)
                 # Add edges to next nodes
                 for next_i, next_j in [(i, j + 1), (i + 1, j)]:
                     if grid_representation[next_i, next_j, 0] != OBJECT_TO_IDX["wall"]:
@@ -236,14 +240,45 @@ class GridWorldEnv(SimplifiedGridEnv):
         F = nx.DiGraph()
         F.add_nodes_from((n, deepcopy(d)) for n, d in G.nodes.items())
         F.start_node = start_node
-        F.end_node = end_node
-        for path in nx.all_simple_paths(G, source=start_node, target=end_node):
+        F.target_node = target_node
+
+        # Connect all paths from start node to end node
+        for path in nx.all_shortest_paths(G, source=start_node, target=target_node):
             for n1, n2 in itertools.pairwise(path):
-                F.add_edge(n1, n2, weight=1)
+                if (n1, n2) in F.edges or (n2, n1) in F.edges:
+                    continue
+                # Determine action
+                if n1[0] > n2[0]:
+                    action = SimplifiedActions.left.value
+                elif n1[0] < n2[0]:
+                    action = SimplifiedActions.right.value
+                elif n1[1] > n2[1]:
+                    action = SimplifiedActions.up.value
+                else:
+                    action = SimplifiedActions.down.value
+                F.add_edge(n1, n2, weight=1, action=action)
+        # Connect all remaining nodes
+        for node in F.nodes:
+            for path in nx.all_shortest_paths(G, source=node, target=target_node):
+                if len(path) <= 1:
+                    continue
+                n1, n2 = path[0], path[1]
+                if (n1, n2) in F.edges or (n2, n1) in F.edges:
+                    continue
+                # Determine action
+                if n1[0] > n2[0]:
+                    action = SimplifiedActions.left.value
+                elif n1[0] < n2[0]:
+                    action = SimplifiedActions.right.value
+                elif n1[1] > n2[1]:
+                    action = SimplifiedActions.up.value
+                else:
+                    action = SimplifiedActions.down.value
+                F.add_edge(n1, n2, weight=1, action=action)
         return F
 
 
-def plot_grid_graph(G: nx.DiGraph) -> None:
+def plot_grid_graph(G: nx.Graph, *, show_start_to_target_paths: bool = False) -> None:
     options = {
         "font_size": 10,
         "node_size": 1000,
@@ -254,17 +289,33 @@ def plot_grid_graph(G: nx.DiGraph) -> None:
     pos = {}
     node_color = []
     for node, attributes in dict(G.nodes).items():
-        pos[node] = node
+        pos[node] = (node[0], -node[1])
         if attributes["start_node"] is True:
             node_color.append("xkcd:light red")
-        elif attributes["end_node"] is True:
+        elif attributes["target_node"] is True:
             node_color.append("lightgreen")
         else:
             node_color.append("white")
     options["node_color"] = node_color
-    nx.draw_networkx(G, pos, **options)
-    edge_labels = {(n1, n2): data["weight"] for n1, n2, data in G.edges(data=True)}
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+
+    if show_start_to_target_paths:
+        F = nx.DiGraph()
+        F.add_nodes_from((n, deepcopy(d)) for n, d in G.nodes.items())
+        start_node = G.start_node
+        target_node = G.target_node
+        while True:
+            for path in nx.all_simple_paths(G, source=start_node, target=target_node):
+                n1, n2 = path[0], path[1]
+                for n1, n2 in itertools.pairwise(path):
+                    if (n1, n2) in F.edges or (n2, n1) in F.edges:
+                        continue
+                    F.add_edge(n1, n2, weight=1)
+    else:
+        F = G.copy().to_undirected()
+    plt.figure(figsize=(12, 12))
+    nx.draw_networkx(F, pos, **options)
+    edge_labels = {(n1, n2): data["weight"] for n1, n2, data in F.edges(data=True)}
+    nx.draw_networkx_edge_labels(F, pos, edge_labels=edge_labels)
     ax = plt.gca()
     ax.margins(0.20)
     plt.axis("off")
@@ -272,13 +323,16 @@ def plot_grid_graph(G: nx.DiGraph) -> None:
 
 
 def plot_grid_all_paths_graph(G: nx.DiGraph, *, show_solution: bool = False) -> None:
-    """Plot all paths from start_node to end_node in shortest-path problem graph."""
+    """Plot all paths from start_node to target_node in shortest-path problem graph."""
     F = nx.DiGraph()
-    for path in nx.all_simple_paths(G, source=G.start_node, target=G.end_node):
+    for path in nx.all_simple_edge_paths(G, source=G.start_node, target=G.target_node):
         node_prefix = []
         for n1, n2 in itertools.pairwise(path):
             node_prefix += [n1]
-            weight = G.edges[(n1, n2)]["weight"]
+            try:
+                weight = G.edges[(n1, n2)]["weight"]
+            except KeyError:
+                continue
             start_node = tuple(node_prefix)
             end_node = tuple(node_prefix + [n2])
             F.add_node(start_node, layer=0, label=n1)
@@ -295,7 +349,7 @@ def plot_grid_all_paths_graph(G: nx.DiGraph, *, show_solution: bool = False) -> 
 
     node_color = []
     for node, attributes in F.nodes(data=True):
-        if attributes["label"] == G.end_node:
+        if attributes["label"] == G.target_node:
             node_color.append("lightgreen")
         elif attributes["label"] == G.start_node:
             node_color.append("xkcd:light red")
@@ -316,7 +370,7 @@ def plot_grid_all_paths_graph(G: nx.DiGraph, *, show_solution: bool = False) -> 
             F.nodes[node]["layer"] = layer
 
     for node, attributes in F.nodes(data=True):
-        if attributes["label"] == G.end_node:
+        if attributes["label"] == G.target_node:
             attributes["node_color"] = "red"
 
     # Compute the multipartite_layout using the "layer" node attribute
@@ -338,7 +392,7 @@ def plot_grid_all_paths_graph(G: nx.DiGraph, *, show_solution: bool = False) -> 
 
     if show_solution:
         shortest_path = nx.shortest_path(
-            G, source=G.start_node, target=G.end_node, weight="weight"
+            G, source=G.start_node, target=G.target_node, weight="weight"
         )
         shortest_path = list(itertools.accumulate(map(lambda x: (x,), shortest_path)))
         shortest_path_edges = list(itertools.pairwise(shortest_path))

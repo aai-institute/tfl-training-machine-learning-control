@@ -45,7 +45,7 @@ class InvertedPendulumEnv(CartPoleEnv):
     +-----+---------------------------+-------------+-------------+
     | Num | Action                    | Control Min | Control Max |
     +=====+===========================+=============+=============+
-    | 0   | Force applied on the cart | -10         | 10          |
+    | 0   | Force applied on the cart | -30         | 30          |
     +-----+---------------------------+-------------+-------------+
 
     Observation Space
@@ -95,13 +95,17 @@ class InvertedPendulumEnv(CartPoleEnv):
 
     """
 
+    DEFAULT_MASSPOLE = 0.5
+    DEFAULT_MASSCART = 1.0
+    DEFAULT_LENGTH = 0.7
+
     def __init__(
         self,
         render_mode: Optional[str] = None,
         *,
-        masspole: float = 0.1,
-        masscart: float = 1.0,
-        length: float = 1.0,
+        masspole: float | None = None,
+        masscart: float | None = None,
+        length: float | None = None,
         theta_initial: float = 0.0,
         x_threshold: float = 3,
         theta_threshold: float = 24,
@@ -109,6 +113,14 @@ class InvertedPendulumEnv(CartPoleEnv):
     ) -> None:
         super().__init__()
         self.gravity = 9.81
+
+        if masspole is None:
+            masspole = self.DEFAULT_MASSPOLE
+        if masscart is None:
+            masscart = self.DEFAULT_MASSCART
+        if length is None:
+            length = self.DEFAULT_LENGTH
+
         self.masscart = masscart
         self.masspole = masspole
         self.total_mass = self.masspole + self.masscart

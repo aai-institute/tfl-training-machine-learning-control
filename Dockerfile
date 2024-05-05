@@ -19,6 +19,10 @@ ENV PATH="${POETRY_HOME}/bin:$PATH"
 
 USER root
 
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends curl \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN curl -sSL https://install.python-poetry.org | python - \
     && poetry self add poetry-plugin-export
 
