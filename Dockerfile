@@ -32,7 +32,7 @@ WORKDIR $CODE_DIR
 
 COPY --chown=${NB_UID}:${NB_GID} poetry.lock pyproject.toml ./
 
-RUN poetry export --no-interaction --no-ansi --without=dev -f requirements.txt --output requirements.txt \
+RUN poetry export --no-interaction --no-ansi --with=docs --without=dev -f requirements.txt --output requirements.txt \
     && pip install --no-cache-dir --requirement requirements.txt
 
 COPY --chown=${NB_UID}:${NB_GID} src/ src/
