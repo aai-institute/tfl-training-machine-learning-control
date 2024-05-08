@@ -29,7 +29,7 @@ def build_cart_model(env: CartEnv) -> LinearModel:
     model = LinearModel("continuous")
     pos = model.set_variable(var_type="_x", var_name="position")
     dpos = model.set_variable(var_type="_x", var_name="velocity")
-    model.set_variable(var_type="_u", var_name="force")  # Inertia
+    model.set_variable(var_type="_u", var_name="force")
     # Energy
     E_kin = 0.5 * dpos**2
     model.set_expression("E_kinetic", E_kin)
@@ -77,7 +77,9 @@ def build_inverted_pendulum_linear_model(env: InvertedPendulumEnv) -> LinearMode
     return model
 
 
-def build_inverted_pendulum_nonlinear_model(env: InvertedPendulumEnv) -> Model:
+def build_inverted_pendulum_nonlinear_model(
+    env: InvertedPendulumEnv, *, with_uncertainty: bool = False
+) -> Model:
     g, l, m_p, m_c = env.gravity, env.length, env.masspole, env.masscart
 
     model = Model("continuous")
@@ -86,6 +88,9 @@ def build_inverted_pendulum_nonlinear_model(env: InvertedPendulumEnv) -> Model:
     theta = model.set_variable(var_type="_x", var_name="theta")
     dtheta = model.set_variable(var_type="_x", var_name="dtheta")
     force = model.set_variable(var_type="_u", var_name="force")
+    if with_uncertainty:
+        # Uncertain parameters
+        m_p = model.set_variable("_p", "m_p")
 
     total_mass = m_c + m_p
     half_length = l / 2

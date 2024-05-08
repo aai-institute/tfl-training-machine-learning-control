@@ -303,13 +303,21 @@ def plot_grid_graph(G: nx.Graph, *, show_start_to_target_paths: bool = False) ->
         F.add_nodes_from((n, deepcopy(d)) for n, d in G.nodes.items())
         start_node = G.start_node
         target_node = G.target_node
-        while True:
-            for path in nx.all_simple_paths(G, source=start_node, target=target_node):
-                n1, n2 = path[0], path[1]
-                for n1, n2 in itertools.pairwise(path):
-                    if (n1, n2) in F.edges or (n2, n1) in F.edges:
-                        continue
-                    F.add_edge(n1, n2, weight=1)
+        for path in nx.all_simple_paths(
+            G.to_undirected(), source=start_node, target=target_node, cutoff=len(G)
+        ):
+            for n1, n2 in itertools.pairwise(path):
+                """
+                if (n1, n2) in F.edges or (n2, n1) in F.edges:
+                    continue
+                """
+                F.add_edge(n1, n2, weight=1)
+        """
+        F = nx.DiGraph()
+        for node, next_nodes in nx.bfs_successors(G.to_undirected(), G.start_node):
+            for next_node in next_nodes:
+                F.add_edge(node, next_node, weight=1)
+        """
     else:
         F = G.copy().to_undirected()
     plt.figure(figsize=(12, 12))
@@ -383,7 +391,7 @@ def plot_grid_all_paths_graph(G: nx.DiGraph, *, show_solution: bool = False) -> 
     for node in F.nodes:
         node_labels[node] = node[-1]
 
-    fig, ax = plt.subplots(figsize=(10, 10))
+    plt.subplots(figsize=(10, 10))
 
     nx.draw_networkx_nodes(F, pos, **node_options)
     nx.draw_networkx_labels(F, pos, font_size=8, labels=node_labels)

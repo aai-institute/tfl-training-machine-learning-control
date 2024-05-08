@@ -68,6 +68,8 @@ def build_mpc_controller(
     x_limits: NDArray,
     u_limits: NDArray,
     force_penalty: float,
+    *,
+    uncertainty_values: dict[str, NDArray] | None = None,
 ) -> MPC:
     mpc = MPC(model)
     mpc_params = {
@@ -90,5 +92,8 @@ def build_mpc_controller(
     # lower and upper bounds of the input
     mpc.bounds["lower", "_u", "force"] = u_limits[0]
     mpc.bounds["upper", "_u", "force"] = u_limits[1]
+    # Parameter uncertainty
+    if uncertainty_values is not None:
+        mpc.set_uncertainty_values(**uncertainty_values)
     mpc.setup()
     return mpc

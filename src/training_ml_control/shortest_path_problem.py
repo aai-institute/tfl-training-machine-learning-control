@@ -1,13 +1,80 @@
 import itertools
+from copy import deepcopy
 
 import matplotlib.pyplot as plt
 import networkx as nx
 
 __all__ = [
+    "plot_optimality_principle_graph",
     "create_shortest_path_graph",
     "plot_shortest_path_graph",
     "plot_all_paths_graph",
 ]
+
+
+def plot_optimality_principle_graph(
+    n_stages: int = 5, n_nodes_per_stage: int = 3
+) -> nx.DiGraph:
+    """Plots optimality principle graph."""
+    G = nx.DiGraph()
+    G.add_node("initial_state")
+    G.add_node("final_state")
+
+    previous_stage_nodes = ["initial_state"]
+    next_stage_nodes = [f"stage_0_node_{i}" for i in range(n_nodes_per_stage)]
+
+    for stage in range(1, n_stages):
+        for previous_node in previous_stage_nodes:
+            for next_node in next_stage_nodes:
+                G.add_edge(previous_node, next_node)
+        previous_stage_nodes = next_stage_nodes
+        next_stage_nodes = [f"stage_{stage}_node_{i}" for i in range(n_nodes_per_stage)]
+    for previous_node in previous_stage_nodes:
+        G.add_edge(previous_node, "final_state")
+
+    for layer, nodes in enumerate(nx.topological_generations(G)):
+        # `multipartite_layout` expects the layer as a node attribute, so add the
+        # numeric layer value as a node attribute
+        for node in nodes:
+            G.nodes[node]["layer"] = layer
+
+    shortest_path = nx.shortest_path(G, source="initial_state", target="final_state")
+    shortest_path_edges = list(itertools.pairwise(shortest_path))
+
+    options = {
+        "node_size": 1000,
+        "edgecolors": "black",
+        "linewidths": 3,
+    }
+
+    node_color = []
+    for node in G.nodes:
+        if node == "initial_state":
+            node_color.append("lightgreen")
+        elif node == "final_state":
+            node_color.append("xkcd:light red")
+        elif node in shortest_path:
+            node_color.append("lightblue")
+        else:
+            node_color.append("white")
+    options["node_color"] = node_color
+    # Compute the multipartite_layout using the "layer" node attribute
+    pos = nx.multipartite_layout(G, subset_key="layer", scale=2, align="vertical")
+    plt.figure(figsize=(14, 8))
+    nx.draw_networkx_nodes(G, pos, **options)
+    nx.draw_networkx_edges(
+        G,
+        pos,
+        edgelist=shortest_path_edges,
+        edge_color="red",
+        width=5,
+    )
+    other_edges = [edge for edge in G.edges if edge not in shortest_path_edges]
+    nx.draw_networkx_edges(G, pos, edgelist=other_edges, edge_color="gray", width=1)
+    ax = plt.gca()
+    ax.margins(0.20)
+    plt.axis("off")
+    plt.show()
 
 
 def create_shortest_path_graph() -> nx.DiGraph:
