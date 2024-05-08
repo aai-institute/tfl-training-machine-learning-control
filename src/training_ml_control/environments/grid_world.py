@@ -14,7 +14,12 @@ from minigrid.core.world_object import Goal, Wall
 from minigrid.minigrid_env import MiniGridEnv
 from numpy.typing import NDArray
 
-__all__ = ["GridWorldEnv", "plot_grid_graph", "plot_grid_all_paths_graph"]
+__all__ = [
+    "GridWorldEnv",
+    "plot_grid_graph",
+    "convert_graph_to_directed",
+    "plot_grid_all_paths_graph",
+]
 
 
 class SimplifiedActions(IntEnum):
@@ -236,6 +241,10 @@ class GridWorldEnv(SimplifiedGridEnv):
                     if grid_representation[next_i, next_j, 0] != OBJECT_TO_IDX["wall"]:
                         next_node = (next_i, next_j)
                         G.add_edge(current_node, next_node, weight=1)
+        G.start_node = start_node
+        G.target_node = target_node
+
+        """
         # Convert to a directed graph
         F = nx.DiGraph()
         F.add_nodes_from((n, deepcopy(d)) for n, d in G.nodes.items())
@@ -276,9 +285,33 @@ class GridWorldEnv(SimplifiedGridEnv):
                     action = SimplifiedActions.down.value
                 F.add_edge(n1, n2, weight=1, action=action)
         return F
+        """
+        return G
 
 
-def plot_grid_graph(G: nx.Graph, *, show_start_to_target_paths: bool = False) -> None:
+def convert_graph_to_directed(G: nx.Graph) -> nx.DiGraph:
+    F = nx.DiGraph()
+    F.add_nodes_from((n, deepcopy(d)) for n, d in G.nodes.items())
+    F.start_node = G.start_node
+    F.target_node = G.target_node
+    for path in nx.all_simple_paths(
+        G.to_undirected(), source=G.start_node, target=G.target_node, cutoff=len(G)
+    ):
+        for n1, n2 in itertools.pairwise(path):
+            # Determine action
+            if n1[0] > n2[0]:
+                action = SimplifiedActions.left.value
+            elif n1[0] < n2[0]:
+                action = SimplifiedActions.right.value
+            elif n1[1] > n2[1]:
+                action = SimplifiedActions.up.value
+            else:
+                action = SimplifiedActions.down.value
+            F.add_edge(n1, n2, weight=1, action=action)
+    return F
+
+
+def plot_grid_graph(G: nx.Graph | nx.DiGraph) -> None:
     options = {
         "font_size": 10,
         "node_size": 1000,
@@ -298,42 +331,20 @@ def plot_grid_graph(G: nx.Graph, *, show_start_to_target_paths: bool = False) ->
             node_color.append("white")
     options["node_color"] = node_color
 
-    if show_start_to_target_paths:
-        F = nx.DiGraph()
-        F.add_nodes_from((n, deepcopy(d)) for n, d in G.nodes.items())
-        start_node = G.start_node
-        target_node = G.target_node
-        for path in nx.all_simple_paths(
-            G.to_undirected(), source=start_node, target=target_node, cutoff=len(G)
-        ):
-            for n1, n2 in itertools.pairwise(path):
-                """
-                if (n1, n2) in F.edges or (n2, n1) in F.edges:
-                    continue
-                """
-                F.add_edge(n1, n2, weight=1)
-        """
-        F = nx.DiGraph()
-        for node, next_nodes in nx.bfs_successors(G.to_undirected(), G.start_node):
-            for next_node in next_nodes:
-                F.add_edge(node, next_node, weight=1)
-        """
-    else:
-        F = G.copy().to_undirected()
     plt.figure(figsize=(12, 12))
-    nx.draw_networkx(F, pos, **options)
-    edge_labels = {(n1, n2): data["weight"] for n1, n2, data in F.edges(data=True)}
-    nx.draw_networkx_edge_labels(F, pos, edge_labels=edge_labels)
+    nx.draw_networkx(G, pos, **options)
+    edge_labels = {(n1, n2): data["weight"] for n1, n2, data in G.edges(data=True)}
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
     ax = plt.gca()
     ax.margins(0.20)
     plt.axis("off")
     plt.show()
 
 
-def plot_grid_all_paths_graph(G: nx.DiGraph, *, show_solution: bool = False) -> None:
+def plot_grid_all_paths_graph(G: nx.Graph, *, show_solution: bool = False) -> None:
     """Plot all paths from start_node to target_node in shortest-path problem graph."""
     F = nx.DiGraph()
-    for path in nx.all_simple_edge_paths(G, source=G.start_node, target=G.target_node):
+    for path in nx.all_simple_paths(G, source=G.start_node, target=G.target_node):
         node_prefix = []
         for n1, n2 in itertools.pairwise(path):
             node_prefix += [n1]
@@ -348,11 +359,11 @@ def plot_grid_all_paths_graph(G: nx.DiGraph, *, show_solution: bool = False) -> 
             F.add_edge(start_node, end_node, weight=weight)
 
     edge_label_options = {
-        "font_size": 6,
+        "font_size": 1,
     }
 
     edge_options = {
-        "width": 3,
+        "width": 0.1,
     }
 
     node_color = []
@@ -365,9 +376,9 @@ def plot_grid_all_paths_graph(G: nx.DiGraph, *, show_solution: bool = False) -> 
             node_color.append("white")
 
     node_options = {
-        "node_size": 600,
+        "node_size": 50,
         "edgecolors": "black",
-        "linewidths": 2,
+        "linewidths": 0.1,
         "node_color": node_color,
     }
 
@@ -391,10 +402,10 @@ def plot_grid_all_paths_graph(G: nx.DiGraph, *, show_solution: bool = False) -> 
     for node in F.nodes:
         node_labels[node] = node[-1]
 
-    plt.subplots(figsize=(10, 10))
+    plt.subplots(figsize=(20, 20))
 
     nx.draw_networkx_nodes(F, pos, **node_options)
-    nx.draw_networkx_labels(F, pos, font_size=8, labels=node_labels)
+    # nx.draw_networkx_labels(F, pos, font_size=8, labels=node_labels)
 
     edge_labels = {(n1, n2): data["weight"] for n1, n2, data in F.edges(data=True)}
 
@@ -420,7 +431,7 @@ def plot_grid_all_paths_graph(G: nx.DiGraph, *, show_solution: bool = False) -> 
     else:
         nx.draw_networkx_edges(F, pos, edge_color="black", **edge_options)
 
-    nx.draw_networkx_edge_labels(F, pos, edge_labels=edge_labels, **edge_label_options)
+    # nx.draw_networkx_edge_labels(F, pos, edge_labels=edge_labels, **edge_label_options)
 
     ax = plt.gca()
     ax.margins(0.05)

@@ -180,7 +180,11 @@ def value_iteration(G: nx.DiGraph) -> dict[tuple[int, int], float]:
     while delta > 0.0:
         delta = 0.0
         Q = defaultdict(lambda: defaultdict(lambda: 0.0))
+        visited_nodes = []
         for node in G.nodes:
+            if node in visited_nodes:
+                continue
+            visited_nodes.append(node)
             next_nodes = list(G.successors(node))
             if not next_nodes:
                 continue
@@ -213,7 +217,7 @@ def compute_best_path_and_actions_from_values(
             current_values[next_node] = value
         best_next_node = min(current_values, key=current_values.get)
         best_path.append(current_node)
-        action = G.edges[current_node][best_next_node].get("action")
+        action = G.edges[(current_node, best_next_node)].get("action")
         actions.append(action)
         current_node = best_next_node
     return best_path, actions
