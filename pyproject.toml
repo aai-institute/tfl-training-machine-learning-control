@@ -41,6 +41,7 @@ mediapy = "^1.2.0"
 networkx = "^3.1"
 pykoopman = "^1.1.0"
 minigrid = "^2.3.1"
+pysindy = "^1.7.5"
 
 [tool.poetry.group.docs.dependencies]
 jupyter-book = "^1.0.0"
