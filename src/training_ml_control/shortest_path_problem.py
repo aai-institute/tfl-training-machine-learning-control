@@ -81,7 +81,7 @@ def create_shortest_path_graph() -> nx.DiGraph:
     """Create shortest-path problem graph."""
     G = nx.DiGraph()
     edge_list = [
-        ("A", "B", 1),
+        ("A", "B", 4),
         ("A", "C", 5),
         ("A", "D", 3),
         ("B", "D", 9),
@@ -89,7 +89,7 @@ def create_shortest_path_graph() -> nx.DiGraph:
         ("C", "F", 2),
         ("D", "F", 5),
         ("D", "G", 8),
-        ("E", "G", 4),
+        ("E", "G", 1),
         ("F", "G", 1),
     ]
     G.add_weighted_edges_from(edge_list)

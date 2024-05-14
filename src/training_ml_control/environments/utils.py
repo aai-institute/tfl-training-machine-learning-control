@@ -9,6 +9,7 @@ from gymnasium.wrappers.render_collection import RenderCollection
 from numpy.typing import NDArray
 
 from training_ml_control.control import FeedbackController, Observer, RandomController
+from training_ml_control.environments.acrobot import ContinuousAcrobotEnv
 from training_ml_control.environments.cart import CartEnv
 from training_ml_control.environments.grid_world import GridWorldEnv
 from training_ml_control.environments.inverted_pendulum import InvertedPendulumEnv
@@ -17,6 +18,7 @@ __all__ = [
     "create_inverted_pendulum_environment",
     "create_grid_world_environment",
     "create_cart_environment",
+    "create_acrobot_environment",
     "simulate_environment",
     "value_iteration",
     "compute_best_path_and_actions_from_values",
@@ -52,6 +54,29 @@ def create_cart_environment(
     return env
 
 
+def create_acrobot_environment(
+    render_mode: str | None = "rgb_array",
+    *,
+    max_steps: int = 200,
+    target_height: float = 1.0,
+    max_torque: float = 1.0,
+) -> Env:
+    """Creates instance of ContinuousAcrobotEnv with some wrappers
+    to ensure correctness, limit the number of steps and store rendered frames.
+    """
+    env = ContinuousAcrobotEnv(
+        render_mode=render_mode,
+        target_height=target_height,
+        max_torque=max_torque,
+    )
+    env = TimeLimit(env, max_steps)
+    # env = PassiveEnvChecker(env)
+    env = OrderEnforcing(env)
+    if render_mode is not None:
+        env = RenderCollection(env)
+    return env
+
+
 def create_grid_world_environment(
     render_mode: str | None = "rgb_array",
     *,
@@ -76,6 +101,7 @@ def create_inverted_pendulum_environment(
     masscart: float | None = None,
     length: float | None = None,
     x_threshold: float = 3,
+    theta_initial: float = 0.0,
     theta_threshold: float = 24,
     force_max: float = 10.0,
 ) -> Env:
@@ -101,6 +127,7 @@ def create_inverted_pendulum_environment(
         length=length,
         x_threshold=x_threshold,
         theta_threshold=theta_threshold,
+        theta_initial=theta_initial,
         force_max=force_max,
         render_mode=render_mode,
     )

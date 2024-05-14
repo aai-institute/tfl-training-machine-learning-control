@@ -58,6 +58,26 @@
   langid = {english}
 }
 
+@article{brunton_discovering_2016,
+  title = {Discovering Governing Equations from Data by Sparse Identification of Nonlinear Dynamical Systems},
+  author = {Brunton, Steven L. and Proctor, Joshua L. and Kutz, J. Nathan},
+  date = {2016-04-12},
+  journaltitle = {Proceedings of the National Academy of Sciences},
+  shortjournal = {PNAS},
+  volume = {113},
+  number = {15},
+  eprint = {27035946},
+  eprinttype = {pmid},
+  pages = {3932--3937},
+  publisher = {National Academy of Sciences},
+  issn = {0027-8424, 1091-6490},
+  doi = {10.1073/pnas.1517384113},
+  url = {https://www.pnas.org/content/113/15/3932},
+  urldate = {2021-03-28},
+  abstract = {Extracting governing equations from data is a central challenge in many diverse areas of science and engineering. Data are abundant whereas models often remain elusive, as in climate science, neuroscience, ecology, finance, and epidemiology, to name only a few examples. In this work, we combine sparsity-promoting techniques and machine learning with nonlinear dynamical systems to discover governing equations from noisy measurement data. The only assumption about the structure of the model is that there are only a few important terms that govern the dynamics, so that the equations are sparse in the space of possible functions; this assumption holds for many physical systems in an appropriate basis. In particular, we use sparse regression to determine the fewest terms in the dynamic governing equations required to accurately represent the data. This results in parsimonious models that balance accuracy with model complexity to avoid overfitting. We demonstrate the algorithm on a wide range of problems, from simple canonical systems, including linear and nonlinear oscillators and the chaotic Lorenz system, to the fluid vortex shedding behind an obstacle. The fluid example illustrates the ability of this method to discover the underlying dynamics of a system that took experts in the community nearly 30 years to resolve. We also show that this method generalizes to parameterized systems and systems that are time-varying or have external forcing.},
+  langid = {english}
+}
+
 @article{brunton_modern_2022,
   title = {Modern {{Koopman Theory}} for {{Dynamical Systems}}},
   author = {Brunton, Steven L. and Budišić, Marko and Kaiser, Eurika and Kutz, J. Nathan},
@@ -73,6 +93,17 @@
   url = {https://epubs.siam.org/doi/doi/10.1137/21M1401243},
   urldate = {2024-04-17},
   abstract = {We establish the convergence of a class of numerical algorithms, known as dynamic mode decomposition (DMD), for computation of the eigenvalues and eigenfunctions of the infinite-dimensional Koopman operator.  The algorithms act on data coming from observables on a state space, arranged in Hankel-type matrices. The proofs utilize the assumption that  the underlying dynamical system  is ergodic. This includes the classical measure-preserving systems, as well as systems whose attractors support a physical measure. Our approach relies on the observation that vector projections in DMD can be used to approximate the function projections by the virtue of Birkhoff's ergodic theorem. Using this fact, we show that applying DMD to Hankel data matrices in the limit of infinite-time observations yields the true Koopman eigenfunctions and eigenvalues. We also show that the singular value decomposition, which is the central part of most DMD algorithms,  converges to the proper orthogonal decomposition of observables. We use this result to obtain a representation of the dynamics of systems with continuous spectrum based on the lifting of the coordinates to the space of observables. The numerical application of these methods is demonstrated using well-known dynamical systems and examples from computational fluid dynamics.}
+}
+
+@online{brunton_sparse_2016,
+  title = {Sparse {{Identification}} of {{Nonlinear Dynamics}} with {{Control}} ({{SINDYc}})},
+  author = {Brunton, Steven L. and Proctor, Joshua L. and Kutz, J. Nathan},
+  date = {2016-05-21},
+  url = {https://arxiv.org/abs/1605.06682v1},
+  urldate = {2024-05-14},
+  abstract = {Identifying governing equations from data is a critical step in the modeling and control of complex dynamical systems. Here, we investigate the data-driven identification of nonlinear dynamical systems with inputs and forcing using regression methods, including sparse regression. Specifically, we generalize the sparse identification of nonlinear dynamics (SINDY) algorithm to include external inputs and feedback control. This method is demonstrated on examples including the Lotka-Volterra predator--prey model and the Lorenz system with forcing and control. We also connect the present algorithm with the dynamic mode decomposition (DMD) and Koopman operator theory to provide a broader context.},
+  langid = {english},
+  organization = {arXiv.org}
 }
 
 @article{cerf_combining_2023,
@@ -117,6 +148,18 @@
   pages = {2087--2097},
   abstract = {Koopman operator theory, a powerful framework for discovering the underlying dynamics of nonlinear dynamical systems, was recently shown to be intimately connected with neural network training. In this work, we take the first steps in making use of this connection. As Koopman operator theory is a linear theory, a successful implementation of it in evolving network weights and biases offers the promise of accelerated training, especially in the context of deep networks, where optimization is inherently a non-convex problem. We show that Koopman operator theoretic methods allow for accurate predictions of weights and biases of feedforward, fully connected deep networks over a non-trivial range of training time. During this window, we find that our approach is {$>$}10x faster than various gradient descent based methods (e.g. Adam, Adadelta, Adagrad), in line with our complexity analysis. We end by highlighting open questions in this exciting intersection between dynamical systems and neural network theory, and additional methods by which our results may be generalized.},
   langid = {english}
+}
+
+@online{fasel_sindy_2021,
+  title = {{{SINDy}} with {{Control}}: {{A Tutorial}}},
+  shorttitle = {{{SINDy}} with {{Control}}},
+  author = {Fasel, Urban and Kaiser, Eurika and Kutz, J. Nathan and Brunton, Bingni W. and Brunton, Steven L.},
+  date = {2021-08-30},
+  url = {https://arxiv.org/abs/2108.13404v1},
+  urldate = {2024-05-14},
+  abstract = {Many dynamical systems of interest are nonlinear, with examples in turbulence, epidemiology, neuroscience, and finance, making them difficult to control using linear approaches. Model predictive control (MPC) is a powerful model-based optimization technique that enables the control of such nonlinear systems with constraints. However, modern systems often lack computationally tractable models, motivating the use of system identification techniques to learn accurate and efficient models for real-time control. In this tutorial article, we review emerging data-driven methods for model discovery and how they are used for nonlinear MPC. In particular, we focus on the sparse identification of nonlinear dynamics (SINDy) algorithm and show how it may be used with MPC on an infectious disease control example. We compare the performance against MPC based on a linear dynamic mode decomposition (DMD) model. Code is provided to run the tutorial examples and may be modified to extend this data-driven control framework to arbitrary nonlinear systems.},
+  langid = {english},
+  organization = {arXiv.org}
 }
 
 @book{goodwin_control_2000,
