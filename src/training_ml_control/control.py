@@ -12,6 +12,8 @@ __all__ = [
     "ConstantController",
     "SineController",
     "SumOfSineController",
+    "SchroederSweepController",
+    "PRBSController",
     "RandomController",
     "build_lqr_controller",
     "build_mpc_controller",
@@ -82,12 +84,14 @@ class SchroederSweepController:
         n_time_steps: int = 200,
         input_power: float = 10,
         n_harmonics: int = 3,
+        frequency: float = 1,
     ) -> None:
         self.dt = env.unwrapped.dt
         self.u_max = u_max
         self.input_power = input_power
         self.n_time_steps = n_time_steps
         self.n_harmonics = n_harmonics
+        self.frequency = frequency
         self.amplitude = np.sqrt(self.input_power / self.n_harmonics)
         self.phis = np.zeros(self.n_harmonics)
         for k in range(1, self.n_harmonics):
@@ -99,16 +103,25 @@ class SchroederSweepController:
         self.i += 1
         u = np.asarray([0.0])
         for k, phi in enumerate(self.phis):
-            u += np.cos(2 * np.pi * (k + 1) * t + phi)
+            u += np.cos(2 * np.pi * (k + 1) * self.frequency * t + phi)
         u *= self.amplitude
         return u
+
+
+class PRBSController:
+    def __init__(self, u_max: NDArray = np.asarray([10]), seed: int = 16) -> None:
+        self.u_max = u_max
+        self.rng = np.random.default_rng(seed)
+
+    def act(self, measurement: NDArray) -> NDArray:
+        return self.rng.choice([self.u_max, -self.u_max])
 
 
 class RandomController:
     def __init__(self, env: Env) -> None:
         self.action_space = env.action_space
 
-    def act(self, measurment: NDArray) -> NDArray:
+    def act(self, measurement: NDArray) -> NDArray:
         return self.action_space.sample()
 
 

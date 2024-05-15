@@ -191,8 +191,8 @@ def animate_inverted_pendulum_simulation(
     ax1.axhline(0, color="black")
     bar = ax1.plot([], [], "-o", linewidth=5, markersize=10)
 
-    ax1.set_xlim(-1, 1)
-    ax1.set_ylim(-1, 1)
+    ax1.set_xlim(-3, 3)
+    ax1.set_ylim(-2, 2)
     ax1.set_axis_off()
 
     fig.align_ylabels()
@@ -219,13 +219,13 @@ def animate_inverted_pendulum_simulation(
         line_x = np.array(
             [
                 0,
-                0.3 * np.sin(x[0]),
+                0.7 * np.sin(x[0]),
             ],
         )
         line_y = np.array(
             [
                 0,
-                0.3 * np.cos(x[0]),
+                0.7 * np.cos(x[0]),
             ],
         )
         line = np.stack([line_x, line_y])
@@ -256,9 +256,9 @@ def animate_full_inverted_pendulum_simulation(
     ax5 = plt.subplot2grid((5, 2), (3, 1))
     ax6 = plt.subplot2grid((5, 2), (4, 1))
 
-    ax2.set_ylabel("$y$")
-    ax3.set_ylabel("$\\theta$")
-    ax4.set_ylabel("$\\dot{y}$")
+    ax2.set_ylabel("$x$")
+    ax3.set_ylabel("$\\dot{x}$")
+    ax4.set_ylabel("$\\theta$")
     ax5.set_ylabel("$\\dot{\\theta}$")
     ax6.set_ylabel("Force")
 
@@ -272,8 +272,8 @@ def animate_full_inverted_pendulum_simulation(
     ax6.set_xlabel("Time")
 
     graphics.add_line(var_type="_x", var_name="position", axis=ax2)
-    graphics.add_line(var_type="_x", var_name="theta", axis=ax3)
-    graphics.add_line(var_type="_x", var_name="velocity", axis=ax4)
+    graphics.add_line(var_type="_x", var_name="velocity", axis=ax3)
+    graphics.add_line(var_type="_x", var_name="theta", axis=ax4)
     graphics.add_line(var_type="_x", var_name="dtheta", axis=ax5)
     graphics.add_line(var_type="_u", var_name="force", axis=ax6)
 
@@ -285,8 +285,8 @@ def animate_full_inverted_pendulum_simulation(
     ax1.axhline(0, color="black")
     bar = ax1.plot([], [], "-o", linewidth=5, markersize=10)
 
-    ax1.set_xlim(-1, 1)
-    ax1.set_ylim(-1, 1)
+    ax1.set_xlim(-3, 3)
+    ax1.set_ylim(-2, 2)
     ax1.set_axis_off()
 
     fig.align_ylabels()
@@ -317,13 +317,13 @@ def animate_full_inverted_pendulum_simulation(
         line_x = np.array(
             [
                 x[0],
-                x[0] + 0.3 * np.sin(x[1]),
+                x[0] + 0.7 * np.sin(x[2]),
             ],
         )
         line_y = np.array(
             [
                 0,
-                0.3 * np.cos(x[1]),
+                0.7 * np.cos(x[2]),
             ],
         )
         line = np.stack([line_x, line_y])

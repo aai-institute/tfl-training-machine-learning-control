@@ -44,12 +44,6 @@ class ContinuousAcrobotEnv(AcrobotEnv):
         self.target_height = target_height
         self.max_torque = max_torque
 
-        if self.target_height > self.LINK_LENGTH_1 + self.LINK_LENGTH_2:
-            raise ValueError(
-                f"Target height, {self.target_height} is too high."
-                f"It should be less than {self.LINK_LENGTH_1 + self.LINK_LENGTH_2}"
-            )
-
         high = np.array(
             [1.0, 1.0, 1.0, 1.0, self.MAX_VEL_1, self.MAX_VEL_2], dtype=np.float32
         )

@@ -96,12 +96,17 @@ def build_inverted_pendulum_nonlinear_model(
     half_length = l / 2
     polemass_length = m_p * half_length
 
-    temp = (force + polemass_length * dtheta**2 * casadi.sin(theta)) / total_mass
-    ddtheta = (g * casadi.sin(theta) - casadi.cos(theta) * temp) / (
-        half_length * (4.0 / 3.0 - m_p * casadi.cos(theta) ** 2 / total_mass)
+    numerator = (total_mass) * g * casadi.sin(theta) - casadi.cos(theta) * (
+        force + m_p * l * dtheta**2 * casadi.sin(theta)
     )
+    denominator = (4 / 3) * (total_mass) * l - m_p * l * casadi.cos(theta) ** 2
+    ddtheta = numerator / denominator
 
-    ddpos = temp - polemass_length * ddtheta * casadi.cos(theta) / total_mass
+    numerator = m_c * g * casadi.cos(theta) * casadi.sin(theta) - (4 / 3) * (
+        force + m_c * l * dtheta**2 * casadi.sin(theta)
+    )
+    denominator = m_c * casadi.cos(theta) ** 2 - (4 / 3) * (total_mass)
+    ddpos = numerator / denominator
 
     model.set_rhs("position", dpos)
     model.set_rhs("velocity", ddpos)
