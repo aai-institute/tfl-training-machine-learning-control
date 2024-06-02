@@ -29,8 +29,12 @@
   - ```{autodoc2-docstring} training_ml_control.nb_utils.set_random_seed
     :summary:
     ```
-* - {py:obj}`display_dataframes_side_by_side <training_ml_control.nb_utils.display_dataframes_side_by_side>`
-  - ```{autodoc2-docstring} training_ml_control.nb_utils.display_dataframes_side_by_side
+* - {py:obj}`display_array <training_ml_control.nb_utils.display_array>`
+  - ```{autodoc2-docstring} training_ml_control.nb_utils.display_array
+    :summary:
+    ```
+* - {py:obj}`show_video <training_ml_control.nb_utils.show_video>`
+  - ```{autodoc2-docstring} training_ml_control.nb_utils.show_video
     :summary:
     ```
 ````
@@ -52,7 +56,7 @@
 ````{py:data} __all__
 :canonical: training_ml_control.nb_utils.__all__
 :value: >
-   ['set_random_seed', 'TflWorkshopMagic', 'display_dataframes_side_by_side']
+   ['set_random_seed', 'TflWorkshopMagic', 'display_array', 'show_video']
 
 ```{autodoc2-docstring} training_ml_control.nb_utils.__all__
 ```
@@ -79,14 +83,6 @@ Bases: {py:obj}`IPython.core.magic.Magics`
 
 ````
 
-````{py:method} load_latex_macros(line)
-:canonical: training_ml_control.nb_utils.TflWorkshopMagic.load_latex_macros
-
-```{autodoc2-docstring} training_ml_control.nb_utils.TflWorkshopMagic.load_latex_macros
-```
-
-````
-
 ````{py:method} view_hint(path: os.PathLike)
 :canonical: training_ml_control.nb_utils.TflWorkshopMagic.view_hint
 
@@ -105,9 +101,16 @@ Bases: {py:obj}`IPython.core.magic.Magics`
 
 `````
 
-````{py:function} display_dataframes_side_by_side(dataframes: collections.abc.Sequence[pandas.DataFrame], captions: collections.abc.Sequence = ())
-:canonical: training_ml_control.nb_utils.display_dataframes_side_by_side
+````{py:function} display_array(name: str, array: numpy.typing.NDArray) -> None
+:canonical: training_ml_control.nb_utils.display_array
 
-```{autodoc2-docstring} training_ml_control.nb_utils.display_dataframes_side_by_side
+```{autodoc2-docstring} training_ml_control.nb_utils.display_array
+```
+````
+
+````{py:function} show_video(frames: list[numpy.typing.NDArray], fps: float, *, title: str | None = None, codec: str = 'gif', **kwargs: typing.Any) -> None
+:canonical: training_ml_control.nb_utils.show_video
+
+```{autodoc2-docstring} training_ml_control.nb_utils.show_video
 ```
 ````

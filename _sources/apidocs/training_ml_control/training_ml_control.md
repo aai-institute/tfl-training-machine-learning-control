@@ -13,7 +13,8 @@
 :titlesonly:
 :maxdepth: 3
 
-training_ml_control.control
+training_ml_control.environments
+training_ml_control.models
 ```
 
 ## Submodules
@@ -22,8 +23,11 @@ training_ml_control.control
 :titlesonly:
 :maxdepth: 1
 
-training_ml_control.constants
 training_ml_control.nb_utils
+training_ml_control.shortest_path_problem
+training_ml_control.plots
+training_ml_control.hyperopt
+training_ml_control.control
 ```
 
 ## Package Contents

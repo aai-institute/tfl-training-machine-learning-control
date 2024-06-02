@@ -1,0 +1,1165 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dynamic Programming &#8212; Machine Learning Control Training</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"loader": {"load": ["[tex]/configmacros"]}, "tex": {"packages": {"[+]": ["configmacros"]}, "macros": {"vect": ["{\\mathbf{\\boldsymbol{#1}} }", 1], "E": "{\\mathbb{E}}", "P": "{\\mathbb{P}}", "R": "{\\mathbb{R}}", "abs": ["{\\left| #1 \\right|}", 1], "simpl": ["{\\Delta^{#1} }", 1], "amax": "{\\text{argmax}}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/nb_20_dynamic_programming';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Systems" href="nb_30_systems.html" />
+    <link rel="prev" title="Introduction" href="nb_10_introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="home.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/transferlab-logo.svg" class="logo__image only-light" alt="Machine Learning Control Training - Home"/>
+    <script>document.write(`<img src="../_static/transferlab-logo-dark.svg" class="logo__image only-dark" alt="Machine Learning Control Training - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Notebook Pages</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nb_10_introduction.html">Introduction</a></li>
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dynamic Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb_30_systems.html">Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb_40_LQR.html">Linear Quadratic Regulator</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="nb_50_MPC.html">Model Predictive Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="nb_60_MCTS.html">MPC and AlphaZero</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb_70_machine_learning_control.html">Machine Learning &amp; Control</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="nb_80_safe_learning_control.html">Safe Learning in Robotics</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="nb_90_practice.html">Practice</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Code</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../apidocs/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.grid_world.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.grid_world</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.utils</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.cart.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.cart</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.inverted_pendulum.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.inverted_pendulum</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.sindy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.sindy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.dmd.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.dmd</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.nb_utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.nb_utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.shortest_path_problem.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.shortest_path_problem</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.plots.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.plots</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.hyperopt.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.hyperopt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/nb_20_dynamic_programming.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dynamic Programming</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-time">Discrete Time</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#infinite-horizon">Infinite Horizon</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dp-algorithm">DP Algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-search">Graph Search</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#value-iteration">Value Iteration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimal-control-as-graph-search">Optimal Control as Graph Search</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">Exercise</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-time">Continuous Time</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hamilton-jacobi-bellman-equation">Hamilton-Jacobi-Bellman Equation</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell tag_ActiveScene docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">presentation_style</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>/*
+This file is mainly copy-pasta from rise's examples
+https://github.com/damianavila/RISE/blob/master/examples/rise.css
+that was further customized for appliedAI purposes
+*/
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400&display=swap');
+
+
+/*
+body {
+    font-family: 'Work Sans', sans-serif !important;
+    text-transform: initial !important;
+    letter-spacing: initial !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    text-size-adjust: 100% !important;
+    ‑webkit‑text‑size‑adjust: 100% !important;
+}
+
+
+.reveal, div.text_cell_render, .md-slide, .sidebar-wrapper {
+    font-size: 1.5rem !important;
+}
+*/
+
+.navbar-default .navbar-nav > li > a {
+    color: #00747b !important;
+}
+
+.filename {
+    font-size: 2.4rem !important;
+    color: #212529 !important;
+    font-weight: 600 !important;
+}
+
+.reveal, .md-slide {
+    color: white !important;
+}
+
+h1, h2 {
+    color: #00747b !important;
+}
+
+h3, h4, h5, h6 {
+    color: #808080 !important;
+}
+
+.reveal p, .reveal ol, .reveal dl, .reveal ul,
+div.text_cell_render {
+    color: #212529 !important;
+}
+
+/*copied from stackoverflow, better spacing between list items*/
+li + li {
+  margin-top: 0.2em;
+}
+
+body.rise-enabled .reveal ol, body.rise-enabled .reveal dl, body.rise-enabled .reveal ul {
+    margin-left: 0.1em;
+    margin-top: 0.2em;
+}
+
+.reveal .rendered_html h1:first-child,
+.reveal .rendered_html h2:first-child,
+.reveal .rendered_html h3:first-child,
+.reveal .rendered_html h4:first-child,
+.reveal .rendered_html h5:first-child {
+    margin-top: 0.2em;
+}
+
+/*
+.CodeMirror-lines, .output_text {
+    font-size: 1.5rem !important;
+}
+*/
+
+h1.plan, h2.plan, h3.plan {
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+ul.plan>li>span.plan-bold {
+    font-size: 110%;
+    padding: 4px;
+    font-weight: bold;
+    background-color: #eee;
+}
+
+ul.plan>li>ul.subplan>li>span.plan-bold {
+    font-weight: bold;
+}
+
+.plan-strike {
+    opacity: 0.4;
+/*    text-decoration: line-through; */
+}
+
+div.plan-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+/*
+ * this is to void xarray's html output to show the fallback textual representation
+ * see also
+   * xarray.md and
+   * https://github.com/damianavila/RISE/issues/594
+ */
+.reveal pre.xr-text-repr-fallback {
+    display: none;
+}
+
+#toc-header, .toc-item li {
+    margin: auto !important;
+    color: #808080 !important;
+}
+
+#toc, #toc-wrapper, .toc-item-num, #toc a, .toc {
+    margin: auto !important;
+    color: #00747b !important;
+}
+
+#toc-wrapper {
+    top: auto !important;
+    bottom: auto !important;
+    margin-top: 2rem !important;
+    color: #00747b !important;
+}
+
+
+#rise-header {
+    margin: 10px;
+    left: 5%;
+}
+
+#rise-footer {
+    margin: 10px;
+    right: 5%;
+}
+
+#rise-backimage {
+    opacity: 0.70;
+}
+
+.reveal img {
+    max-width: 100%;
+}
+
+
+.md-slide.title {
+    position: relative;
+    top: -50%;
+    margin-left: 5%;
+    font-size: 4em !important;
+    line-height: 1.6;
+}
+</style></div></div>
+</div>
+<div class="cell tag_ActiveScene docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_ActiveScene docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">autoreload</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">training_ml_control.shortest_path_problem</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">create_shortest_path_graph</span><span class="p">,</span>
+    <span class="n">plot_shortest_path_graph</span><span class="p">,</span>
+    <span class="n">plot_all_paths_graph</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">training_ml_control.environments</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">create_grid_world_environment</span><span class="p">,</span>
+    <span class="n">plot_grid_graph</span><span class="p">,</span>
+    <span class="n">convert_graph_to_directed</span><span class="p">,</span>
+    <span class="n">plot_grid_all_paths_graph</span><span class="p">,</span>
+    <span class="n">simulate_environment</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">training_ml_control.nb_utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">show_video</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="dynamic-programming">
+<h1>Dynamic Programming<a class="headerlink" href="#dynamic-programming" title="Link to this heading">#</a></h1>
+<p>Dynamic programming (DP) is a method that in general solves optimization problems that involve making a sequence of decisions (multi-stage decision making problems) by determining, for each decision, subproblems that can be solved similarily, such that an optimal solution of the original problem can be found from optimal solutions of subproblems. This method is based on <em>Bellman’s Principle of Optimality</em>:</p>
+<blockquote>
+<div><p>An optimal policy has the property that whatever the initial state and initial decision are, the remaining decisions must constitute an optimal policy with regard to the state resulting from the first decision.</p>
+</div></blockquote>
+<p>A problem is said to satisfy the Principle of Optimality if the sub-solutions of an optimal solution of the problem are themselves optimal solutions for their subproblems.</p>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/20_optimality_principle_graph.png"><img alt="../_images/20_optimality_principle_graph.png" src="../_images/20_optimality_principle_graph.png" style="width: 50%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">Representation of optimality principle on a graph. <em>Taken from <a class="reference external" href="https://int8.io/bellman-equations-reinforcement-learning/">this blog post</a></em>.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+<div class="legend">
+<ul class="simple">
+<li><p><strong>Black</strong> arrows represent sequence of optimal policy actions – the one that is evaluated with the greatest value.</p></li>
+<li><p><strong>Green</strong> arrow is optimal policy first action (decision) – when applied it yields a subproblem with new initial state. Principle of optimality is
+related to this subproblem optimal policy.</p></li>
+<li><p><strong>Green</strong> circle represents initial state for a subproblem (the original one or the one induced by applying first action)</p></li>
+<li><p><strong>Red</strong> circle represents terminal state – assuming our original parametrization it is the maze exit</p></li>
+</ul>
+</div>
+</figcaption>
+</figure>
+<p>Usually creativity is required before we can recognize that a particular problem can be cast effectively as a dynamic program and often subtle insights are necessary to restructure the formulation so that it can be solved effectively.</p>
+<p>Dynamic Programming is a very general solution method for problems which have these properties:</p>
+<ul class="simple">
+<li><p>Optimal substructure (Principle of optimality applies)</p>
+<ul>
+<li><p>The optimal solution can be decomposed into subproblems, e.g., shortest path.</p></li>
+</ul>
+</li>
+<li><p>Overlapping subproblems</p>
+<ul>
+<li><p>The subproblems recur many times.</p></li>
+<li><p>The solutions can be cached and reused.</p></li>
+</ul>
+</li>
+<li><p>Additive cost function</p>
+<ul>
+<li><p>The cost function along a given path can be decomposed as the sum of cost functions for each step.</p></li>
+</ul>
+</li>
+</ul>
+<p>It is used across a wide variety of domains, e.g.</p>
+<ul class="simple">
+<li><p>Scheduling algorithms</p></li>
+<li><p>Graph algorithms (e.g., shortest path algorithms)</p></li>
+<li><p>Graphical models in ML (e.g., Viterbi algorithm)</p></li>
+<li><p>Bioinformatics (e.g., Sequence alignment, Protein folding)</p></li>
+<li><p>Finance (e.g. Derivatives)</p></li>
+</ul>
+<section id="discrete-time">
+<h2>Discrete Time<a class="headerlink" href="#discrete-time" title="Link to this heading">#</a></h2>
+<p>We define the <strong>optimal cost-to-go function</strong> (also known as <strong>value function</strong>) for any feasible <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbf{X}\)</span> as<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>:</p>
+<div class="math notranslate nohighlight">
+\[
+V(\mathbf{x}) := \min_{u \in \mathbf{U}} J(\mathbf{x}, \mathbf{u})
+\]</div>
+<p>An admissible control sequence <span class="math notranslate nohighlight">\(\mathbf{u}^*\)</span> is called optimal, if</p>
+<div class="math notranslate nohighlight">
+\[
+V(\mathbf{x}) = J(\mathbf{x}, \mathbf{u}^*)
+\]</div>
+<section id="infinite-horizon">
+<h3>Infinite Horizon<a class="headerlink" href="#infinite-horizon" title="Link to this heading">#</a></h3>
+<p>Given the optimal cost-to-go for an infinite-horizon optimal control problem:</p>
+<div class="math notranslate nohighlight">
+\[
+V(\mathbf{x}_0) = \min_{\mathbf{u} \in \mathbf{U}} J(\mathbf{x}_0, \mathbf{u}) = \min_{u \in \mathbf{U}} \left[ \sum \limits_{k = 0}^{\infty} c(\mathbf{x}_k, \mathbf{u}_k) \right]
+\]</div>
+<p>We can unroll the expression by one-step to obtain:</p>
+<div class="math notranslate nohighlight">
+\[
+V(\mathbf{x}_0) = \min_{\mathbf{u} \in \mathbf{U}} \left[ c(\mathbf{x}_0, \mathbf{u}_0) + \min_{u \in \mathbf{U}} \sum \limits_{k = 1}^{\infty} c(\mathbf{x}_k, \mathbf{u}_k) \right]
+\]</div>
+<p>Which is equivalent to:</p>
+<div class="math notranslate nohighlight">
+\[
+V(\mathbf{x}_0) = \min_{u \in \mathbf{U}} \left[ c(\mathbf{x}_0, \mathbf{u}_0) + V(\mathbf{x}_1) \right]
+\]</div>
+<p>If we now replace <span class="math notranslate nohighlight">\(\mathbf{x}_1 = f(\mathbf{x}_0, \mathbf{u}_0)\)</span> and then get rid of time indices we finally get:</p>
+<div class="math notranslate nohighlight">
+\[
+V(\mathbf{x}) = \min_{\mathbf{u} \in \mathbf{U}} \left[ c(\mathbf{x}, \mathbf{u}) + V(f(\mathbf{x}, \mathbf{u})) \right]
+\]</div>
+<p>This equation is called the <em>Bellman equation</em>.</p>
+</section>
+<section id="dp-algorithm">
+<h3>DP Algorithm<a class="headerlink" href="#dp-algorithm" title="Link to this heading">#</a></h3>
+<p>For every initial state <span class="math notranslate nohighlight">\(\mathbf{x}_0\)</span>, the optimal cost is equal to <span class="math notranslate nohighlight">\(V(\mathbf{x}_0)\)</span>, given by the last step of the following algorithm, which proceeds backward in time from stage <span class="math notranslate nohighlight">\(N-1\)</span> to stage <span class="math notranslate nohighlight">\(0\)</span>:</p>
+<ul>
+<li><p>Start with <span class="math notranslate nohighlight">\(V(\mathbf{x}_N) = c(\mathbf{x}_N)\)</span></p></li>
+<li><p>then for <span class="math notranslate nohighlight">\(k = \{N - 1, \dots, 0\}\)</span>, let:</p>
+<div class="math notranslate nohighlight">
+\[
+  V(\mathbf{x}_k) = \displaystyle \min_{u \in \mathbf{U}} \left[ c(\mathbf{x}_k, \mathbf{u}_k) + V(f(\mathbf{x}_k, \mathbf{u}_k)) \right]
+  \]</div>
+<div class="math notranslate nohighlight">
+\[
+  V(\mathbf{x}_k) = \displaystyle \min_{u \in \mathbf{U}} \left[ c(\mathbf{x}_k, \mathbf{u}_k) + V(\mathbf{x}_{k+1}) \right]
+  \]</div>
+</li>
+</ul>
+<p>Once the values <span class="math notranslate nohighlight">\(V(\mathbf{x}_0), \dots , V(\mathbf{x}_N)\)</span> have been obtained, we can use a forward algorithm to construct an optimal control sequence <span class="math notranslate nohighlight">\(\{u_0^*, \dots, u_{N-1}^*\}\)</span> and corresponding state trajectory <span class="math notranslate nohighlight">\(\{x_1^∗, \dots, x_{N}^*\}\)</span> for the given initial state <span class="math notranslate nohighlight">\(x_0\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+u^*_k = \displaystyle  \argmin_{u \in \mathbf{U}}
+\left[ c(\mathbf{x}_k, \mathbf{u}_k) + V(f(\mathbf{x}_k, \mathbf{u}_k)) \right].
+\end{equation}
+\]</div>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../_images/20_dynamic_programming.png"><img alt="../_images/20_dynamic_programming.png" src="../_images/20_dynamic_programming.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Illustration of the DP algorithm. The tail subproblem that starts at <span class="math notranslate nohighlight">\(x_k\)</span> at time <span class="math notranslate nohighlight">\(k\)</span> minimizes over
+<span class="math notranslate nohighlight">\(\{u_k , \dots , u_{N-1}\}\)</span> the “cost-to-go” from <span class="math notranslate nohighlight">\(k\)</span> to <span class="math notranslate nohighlight">\(N\)</span>.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="graph-search">
+<h3>Graph Search<a class="headerlink" href="#graph-search" title="Link to this heading">#</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">create_shortest_path_graph</span><span class="p">()</span>
+<span class="n">plot_shortest_path_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/d83bf5feb16a040a83b0f8aac78879dc4de4407c93d57de161c25823f704b2da.png" src="../_images/d83bf5feb16a040a83b0f8aac78879dc4de4407c93d57de161c25823f704b2da.png" />
+</div>
+</div>
+<p>We wish to travel from node A to node G at minimum cost. If the cost represents time then we want to find the shortest path from A to G.</p>
+<ul class="simple">
+<li><p>Arrows (edges) indicate the possible movements.</p></li>
+<li><p>Numbers on edges indicate the cost of moving along an edge.</p></li>
+</ul>
+<p>We can use Dynamic Programming to solve this problem.</p>
+<p>We start by determining all possible paths first .</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_all_paths_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/53f1928ee1e2811b03895a4e6045325a6c6ec29b6d4f478719baa7b3f59317c5.png" src="../_images/53f1928ee1e2811b03895a4e6045325a6c6ec29b6d4f478719baa7b3f59317c5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_all_paths_graph</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">show_solution</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/5cd2f7406e9c9976addd5506ea02c9f4164fbc2a0ba426f611f25284f42f1329.png" src="../_images/5cd2f7406e9c9976addd5506ea02c9f4164fbc2a0ba426f611f25284f42f1329.png" />
+</div>
+</div>
+</section>
+<section id="value-iteration">
+<h3>Value Iteration<a class="headerlink" href="#value-iteration" title="Link to this heading">#</a></h3>
+<p>Another way to compute the optimal cost-to-go for all states that is also applicable is the <strong>Value Iteration</strong> algorithm:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{l}
+  \textbf{Input}:\ \langle S, s_0, U, c(s, u)\rangle\\
+  \textbf{Output}:\ \text{Value function}\ V\\[2mm]
+  \text{Set}\ V\ \text{to arbitrary value function; e.g., }\ V(s) = 0\ \text{for all}\ s\\[2mm]
+  \text{repeat}\ \\
+  \quad\quad \Delta \leftarrow 0 \\
+  \quad\quad \text{foreach}\ s \in S \\
+  \quad\quad\quad\quad \underbrace{V'(s) \leftarrow \min_{u \in U(s)} \left[c(s, u) + \ V(s') \right]}_{\text{Bellman equation}} \\
+  \quad\quad\quad\quad \Delta \leftarrow \max(\Delta, |V'(s) - V(s)|) \\
+  \quad\quad V \leftarrow V' \\
+  \text{until}\ \Delta \leq 0.0 
+\end{array}
+\end{split}\]</div>
+<div class="dropdown admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Stochastic Value Iteration</p>
+<p>It can also be used in stochastic systems:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{l}
+  \textbf{Input}:\ \text{MDP}\ M = \langle S, s_0, U, P_u(s' \mid s), c(s, u, s')\rangle\\
+  \textbf{Output}:\ \text{Value function}\ V\\[2mm]
+  \text{Set}\ V\ \text{to arbitrary value function; e.g., }\ V(s) = 0\ \text{for all}\ s\\[2mm]
+  \text{repeat}\ \\
+  \quad\quad \Delta \leftarrow 0 \\
+  \quad\quad \text{foreach}\ s \in S \\
+  \quad\quad\quad\quad \underbrace{V'(s) \leftarrow \min_{u \in U(s)} \sum_{s' \in S}  P_a(s' \mid s)\ [c(s,a,s') + 
+ \gamma\ V(s') ]}_{\text{Bellman equation}} \\
+  \quad\quad\quad\quad \Delta \leftarrow \max(\Delta, |V'(s) - V(s)|) \\
+  \quad\quad V \leftarrow V' \\
+  \text{until}\ \Delta \leq \theta 
+\end{array}
+\end{split}\]</div>
+</div>
+</section>
+<section id="optimal-control-as-graph-search">
+<h3>Optimal Control as Graph Search<a class="headerlink" href="#optimal-control-as-graph-search" title="Link to this heading">#</a></h3>
+<p>We can formulate discrete-time optimal control problems as graph search problems by either considering a system with discrete states and actions or by discretizing a system with continuous states and actions.</p>
+</section>
+<section id="exercise">
+<h3>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<div class="exercise admonition" id="grid-world">
+
+<p class="admonition-title"><span class="caption-number">Exercise 2 </span> (Grid World)</p>
+<section id="exercise-content">
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%html</span>
+<span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;800&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;600&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://www.youtube-nocookie.com/embed/p178eQpDI_E?si=7wzD4d1TIVj29WG0&amp;amp;start=4&quot;</span> <span class="na">title</span><span class="o">=</span><span class="s">&quot;YouTube video player&quot;</span> <span class="na">frameborder</span><span class="o">=</span><span class="s">&quot;0&quot;</span> <span class="na">allow</span><span class="o">=</span><span class="s">&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;</span> <span class="na">referrerpolicy</span><span class="o">=</span><span class="s">&quot;strict-origin-when-cross-origin&quot;</span> <span class="na">allowfullscreen</span><span class="p">&gt;&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><iframe width="800" height="600" src="https://www.youtube-nocookie.com/embed/p178eQpDI_E?si=7wzD4d1TIVj29WG0&amp;start=4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">create_grid_world_environment</span><span class="p">(</span><span class="n">render_mode</span><span class="o">=</span><span class="s2">&quot;rgb_array&quot;</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">simulate_environment</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="n">show_video</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="show_videos" style="border-spacing:0px;"><tr><td style="padding:1px;"><img width="256" height="256" style="image-rendering:auto; object-fit:cover;" src="data:image/gif;base64,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"/></td></tr></table></div></div>
+</div>
+<p>The task can be represented as the following undirected graph:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">unwrapped</span><span class="o">.</span><span class="n">get_graph</span><span class="p">()</span>
+<span class="n">plot_grid_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0236271f5a1d46b9b38e117eb77a9ac79911e0d64be0ab9b3fe5801e425c94de.png" src="../_images/0236271f5a1d46b9b38e117eb77a9ac79911e0d64be0ab9b3fe5801e425c94de.png" />
+</div>
+</div>
+<p>We convert the graph to a directed graph with all possible paths from start to target that do not contain cycles</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">convert_graph_to_directed</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+<span class="n">plot_grid_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/5c226618229908b117f86cb776b7f0c7d60dbcb9e6e0adedd55608a71a850155.png" src="../_images/5c226618229908b117f86cb776b7f0c7d60dbcb9e6e0adedd55608a71a850155.png" />
+</div>
+</div>
+<p>We wish for the car to travel from its starting cell in red to the target cell in green. If the cost represents time and each step has the same cost then we want to find the shortest path to the goal.</p>
+<ul class="simple">
+<li><p>Arrows (edges) indicate the possible movements.</p></li>
+<li><p>Numbers on edges indicate the cost of moving along an edge.</p></li>
+</ul>
+<p>Use Dynamic Programming to solve this problem:</p>
+<ul class="simple">
+<li><p>Determine the number of possible paths from start position to target position.</p></li>
+<li><p>Compute the optimal cost-to-go for each state.</p></li>
+<li><p>Determine the optimal plan using the computed optimal cost-to-go.</p></li>
+<li><p>Implement the plan in the environment.</p></li>
+</ul>
+<div class="dropdown admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Hint 1</p>
+<p>Determine all possible paths first.</p>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">plot_grid_all_paths_graph(G)</span></code> for that.</p>
+</div>
+<div class="dropdown admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Hint 2</p>
+<p>Compute the optimal cost-to-go at each node.</p>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">dict(G.nodes(data=True))</span></code> to get a dictionary that maps the nodes to their attributes
+and you can use <code class="docutils literal notranslate"><span class="pre">G.start_node</span></code> and <code class="docutils literal notranslate"><span class="pre">G.target_node</span></code> to access the start and end (i.e. goal) nodes, respectively.</p>
+</div>
+</section>
+</div>
+<div class="solution admonition" id="notebooks/nb_20_dynamic_programming-solution-1">
+
+<p class="admonition-title">Solution to<a class="reference internal" href="#grid-world">  ( 2</a></p>
+<section id="solution-content">
+</section>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="solution dropdown admonition" id="notebooks/nb_20_dynamic_programming-solution-2">
+
+<p class="admonition-title">Solution to<a class="reference internal" href="#grid-world">  ( 2</a></p>
+<section id="solution-content">
+<p>For this solution we first need to import some functions:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">training_ml_control.environments</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">value_iteration</span><span class="p">,</span>
+    <span class="n">compute_best_path_and_actions_from_values</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To determine the number of paths from start node to target node we use:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span>
+    <span class="nb">list</span><span class="p">(</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">all_simple_paths</span><span class="p">(</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">to_undirected</span><span class="p">(),</span> <span class="n">source</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">start_node</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">target_node</span><span class="p">,</span> <span class="n">cutoff</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>101
+</pre></div>
+</div>
+</div>
+</div>
+<p>After that, to plot all paths from start to end we use:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_grid_all_paths_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/28399f7d8962b5e143914187e9fcba99918531235da8698a79b0ed765875b8e4.png" src="../_images/28399f7d8962b5e143914187e9fcba99918531235da8698a79b0ed765875b8e4.png" />
+</div>
+</div>
+<p>To compute the optimal cost-to-go we use:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="n">value_iteration</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once that’s computed, we can determine the best path and correponding actions:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_path</span><span class="p">,</span> <span class="n">actions</span> <span class="o">=</span> <span class="n">compute_best_path_and_actions_from_values</span><span class="p">(</span>
+    <span class="n">G</span><span class="p">,</span> <span class="n">start_node</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">start_node</span><span class="p">,</span> <span class="n">target_node</span><span class="o">=</span><span class="n">G</span><span class="o">.</span><span class="n">target_node</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">best_path</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actions</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>best_path=[(6, 6), (6, 6), (5, 6), (5, 5), (4, 5), (3, 5), (2, 5), (1, 5)]
+actions=[2, 3, 2, 2, 2, 2, 3]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We finally apply the computed plan to the environment and check that it indeed works:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
+    <span class="n">observation</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">terminated</span><span class="p">,</span> <span class="n">truncated</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">terminated</span> <span class="ow">or</span> <span class="n">truncated</span><span class="p">:</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="k">break</span>
+<span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">show_video</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="show_videos" style="border-spacing:0px;"><tr><td style="padding:1px;"><img width="256" height="256" style="image-rendering:auto; object-fit:cover;" src="data:image/gif;base64,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"/></td></tr></table></div></div>
+</div>
+</section>
+</div>
+</section>
+</section>
+<section id="continuous-time">
+<h2>Continuous Time<a class="headerlink" href="#continuous-time" title="Link to this heading">#</a></h2>
+<p>Let’s consider a continuous-time optimal control problem with finite horizon over the time period <span class="math notranslate nohighlight">\([t_0 ,t_f]\)</span>.</p>
+<p>The system’s dynamics is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+\dot{\mathbf{x}}(t) = f(\mathbf{x}(t), \mathbf{u}(t))
+\]</div>
+<p>With the initial state <span class="math notranslate nohighlight">\(\mathbf{x}(t_0) = \mathbf{x}_0\)</span></p>
+<p>The cost-to-go is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+J(\mathbf{x}(t), \mathbf{u}(t), t_0, t_f) = c_f(\mathbf{x}(t_f), t_f) + \int\limits_{t_0}^{t_f} c(\mathbf{x}(t), \mathbf{u}(t)) d\tau
+\]</div>
+<p>The optimal cost-to-go is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+\displaystyle V(\mathbf{x}(t), t_0, t_f) = \underset{\mathbf{u(t)}}{min} \left[ J(\mathbf{x}(t), \mathbf{u}(t), t_0, t_f) \right]
+\]</div>
+<p>It can be show that for every <span class="math notranslate nohighlight">\(s, \tau \in [t_0, t_f]\)</span>, <span class="math notranslate nohighlight">\(s \leq \tau\)</span> , and <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbf{X}\)</span>, we have:</p>
+<div class="math notranslate nohighlight">
+\[
+V(s, \mathbf{x}) = \underset{\mathbf{u(t)}}{min} \left[ \int\limits_{s}^{\tau} c(\mathbf{x}(t), \mathbf{u}(t)) d\tau + V(\tau, \mathbf{x}(\tau)) \right]
+\]</div>
+<p>Which is another version of the Bellman equation.</p>
+<section id="hamilton-jacobi-bellman-equation">
+<h3>Hamilton-Jacobi-Bellman Equation<a class="headerlink" href="#hamilton-jacobi-bellman-equation" title="Link to this heading">#</a></h3>
+<p>The Hamilton-Jacobi-Bellman (HJB) equation is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+- \frac{\partial V}{\partial t} = \underset{\mathbf{u(t)}}{min} \left[ \left( \frac{\partial V}{\partial \mathbf{x}} \right)^T f(\mathbf{x}(t), \mathbf{u}(t)) + c(\mathbf{x}(t), \mathbf{u}(t)) \right]
+\]</div>
+<p>It is a sufficient condition of optimality i.e., that if <span class="math notranslate nohighlight">\(V\)</span> satisfies the HJB, it must be the value function.</p>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>for the sake of simplicity we will focus on the discrete-time case</p>
+</aside>
+</aside>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="nb_10_introduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nb_30_systems.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Systems</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-time">Discrete Time</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#infinite-horizon">Infinite Horizon</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dp-algorithm">DP Algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-search">Graph Search</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#value-iteration">Value Iteration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimal-control-as-graph-search">Optimal Control as Graph Search</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">Exercise</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-time">Continuous Time</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hamilton-jacobi-bellman-equation">Hamilton-Jacobi-Bellman Equation</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By appliedAI TransferLab
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

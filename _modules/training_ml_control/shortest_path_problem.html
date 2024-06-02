@@ -1,0 +1,611 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>training_ml_control.shortest_path_problem &#8212; Machine Learning Control Training</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/training_ml_control/shortest_path_problem';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../notebooks/home.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/transferlab-logo.svg" class="logo__image only-light" alt="Machine Learning Control Training - Home"/>
+    <script>document.write(`<img src="../../_static/transferlab-logo-dark.svg" class="logo__image only-dark" alt="Machine Learning Control Training - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Notebook Pages</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_10_introduction.html">Introduction</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_20_dynamic_programming.html">Dynamic Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_30_systems.html">Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_40_LQR.html">Linear Quadratic Regulator</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_50_MPC.html">Model Predictive Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_60_MCTS.html">MPC and AlphaZero</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_70_machine_learning_control.html">Machine Learning &amp; Control</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_80_safe_learning_control.html">Safe Learning in Robotics</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_90_practice.html">Practice</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Code</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../apidocs/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.environments.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.environments.grid_world.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.grid_world</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.environments.utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.utils</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.environments.cart.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.cart</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.environments.inverted_pendulum.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.inverted_pendulum</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.models.models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.models.sindy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.sindy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.models.dmd.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.dmd</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.nb_utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.nb_utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.shortest_path_problem.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.shortest_path_problem</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.plots.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.plots</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.hyperopt.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.hyperopt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../apidocs/training_ml_control/training_ml_control.control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for training_ml_control.shortest_path_problem</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;plot_optimality_principle_graph&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;create_shortest_path_graph&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;plot_shortest_path_graph&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;plot_all_paths_graph&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="plot_optimality_principle_graph">
+<a class="viewcode-back" href="../../apidocs/training_ml_control/training_ml_control.shortest_path_problem.html#training_ml_control.shortest_path_problem.plot_optimality_principle_graph">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_optimality_principle_graph</span><span class="p">(</span>
+    <span class="n">n_stages</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">n_nodes_per_stage</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots optimality principle graph.&quot;&quot;&quot;</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;initial_state&quot;</span><span class="p">)</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="s2">&quot;final_state&quot;</span><span class="p">)</span>
+
+    <span class="n">previous_stage_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;initial_state&quot;</span><span class="p">]</span>
+    <span class="n">next_stage_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;stage_0_node_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_nodes_per_stage</span><span class="p">)]</span>
+
+    <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_stages</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">previous_node</span> <span class="ow">in</span> <span class="n">previous_stage_nodes</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">next_node</span> <span class="ow">in</span> <span class="n">next_stage_nodes</span><span class="p">:</span>
+                <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">previous_node</span><span class="p">,</span> <span class="n">next_node</span><span class="p">)</span>
+        <span class="n">previous_stage_nodes</span> <span class="o">=</span> <span class="n">next_stage_nodes</span>
+        <span class="n">next_stage_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;stage_</span><span class="si">{</span><span class="n">stage</span><span class="si">}</span><span class="s2">_node_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_nodes_per_stage</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">previous_node</span> <span class="ow">in</span> <span class="n">previous_stage_nodes</span><span class="p">:</span>
+        <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">previous_node</span><span class="p">,</span> <span class="s2">&quot;final_state&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">layer</span><span class="p">,</span> <span class="n">nodes</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">topological_generations</span><span class="p">(</span><span class="n">G</span><span class="p">)):</span>
+        <span class="c1"># `multipartite_layout` expects the layer as a node attribute, so add the</span>
+        <span class="c1"># numeric layer value as a node attribute</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="s2">&quot;layer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">layer</span>
+
+    <span class="n">shortest_path</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;initial_state&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;final_state&quot;</span><span class="p">)</span>
+    <span class="n">shortest_path_edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">pairwise</span><span class="p">(</span><span class="n">shortest_path</span><span class="p">))</span>
+
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;node_size&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="s2">&quot;edgecolors&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;linewidths&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">node_color</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="s2">&quot;initial_state&quot;</span><span class="p">:</span>
+            <span class="n">node_color</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">node</span> <span class="o">==</span> <span class="s2">&quot;final_state&quot;</span><span class="p">:</span>
+            <span class="n">node_color</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;xkcd:light red&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">shortest_path</span><span class="p">:</span>
+            <span class="n">node_color</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;lightblue&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">node_color</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">options</span><span class="p">[</span><span class="s2">&quot;node_color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_color</span>
+    <span class="c1"># Compute the multipartite_layout using the &quot;layer&quot; node attribute</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">multipartite_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">subset_key</span><span class="o">=</span><span class="s2">&quot;layer&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span>
+        <span class="n">G</span><span class="p">,</span>
+        <span class="n">pos</span><span class="p">,</span>
+        <span class="n">edgelist</span><span class="o">=</span><span class="n">shortest_path_edges</span><span class="p">,</span>
+        <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">other_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">edge</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span> <span class="k">if</span> <span class="n">edge</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">shortest_path_edges</span><span class="p">]</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edgelist</span><span class="o">=</span><span class="n">other_edges</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mf">0.20</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="create_shortest_path_graph">
+<a class="viewcode-back" href="../../apidocs/training_ml_control/training_ml_control.shortest_path_problem.html#training_ml_control.shortest_path_problem.create_shortest_path_graph">[docs]</a>
+<span class="k">def</span> <span class="nf">create_shortest_path_graph</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create shortest-path problem graph.&quot;&quot;&quot;</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+    <span class="n">edge_list</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_weighted_edges_from</span><span class="p">(</span><span class="n">edge_list</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">G</span></div>
+
+
+
+<div class="viewcode-block" id="plot_shortest_path_graph">
+<a class="viewcode-back" href="../../apidocs/training_ml_control/training_ml_control.shortest_path_problem.html#training_ml_control.shortest_path_problem.plot_shortest_path_graph">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_shortest_path_graph</span><span class="p">(</span><span class="n">G</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot shortest-path problem graph.&quot;&quot;&quot;</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;font_size&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="s2">&quot;node_size&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="s2">&quot;node_color&quot;</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;edgecolors&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;linewidths&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># explicitly set positions</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="n">edge_labels</span> <span class="o">=</span> <span class="p">{(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
+
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edge_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edge_labels</span><span class="o">=</span><span class="n">edge_labels</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mf">0.20</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="plot_all_paths_graph">
+<a class="viewcode-back" href="../../apidocs/training_ml_control/training_ml_control.shortest_path_problem.html#training_ml_control.shortest_path_problem.plot_all_paths_graph">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_all_paths_graph</span><span class="p">(</span><span class="n">G</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">show_solution</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot all paths from A to G in shortest-path problem graph.&quot;&quot;&quot;</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">all_simple_paths</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;G&quot;</span><span class="p">):</span>
+        <span class="n">node_prefix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">pairwise</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="n">node_prefix</span> <span class="o">+=</span> <span class="n">n1</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)][</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">node_prefix</span><span class="p">,</span> <span class="n">node_prefix</span> <span class="o">+</span> <span class="n">n2</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span>
+
+    <span class="n">edge_label_options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;font_size&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">edge_options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">node_options</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;node_size&quot;</span><span class="p">:</span> <span class="mi">1800</span><span class="p">,</span>
+        <span class="s2">&quot;node_color&quot;</span><span class="p">:</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;edgecolors&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;linewidths&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># explicitly set positions</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="s2">&quot;AB&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+        <span class="s2">&quot;AC&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="s2">&quot;AD&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">),</span>
+        <span class="s2">&quot;ABD&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
+        <span class="s2">&quot;ABE&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+        <span class="s2">&quot;ACF&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+        <span class="s2">&quot;ADF&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">),</span>
+        <span class="s2">&quot;ABDF&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
+        <span class="s2">&quot;ABDG&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+        <span class="s2">&quot;ABEG&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="s2">&quot;ACFG&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">),</span>
+        <span class="s2">&quot;ADFG&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">11</span><span class="p">),</span>
+        <span class="s2">&quot;ABDFG&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span>
+        <span class="s2">&quot;ADG&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">19</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="o">**</span><span class="n">node_options</span><span class="p">)</span>
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_labels</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+
+    <span class="n">edge_labels</span> <span class="o">=</span> <span class="p">{(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">F</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
+
+    <span class="k">if</span> <span class="n">show_solution</span><span class="p">:</span>
+        <span class="n">shortest_path</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;weight&quot;</span><span class="p">)</span>
+        <span class="n">shortest_path</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">shortest_path</span><span class="p">))</span>
+        <span class="n">shortest_path_edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">pairwise</span><span class="p">(</span><span class="n">shortest_path</span><span class="p">))</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span>
+            <span class="n">F</span><span class="p">,</span>
+            <span class="n">pos</span><span class="p">,</span>
+            <span class="n">edgelist</span><span class="o">=</span><span class="n">shortest_path_edges</span><span class="p">,</span>
+            <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">edge_options</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">other_edges</span> <span class="o">=</span> <span class="p">[</span><span class="n">edge</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">F</span><span class="o">.</span><span class="n">edges</span> <span class="k">if</span> <span class="n">edge</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">shortest_path_edges</span><span class="p">]</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span>
+            <span class="n">F</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edgelist</span><span class="o">=</span><span class="n">other_edges</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">edge_options</span>
+        <span class="p">)</span>
+        <span class="c1"># Compute cost-to-go recursively</span>
+        <span class="c1"># leaves = [node for node in F.nodes if not list(F.successors(node))]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">edge_options</span><span class="p">)</span>
+
+    <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edge_labels</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">edge_labels</span><span class="o">=</span><span class="n">edge_labels</span><span class="p">,</span> <span class="o">**</span><span class="n">edge_label_options</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By appliedAI TransferLab
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

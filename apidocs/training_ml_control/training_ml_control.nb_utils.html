@@ -1,24 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<meta property="og:title" content="training_ml_control.nb_utils" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://aai-institute.github.io/apidocs/training_ml_control/training_ml_control.nb_utils.html" />
-<meta property="og:site_name" content="Python" />
-<meta property="og:description" content="Module Contents: Classes:,, TflWorkshopMagic,,,,, Functions:,, set_random_seed, Sets random seed (as name suggests…).,, display_dataframes_side_by_side, Display pandas dataframes side by side in a ..." />
-<meta property="og:image:width" content="1146" />
-<meta property="og:image:height" content="600" />
-<meta property="og:image" content="https://aai-institute.github.io/tfl-training-machine-learning-control/_images/social_previews/summary_apidocs_training_ml_control_training_ml_control.nb_utils_3f608111.png" />
-<meta property="og:image:alt" content="Module Contents: Classes:,, TflWorkshopMagic,,,,, Functions:,, set_random_seed, Sets random seed (as name suggests…).,, display_dataframes_side_by_side, Disp..." />
-<meta name="description" content="Module Contents: Classes:,, TflWorkshopMagic,,,,, Functions:,, set_random_seed, Sets random seed (as name suggests…).,, display_dataframes_side_by_side, Display pandas dataframes side by side in a ..." />
-<meta name="twitter:card" content="summary_large_image" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>training_ml_control.nb_utils &#8212; Machine Learning Control Training</title>
   
@@ -40,38 +28,41 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/exercise.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js"></script>
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../../_static/design-tabs.js"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'apidocs/training_ml_control/training_ml_control.nb_utils';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="training_ml_control.constants" href="training_ml_control.constants.html" />
+    <link rel="next" title="training_ml_control.shortest_path_problem" href="training_ml_control.shortest_path_problem.html" />
+    <link rel="prev" title="training_ml_control.models.dmd" href="training_ml_control.models.dmd.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -114,8 +105,8 @@
          class="form-control"
          name="q"
          id="search-input"
-         placeholder="Search this book..."
-         aria-label="Search this book..."
+         placeholder="Search..."
+         aria-label="Search..."
          autocomplete="off"
          autocorrect="off"
          autocapitalize="off"
@@ -161,7 +152,7 @@
     
     
     <img src="../../_static/transferlab-logo.svg" class="logo__image only-light" alt="Machine Learning Control Training - Home"/>
-    <script>document.write(`<img src="../../_static/transferlab-logo.svg" class="logo__image only-dark" alt="Machine Learning Control Training - Home"/>`);</script>
+    <script>document.write(`<img src="../../_static/transferlab-logo-dark.svg" class="logo__image only-dark" alt="Machine Learning Control Training - Home"/>`);</script>
   
   
 </a></div>
@@ -178,34 +169,28 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        
-        <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1">
-                <a class="reference internal" href="../../notebooks/home.html">
-                    Machine Learning Control Training
-                </a>
-            </li>
-        </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Notebook Pages</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_10_Introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_10_introduction.html">Introduction</a></li>
 
 
 
-
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_20_ControlAndPlanning.html">Introduction</a></li>
-
-
-
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_20_dynamic_programming.html">Dynamic Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_30_systems.html">Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_40_LQR.html">Linear Quadratic Regulator</a></li>
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_50_MPC.html">Model Predictive Control</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_40_RecentDevelopmentsInControl.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_60_MCTS.html">MPC and AlphaZero</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_70_machine_learning_control.html">Machine Learning &amp; Control</a></li>
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_80_safe_learning_control.html">Safe Learning in Robotics</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks/nb_90_practice.html">Practice</a></li>
 
 
 </ul>
@@ -213,16 +198,24 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="training_ml_control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control</span></code></a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l3 has-children"><a class="reference internal" href="training_ml_control.control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="training_ml_control.control.plots.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control.plots</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="training_ml_control.control.utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control.utils</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="training_ml_control.control.environment.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control.environment</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="training_ml_control.control.shortest_path_problem.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control.shortest_path_problem</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="training_ml_control.control.parameters.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control.parameters</span></code></a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="training_ml_control.environments.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="training_ml_control.environments.grid_world.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.grid_world</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="training_ml_control.environments.utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.utils</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="training_ml_control.environments.cart.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.cart</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="training_ml_control.environments.inverted_pendulum.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.inverted_pendulum</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="training_ml_control.constants.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.constants</span></code></a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="training_ml_control.models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="training_ml_control.models.models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="training_ml_control.models.sindy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.sindy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="training_ml_control.models.dmd.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.dmd</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.nb_utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="training_ml_control.shortest_path_problem.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.shortest_path_problem</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="training_ml_control.plots.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.plots</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="training_ml_control.hyperopt.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.hyperopt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="training_ml_control.control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -268,70 +261,6 @@
         <div class="header-article-item">
 
 <div class="article-header-buttons">
-
-
-
-
-
-<div class="dropdown dropdown-source-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
-    <i class="fab fa-github"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://github.com/aai-institute/tfl-training-machine-learning-control" target="_blank"
-   class="btn btn-sm btn-source-repository-button dropdown-item"
-   title="Source repository"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="btn__text-container">Repository</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li><a href="https://github.com/aai-institute/tfl-training-machine-learning-control/edit/main/apidocs/training_ml_control/training_ml_control.nb_utils.md" target="_blank"
-   class="btn btn-sm btn-source-edit-button dropdown-item"
-   title="Suggest edit"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-pencil-alt"></i>
-  </span>
-<span class="btn__text-container">Suggest edit</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li><a href="https://github.com/aai-institute/tfl-training-machine-learning-control/issues/new?title=Issue%20on%20page%20%2Fapidocs/training_ml_control/training_ml_control.nb_utils.html&body=Your%20issue%20content%20here." target="_blank"
-   class="btn btn-sm btn-source-issues-button dropdown-item"
-   title="Open an issue"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="btn__text-container">Open issue</span>
-</a>
-</li>
-      
-  </ul>
-</div>
-
 
 
 
@@ -448,12 +377,12 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.set_random_seed"><code class="docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.TflWorkshopMagic"><code class="docutils literal notranslate"><span class="pre">TflWorkshopMagic</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.TflWorkshopMagic.set_random_seed"><code class="docutils literal notranslate"><span class="pre">TflWorkshopMagic.set_random_seed()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.TflWorkshopMagic.load_latex_macros"><code class="docutils literal notranslate"><span class="pre">TflWorkshopMagic.load_latex_macros()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.TflWorkshopMagic.view_hint"><code class="docutils literal notranslate"><span class="pre">TflWorkshopMagic.view_hint()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.TflWorkshopMagic.presentation_style"><code class="docutils literal notranslate"><span class="pre">TflWorkshopMagic.presentation_style()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.display_dataframes_side_by_side"><code class="docutils literal notranslate"><span class="pre">display_dataframes_side_by_side()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.display_array"><code class="docutils literal notranslate"><span class="pre">display_array()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.show_video"><code class="docutils literal notranslate"><span class="pre">show_video()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -470,11 +399,11 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="module-training_ml_control.nb_utils">
-<span id="training-ml-control-nb-utils"></span><h1><a class="reference internal" href="#module-training_ml_control.nb_utils" title="training_ml_control.nb_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.nb_utils</span></code></a><a class="headerlink" href="#module-training_ml_control.nb_utils" title="Permalink to this heading">#</a></h1>
+<span id="training-ml-control-nb-utils"></span><h1><a class="reference internal" href="#module-training_ml_control.nb_utils" title="training_ml_control.nb_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.nb_utils</span></code></a><a class="headerlink" href="#module-training_ml_control.nb_utils" title="Link to this heading">#</a></h1>
 <section id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
 <section id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h3>
 <table class="autosummary longtable table table-left">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#training_ml_control.nb_utils.TflWorkshopMagic" title="training_ml_control.nb_utils.TflWorkshopMagic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TflWorkshopMagic</span></code></a></p></td>
@@ -484,20 +413,23 @@ document.write(`
 </table>
 </section>
 <section id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
+<h3>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h3>
 <table class="autosummary longtable table table-left">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#training_ml_control.nb_utils.set_random_seed" title="training_ml_control.nb_utils.set_random_seed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_random_seed</span></code></a></p></td>
 <td><p>Sets random seed (as name suggests…).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#training_ml_control.nb_utils.display_dataframes_side_by_side" title="training_ml_control.nb_utils.display_dataframes_side_by_side"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display_dataframes_side_by_side</span></code></a></p></td>
-<td><p>Display pandas dataframes side by side in a jupyter notebook.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#training_ml_control.nb_utils.display_array" title="training_ml_control.nb_utils.display_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">display_array</span></code></a></p></td>
+<td><p>Displays numpy arrays as latex bmatrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#training_ml_control.nb_utils.show_video" title="training_ml_control.nb_utils.show_video"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_video</span></code></a></p></td>
+<td><p>Renders the given frames as a video.</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="data">
-<h3>Data<a class="headerlink" href="#data" title="Permalink to this heading">#</a></h3>
+<h3>Data<a class="headerlink" href="#data" title="Link to this heading">#</a></h3>
 <table class="autosummary longtable table table-left">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#training_ml_control.nb_utils.__all__" title="training_ml_control.nb_utils.__all__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__all__</span></code></a></p></td>
@@ -507,41 +439,36 @@ document.write(`
 </table>
 </section>
 <section id="api">
-<h3>API<a class="headerlink" href="#api" title="Permalink to this heading">#</a></h3>
+<h3>API<a class="headerlink" href="#api" title="Link to this heading">#</a></h3>
 <dl class="py data">
 <dt class="sig sig-object py" id="training_ml_control.nb_utils.__all__">
-<span class="sig-prename descclassname"><span class="pre">training_ml_control.nb_utils.</span></span><span class="sig-name descname"><span class="pre">__all__</span></span><a class="headerlink" href="#training_ml_control.nb_utils.__all__" title="Permalink to this definition">#</a></dt>
-<dd><p>[‘set_random_seed’, ‘TflWorkshopMagic’, ‘display_dataframes_side_by_side’]</p>
+<span class="sig-prename descclassname"><span class="pre">training_ml_control.nb_utils.</span></span><span class="sig-name descname"><span class="pre">__all__</span></span><a class="headerlink" href="#training_ml_control.nb_utils.__all__" title="Link to this definition">#</a></dt>
+<dd><p>[‘set_random_seed’, ‘TflWorkshopMagic’, ‘display_array’, ‘show_video’]</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="training_ml_control.nb_utils.set_random_seed">
-<span class="sig-prename descclassname"><span class="pre">training_ml_control.nb_utils.</span></span><span class="sig-name descname"><span class="pre">set_random_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#set_random_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.set_random_seed" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">training_ml_control.nb_utils.</span></span><span class="sig-name descname"><span class="pre">set_random_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#set_random_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.set_random_seed" title="Link to this definition">#</a></dt>
 <dd><p>Sets random seed (as name suggests…).</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="training_ml_control.nb_utils.TflWorkshopMagic">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">training_ml_control.nb_utils.</span></span><span class="sig-name descname"><span class="pre">TflWorkshopMagic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shell</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#TflWorkshopMagic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.TflWorkshopMagic" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">training_ml_control.nb_utils.</span></span><span class="sig-name descname"><span class="pre">TflWorkshopMagic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shell</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#TflWorkshopMagic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.TflWorkshopMagic" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">IPython.core.magic.Magics</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="training_ml_control.nb_utils.TflWorkshopMagic.set_random_seed">
-<span class="sig-name descname"><span class="pre">set_random_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#TflWorkshopMagic.set_random_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.TflWorkshopMagic.set_random_seed" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="training_ml_control.nb_utils.TflWorkshopMagic.load_latex_macros">
-<span class="sig-name descname"><span class="pre">load_latex_macros</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#TflWorkshopMagic.load_latex_macros"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.TflWorkshopMagic.load_latex_macros" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_random_seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#TflWorkshopMagic.set_random_seed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.TflWorkshopMagic.set_random_seed" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="training_ml_control.nb_utils.TflWorkshopMagic.view_hint">
-<span class="sig-name descname"><span class="pre">view_hint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">os.PathLike</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#TflWorkshopMagic.view_hint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.TflWorkshopMagic.view_hint" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">view_hint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">os.PathLike</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#TflWorkshopMagic.view_hint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.TflWorkshopMagic.view_hint" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="training_ml_control.nb_utils.TflWorkshopMagic.presentation_style">
-<span class="sig-name descname"><span class="pre">presentation_style</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#TflWorkshopMagic.presentation_style"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.TflWorkshopMagic.presentation_style" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">presentation_style</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#TflWorkshopMagic.presentation_style"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.TflWorkshopMagic.presentation_style" title="Link to this definition">#</a></dt>
 <dd><p>Apply the styles to the notebook (outside presentation mode).
 <strong>NOTE</strong>: Has to be the last command in a cell.</p>
 <p>:param style_file: Relative path to the CSS file containing
@@ -552,10 +479,16 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">rise.cs
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="training_ml_control.nb_utils.display_dataframes_side_by_side">
-<span class="sig-prename descclassname"><span class="pre">training_ml_control.nb_utils.</span></span><span class="sig-name descname"><span class="pre">display_dataframes_side_by_side</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">collections.abc.Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.DataFrame</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">collections.abc.Sequence</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#display_dataframes_side_by_side"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.display_dataframes_side_by_side" title="Permalink to this definition">#</a></dt>
-<dd><p>Display pandas dataframes side by side in a jupyter notebook.</p>
-<p>Inspired by: <a class="reference external" href="https://stackoverflow.com/a/64323280">https://stackoverflow.com/a/64323280</a></p>
+<dt class="sig sig-object py" id="training_ml_control.nb_utils.display_array">
+<span class="sig-prename descclassname"><span class="pre">training_ml_control.nb_utils.</span></span><span class="sig-name descname"><span class="pre">display_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.typing.NDArray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#display_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.display_array" title="Link to this definition">#</a></dt>
+<dd><p>Displays numpy arrays as latex bmatrix.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="training_ml_control.nb_utils.show_video">
+<span class="sig-prename descclassname"><span class="pre">training_ml_control.nb_utils.</span></span><span class="sig-name descname"><span class="pre">show_video</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gif'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../_modules/training_ml_control/nb_utils.html#show_video"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#training_ml_control.nb_utils.show_video" title="Link to this definition">#</a></dt>
+<dd><p>Renders the given frames as a video.</p>
+<p>If no frames are passed, then it simply returns without doing anything.</p>
 </dd></dl>
 
 </section>
@@ -566,8 +499,8 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">rise.cs
     {
         requestKernel: true,
         binderOptions: {
-            repo: "aai-institute/tfl-training-machine-learning-control",
-            ref: "main",
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
         },
         codeMirrorConfig: {
             theme: "abcdef",
@@ -593,13 +526,22 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">rise.cs
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="training_ml_control.constants.html"
+       href="training_ml_control.models.dmd.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.constants</span></code></p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.dmd</span></code></p>
       </div>
+    </a>
+    <a class="right-next"
+       href="training_ml_control.shortest_path_problem.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.shortest_path_problem</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -626,12 +568,12 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">rise.cs
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.set_random_seed"><code class="docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.TflWorkshopMagic"><code class="docutils literal notranslate"><span class="pre">TflWorkshopMagic</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.TflWorkshopMagic.set_random_seed"><code class="docutils literal notranslate"><span class="pre">TflWorkshopMagic.set_random_seed()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.TflWorkshopMagic.load_latex_macros"><code class="docutils literal notranslate"><span class="pre">TflWorkshopMagic.load_latex_macros()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.TflWorkshopMagic.view_hint"><code class="docutils literal notranslate"><span class="pre">TflWorkshopMagic.view_hint()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.TflWorkshopMagic.presentation_style"><code class="docutils literal notranslate"><span class="pre">TflWorkshopMagic.presentation_style()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.display_dataframes_side_by_side"><code class="docutils literal notranslate"><span class="pre">display_dataframes_side_by_side()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.display_array"><code class="docutils literal notranslate"><span class="pre">display_array()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#training_ml_control.nb_utils.show_video"><code class="docutils literal notranslate"><span class="pre">show_video()</span></code></a></li>
 </ul>
 </li>
 </ul>

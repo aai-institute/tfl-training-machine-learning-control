@@ -1,0 +1,1867 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Model Predictive Control &#8212; Machine Learning Control Training</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"loader": {"load": ["[tex]/configmacros"]}, "tex": {"packages": {"[+]": ["configmacros"]}, "macros": {"vect": ["{\\mathbf{\\boldsymbol{#1}} }", 1], "E": "{\\mathbb{E}}", "P": "{\\mathbb{P}}", "R": "{\\mathbb{R}}", "abs": ["{\\left| #1 \\right|}", 1], "simpl": ["{\\Delta^{#1} }", 1], "amax": "{\\text{argmax}}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/nb_50_MPC';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MPC and AlphaZero" href="nb_60_MCTS.html" />
+    <link rel="prev" title="Linear Quadratic Regulator" href="nb_40_LQR.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="home.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/transferlab-logo.svg" class="logo__image only-light" alt="Machine Learning Control Training - Home"/>
+    <script>document.write(`<img src="../_static/transferlab-logo-dark.svg" class="logo__image only-dark" alt="Machine Learning Control Training - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Notebook Pages</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="nb_10_introduction.html">Introduction</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="nb_20_dynamic_programming.html">Dynamic Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb_30_systems.html">Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb_40_LQR.html">Linear Quadratic Regulator</a></li>
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Model Predictive Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="nb_60_MCTS.html">MPC and AlphaZero</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb_70_machine_learning_control.html">Machine Learning &amp; Control</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="nb_80_safe_learning_control.html">Safe Learning in Robotics</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="nb_90_practice.html">Practice</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Code</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../apidocs/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.grid_world.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.grid_world</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.utils</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.cart.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.cart</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.inverted_pendulum.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.inverted_pendulum</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.sindy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.sindy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.dmd.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.dmd</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.nb_utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.nb_utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.shortest_path_problem.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.shortest_path_problem</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.plots.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.plots</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.hyperopt.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.hyperopt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/nb_50_MPC.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Model Predictive Control</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Model Predictive Control</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cart">Cart</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#controller">Controller</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation">Simulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverted-pendulum">Inverted Pendulum</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-linear">Exercise (Linear)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-non-linear">Exercise (Non-linear)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#solution">Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mpc-controller-design-challenges">MPC Controller Design Challenges</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-mpc">Robust MPC</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-stage-mpc">Multi-Stage MPC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Inverted Pendulum</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Evaluation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell tag_ActiveScene docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">presentation_style</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>/*
+This file is mainly copy-pasta from rise's examples
+https://github.com/damianavila/RISE/blob/master/examples/rise.css
+that was further customized for appliedAI purposes
+*/
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400&display=swap');
+
+
+/*
+body {
+    font-family: 'Work Sans', sans-serif !important;
+    text-transform: initial !important;
+    letter-spacing: initial !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    text-size-adjust: 100% !important;
+    ‑webkit‑text‑size‑adjust: 100% !important;
+}
+
+
+.reveal, div.text_cell_render, .md-slide, .sidebar-wrapper {
+    font-size: 1.5rem !important;
+}
+*/
+
+.navbar-default .navbar-nav > li > a {
+    color: #00747b !important;
+}
+
+.filename {
+    font-size: 2.4rem !important;
+    color: #212529 !important;
+    font-weight: 600 !important;
+}
+
+.reveal, .md-slide {
+    color: white !important;
+}
+
+h1, h2 {
+    color: #00747b !important;
+}
+
+h3, h4, h5, h6 {
+    color: #808080 !important;
+}
+
+.reveal p, .reveal ol, .reveal dl, .reveal ul,
+div.text_cell_render {
+    color: #212529 !important;
+}
+
+/*copied from stackoverflow, better spacing between list items*/
+li + li {
+  margin-top: 0.2em;
+}
+
+body.rise-enabled .reveal ol, body.rise-enabled .reveal dl, body.rise-enabled .reveal ul {
+    margin-left: 0.1em;
+    margin-top: 0.2em;
+}
+
+.reveal .rendered_html h1:first-child,
+.reveal .rendered_html h2:first-child,
+.reveal .rendered_html h3:first-child,
+.reveal .rendered_html h4:first-child,
+.reveal .rendered_html h5:first-child {
+    margin-top: 0.2em;
+}
+
+/*
+.CodeMirror-lines, .output_text {
+    font-size: 1.5rem !important;
+}
+*/
+
+h1.plan, h2.plan, h3.plan {
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+ul.plan>li>span.plan-bold {
+    font-size: 110%;
+    padding: 4px;
+    font-weight: bold;
+    background-color: #eee;
+}
+
+ul.plan>li>ul.subplan>li>span.plan-bold {
+    font-weight: bold;
+}
+
+.plan-strike {
+    opacity: 0.4;
+/*    text-decoration: line-through; */
+}
+
+div.plan-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+/*
+ * this is to void xarray's html output to show the fallback textual representation
+ * see also
+   * xarray.md and
+   * https://github.com/damianavila/RISE/issues/594
+ */
+.reveal pre.xr-text-repr-fallback {
+    display: none;
+}
+
+#toc-header, .toc-item li {
+    margin: auto !important;
+    color: #808080 !important;
+}
+
+#toc, #toc-wrapper, .toc-item-num, #toc a, .toc {
+    margin: auto !important;
+    color: #00747b !important;
+}
+
+#toc-wrapper {
+    top: auto !important;
+    bottom: auto !important;
+    margin-top: 2rem !important;
+    color: #00747b !important;
+}
+
+
+#rise-header {
+    margin: 10px;
+    left: 5%;
+}
+
+#rise-footer {
+    margin: 10px;
+    right: 5%;
+}
+
+#rise-backimage {
+    opacity: 0.70;
+}
+
+.reveal img {
+    max-width: 100%;
+}
+
+
+.md-slide.title {
+    position: relative;
+    top: -50%;
+    margin-left: 5%;
+    font-size: 4em !important;
+    line-height: 1.6;
+}
+</style></div></div>
+</div>
+<div class="cell tag_ActiveScene docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_ActiveScene docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">autoreload</span>
+
+<span class="kn">import</span> <span class="nn">casadi</span>
+<span class="kn">import</span> <span class="nn">do_mpc</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">do_mpc.controller</span> <span class="kn">import</span> <span class="n">MPC</span>
+<span class="kn">from</span> <span class="nn">do_mpc.simulator</span> <span class="kn">import</span> <span class="n">Simulator</span>
+<span class="kn">from</span> <span class="nn">do_mpc.model</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">numpy.typing</span> <span class="kn">import</span> <span class="n">NDArray</span>
+
+<span class="kn">from</span> <span class="nn">training_ml_control.plots</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">plot_cart_results</span><span class="p">,</span>
+    <span class="n">plot_inverted_pendulum_results</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">training_ml_control.environments</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">create_cart_environment</span><span class="p">,</span>
+    <span class="n">create_inverted_pendulum_environment</span><span class="p">,</span>
+    <span class="n">simulate_environment</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">training_ml_control.plots</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">animate_cart_simulation</span><span class="p">,</span>
+    <span class="n">animate_inverted_pendulum_simulation</span><span class="p">,</span>
+    <span class="n">animate_full_inverted_pendulum_simulation</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">training_ml_control.control</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">build_lqr_controller</span><span class="p">,</span>
+    <span class="n">build_mpc_controller</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">training_ml_control.models</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">build_cart_model</span><span class="p">,</span>
+    <span class="n">build_inverted_pendulum_linear_model</span><span class="p">,</span>
+    <span class="n">build_inverted_pendulum_nonlinear_model</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">training_ml_control.nb_utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">display_array</span><span class="p">,</span>
+    <span class="n">show_video</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="model-predictive-control">
+<h1>Model Predictive Control<a class="headerlink" href="#model-predictive-control" title="Link to this heading">#</a></h1>
+<p>Unfortunately, the analytically convenient linear quadratic problem formulations are often not satisfactory. There are two main reasons for this:</p>
+<ul class="simple">
+<li><p>The system may be nonlinear, and it may be inappropriate to use for
+control purposes. Moreover, some of the control variables may be naturally
+discrete, and this is incompatible with the linear system viewpoint.</p></li>
+<li><p>There may be control and/or state constraints, which are not handled
+adequately through quadratic penalty terms in the cost function. For
+example, the motion of a car may be constrained by the presence of
+obstacles and hardware limitations.
+The solution obtained from a linear quadratic model may not be suitable for such
+a problem, because quadratic penalties treat constraints “softly”
+and may produce trajectories that violate the constraints.</p></li>
+</ul>
+<p>Model Predictive Control (<strong>MPC</strong>), also referred to as <em>Receding Horizon Control and Moving Horizon Optimal Control</em>, is a control algorithm based on solving an <strong>on-line</strong> optimal control problem. A receding horizon approach is used which can be summarized in the following steps:</p>
+<ol class="arabic simple">
+<li><p>At time <span class="math notranslate nohighlight">\(t\)</span> and for the current state <span class="math notranslate nohighlight">\(x_t\)</span>, solve, on-line, an open-loop optimal control problem over some future interval taking account the current and future constraints.</p></li>
+<li><p>Apply the first step in the optimal control sequence.</p></li>
+<li><p>Repeat the procedure at time <span class="math notranslate nohighlight">\(t + 1\)</span> using the current state <span class="math notranslate nohighlight">\(x_{t + 1}\)</span>.</p></li>
+</ol>
+<figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../_images/40_model_predictive_control_horizon.svg"><img alt="../_images/40_model_predictive_control_horizon.svg" src="../_images/40_model_predictive_control_horizon.svg" width="50%" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">Illustration of the problem solved by MPC at state <span class="math notranslate nohighlight">\(x_k\)</span>.
+We minimize the cost function over the next <span class="math notranslate nohighlight">\(l\)</span> stages.
+We then apply the control of the optimizing sequence up to the control horizon.
+In most cases, the control horizon is set to 1.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../_images/40_mpc_block_diagram_2.png"><img alt="../_images/40_mpc_block_diagram_2.png" src="../_images/40_mpc_block_diagram_2.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">MPC Block Diagram.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>A major difference between MPC and finite-state stochastic control problems
+that are popular in the RL/artificial intelligence literature is that in MPC
+the state and control spaces are continuous/infinite, such as for example
+in self-driving cars, the control of aircraft and drones, or the operation of
+chemical processes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">??</span> build_mpc_controller
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">build_mpc_controller</span></code> does the following:</p>
+<ul class="simple">
+<li><p>First, it creates an instance of the MPC class is generated with the passeed model.</p></li>
+<li><p>It configures this object with parameters such as the time step and the horizon as well as parameters that are specific to the solver we are using.</p></li>
+<li><p>It then sets the control objective using the passed terminal and stage costs.</p></li>
+<li><p>It also restricts the input force by adding an optional penalty.</p></li>
+<li><p>After that, it sets upper and lower limits for the state and force.</p></li>
+<li><p>Finally, it sets everything up and returns the controller object.</p></li>
+</ul>
+<p><a class="reference external" href="https://www.do-mpc.com/en/latest/">do-mpc</a>, the package we’re using in this training, uses <a class="reference external" href="https://web.casadi.org/python-api/">CasADi</a> (an open-source tool for nonlinear optimization and algorithmic differentiation) for the modeling part and for the different cost functions. Here’s a table of useful operators:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operator</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://web.casadi.org/python-api/#casadi.casadi.sumsqr">casadi.sumsqr(x)</a></p></td>
+<td><p>Squared-sum</p></td>
+<td><p><span class="math notranslate nohighlight">\(\sum x_i^2\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://web.casadi.org/python-api/#casadi.casadi.norm_2">casadi.norm_2(x)</a></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_2\)</span>-norm</p></td>
+<td><p><span class="math notranslate nohighlight">\(\sqrt{\sum x_i^2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://web.casadi.org/python-api/#casadi.casadi.norm_1">casadi.norm_1(x)</a></p></td>
+<td><p><span class="math notranslate nohighlight">\(L_1\)</span>-norm</p></td>
+<td><p>$\sum</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://web.casadi.org/python-api/#casadi.casadi.bilin">casadi.bilin(A, x)</a></p></td>
+<td><p>Quadratic Form</p></td>
+<td><p><span class="math notranslate nohighlight">\(x^T A x\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://web.casadi.org/python-api/#casadi.casadi.bilin">casadi.bilin(A, x, y)</a></p></td>
+<td><p>Bilinear Form</p></td>
+<td><p><span class="math notranslate nohighlight">\(x^T A y\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<section id="cart">
+<h2>Cart<a class="headerlink" href="#cart" title="Link to this heading">#</a></h2>
+<p>Now, we design an MPC controller for the Cart system.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cart_env</span> <span class="o">=</span> <span class="n">create_cart_environment</span><span class="p">(</span><span class="n">goal_position</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">cart_model</span> <span class="o">=</span> <span class="n">build_cart_model</span><span class="p">(</span><span class="n">cart_env</span><span class="p">)</span>
+<span class="n">cart_simulator</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">cart_model</span><span class="p">)</span>
+<span class="n">cart_simulator</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="n">t_step</span><span class="o">=</span><span class="n">cart_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">cart_simulator</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="controller">
+<h3>Controller<a class="headerlink" href="#controller" title="Link to this heading">#</a></h3>
+<p>The control objective is to move the cart to a desired position (<code class="docutils literal notranslate"><span class="pre">9</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">setpoint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cart_env</span><span class="o">.</span><span class="n">goal_position</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">])</span>
+<span class="n">distance_cost</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">casadi</span><span class="o">.</span><span class="n">norm_2</span><span class="p">(</span><span class="n">cart_model</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">cat</span> <span class="o">-</span> <span class="n">setpoint</span><span class="p">)</span>
+<span class="n">terminal_cost</span> <span class="o">=</span> <span class="n">distance_cost</span>
+<span class="n">stage_cost</span> <span class="o">=</span> <span class="n">distance_cost</span>
+<span class="n">display_array</span><span class="p">(</span><span class="s2">&quot;Setpoint&quot;</span><span class="p">,</span> <span class="n">setpoint</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Stage Cost = </span><span class="si">{</span><span class="n">stage_cost</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Terminal Cost = </span><span class="si">{</span><span class="n">terminal_cost</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \begin{equation*}Setpoint = \begin{bmatrix}9.0 \\10.0 \\\end{bmatrix}\end{equation*}\end{split}\]</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Stage Cost = (100*sqrt((sq((position-9))+sq((velocity-10)))))
+Terminal Cost = (100*sqrt((sq((position-9))+sq((velocity-10)))))
+</pre></div>
+</div>
+</div>
+</div>
+<p>We also restrict the input force.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">force_penalty</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We define as well upper and lower limits for the state and force</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_limits</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">u_limits</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We then create an instance of <code class="docutils literal notranslate"><span class="pre">MPC</span></code> from the <code class="docutils literal notranslate"><span class="pre">do_mpc</span></code> package using the already defined <code class="docutils literal notranslate"><span class="pre">build_mpc_controller</span></code> function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cart_mpc_controller</span> <span class="o">=</span> <span class="n">build_mpc_controller</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">cart_model</span><span class="p">,</span>
+    <span class="n">t_step</span><span class="o">=</span><span class="n">cart_env</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+    <span class="n">n_horizon</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">stage_cost</span><span class="o">=</span><span class="n">stage_cost</span><span class="p">,</span>
+    <span class="n">terminal_cost</span><span class="o">=</span><span class="n">terminal_cost</span><span class="p">,</span>
+    <span class="n">force_penalty</span><span class="o">=</span><span class="n">force_penalty</span><span class="p">,</span>
+    <span class="n">x_limits</span><span class="o">=</span><span class="n">x_limits</span><span class="p">,</span>
+    <span class="n">u_limits</span><span class="o">=</span><span class="n">u_limits</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">cart_mpc_controller</span> <span class="o">=</span> <span class="n">build_mpc_controller</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">model</span><span class="o">=</span><span class="n">cart_model</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">t_step</span><span class="o">=</span><span class="n">cart_env</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">n_horizon</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">stage_cost</span><span class="o">=</span><span class="n">stage_cost</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">terminal_cost</span><span class="o">=</span><span class="n">terminal_cost</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">force_penalty</span><span class="o">=</span><span class="n">force_penalty</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">x_limits</span><span class="o">=</span><span class="n">x_limits</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">u_limits</span><span class="o">=</span><span class="n">u_limits</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="p">)</span>
+
+<span class="ne">TypeError</span>: build_mpc_controller() got an unexpected keyword argument &#39;force_penalty&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="simulation">
+<h3>Simulation<a class="headerlink" href="#simulation" title="Link to this heading">#</a></h3>
+<p>We set the initial state and simulate the closed-loop for 100 steps.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="n">cart_mpc_controller</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="n">cart_simulator</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">cart_simulator</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">x0</span>
+<span class="n">cart_mpc_controller</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">x0</span>
+<span class="n">cart_mpc_controller</span><span class="o">.</span><span class="n">set_initial_guess</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">cart_mpc_controller</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">cart_simulator</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">cart_mpc_controller</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">cart_simulator</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="ne">NameError</span>: name &#39;cart_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">animate_cart_simulation</span><span class="p">(</span><span class="n">cart_mpc_controller</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">animate_cart_simulation</span><span class="p">(</span><span class="n">cart_mpc_controller</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;cart_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluation">
+<h3>Evaluation<a class="headerlink" href="#evaluation" title="Link to this heading">#</a></h3>
+<p>Finally, we evaluate the controller on the actual environment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MPCController</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mpc</span><span class="p">:</span> <span class="n">MPC</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span> <span class="o">=</span> <span class="n">mpc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">set_initial_guess</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">act</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="n">max_steps</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">controller</span> <span class="o">=</span> <span class="n">MPCController</span><span class="p">(</span><span class="n">cart_mpc_controller</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">simulate_environment</span><span class="p">(</span><span class="n">cart_env</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">controller</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">max_steps</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">controller</span> <span class="o">=</span> <span class="n">MPCController</span><span class="p">(</span><span class="n">cart_mpc_controller</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">results</span> <span class="o">=</span> <span class="n">simulate_environment</span><span class="p">(</span><span class="n">cart_env</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">controller</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;cart_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_video</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">cart_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">show_video</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">cart_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;results&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">))</span> <span class="o">*</span> <span class="n">cart_env</span><span class="o">.</span><span class="n">dt</span>
+<span class="n">plot_cart_results</span><span class="p">(</span>
+    <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
+    <span class="n">observations</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">,</span>
+    <span class="n">actions</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">actions</span><span class="p">,</span>
+    <span class="n">reference</span><span class="o">=</span><span class="n">cart_env</span><span class="o">.</span><span class="n">goal_position</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">))</span> <span class="o">*</span> <span class="n">cart_env</span><span class="o">.</span><span class="n">dt</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">plot_cart_results</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">observations</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">actions</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">actions</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">reference</span><span class="o">=</span><span class="n">cart_env</span><span class="o">.</span><span class="n">goal_position</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;results&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="inverted-pendulum">
+<h2>Inverted Pendulum<a class="headerlink" href="#inverted-pendulum" title="Link to this heading">#</a></h2>
+<section id="exercise-linear">
+<h3>Exercise (Linear)<a class="headerlink" href="#exercise-linear" title="Link to this heading">#</a></h3>
+<div class="exercise admonition" id="inverted-pendulum-linear-mpc">
+
+<p class="admonition-title"><span class="caption-number">Exercise 4 </span> (Linear Inverted Pendulum MPC)</p>
+<section id="exercise-content">
+<ul class="simple">
+<li><p>Design an MPC controller for linearized inverted pendulum model to keep the pole upright by following these steps:</p>
+<ol class="arabic simple">
+<li><p>Define stage and terminal costs.</p></li>
+<li><p>Define setpoint <span class="math notranslate nohighlight">\(\begin{bmatrix}\theta_s \\ \dot{\theta}_s\end{bmatrix} = \begin{bmatrix}0.0 \\ 0.0 \end{bmatrix}\)</span>.</p></li>
+<li><p>Define appropriate force penalty.</p></li>
+<li><p>Create an mpc controller by calling the <code class="docutils literal notranslate"><span class="pre">build_mpc_controller</span></code> function and passing the appropriate arguments.</p></li>
+<li><p>Simulate the system using the simulator and the controller.</p></li>
+<li><p>Evaluate the controller on the environment.</p></li>
+</ol>
+</li>
+<li><p>For each case, try different cost functions:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\sum \theta^2\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\sum |\theta|\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(E_{\text{kinetic}} - E_{\text{potential}}\)</span></p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can access the inverted pendulum’s kinetic, respectively potential, energy using <code class="docutils literal notranslate"><span class="pre">inverted_pendulum_lin_model.aux[&quot;E_kinetic&quot;]</span></code>, respectively <code class="docutils literal notranslate"><span class="pre">inverted_pendulum_lin_model.aux[&quot;E_potential&quot;]</span></code>)</p>
+</div>
+</section>
+</div>
+<div class="solution admonition" id="notebooks/nb_50_MPC-solution-1">
+
+<p class="admonition-title">Solution to<a class="reference internal" href="#inverted-pendulum-linear-mpc">  ( 4</a></p>
+<section id="solution-content">
+</section>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="solution dropdown admonition" id="notebooks/nb_50_MPC-solution-2">
+
+<p class="admonition-title">Solution to<a class="reference internal" href="#inverted-pendulum-linear-mpc">  ( 4</a></p>
+<section id="solution-content">
+<p>We first need the environment, linear model and simulator:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inverted_pendulum_env</span> <span class="o">=</span> <span class="n">create_inverted_pendulum_environment</span><span class="p">(</span><span class="n">max_steps</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">inverted_pendulum_lin_model</span> <span class="o">=</span> <span class="n">build_inverted_pendulum_linear_model</span><span class="p">(</span>
+    <span class="n">inverted_pendulum_env</span>
+<span class="p">)</span>
+<span class="n">inverted_pendulum_lin_simulator</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">inverted_pendulum_lin_model</span><span class="p">)</span>
+<span class="n">inverted_pendulum_lin_simulator</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="n">t_step</span><span class="o">=</span><span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">inverted_pendulum_lin_simulator</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The goal is to keep the inverted pendulum upright. For that we define the following costs, setpoint and force penalty:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">setpoint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">distance_cost</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">bilin</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">inverted_pendulum_lin_model</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">cat</span> <span class="o">-</span> <span class="n">setpoint</span>
+<span class="p">)</span>
+<span class="n">terminal_cost</span> <span class="o">=</span> <span class="n">distance_cost</span>
+<span class="n">stage_cost</span> <span class="o">=</span> <span class="n">distance_cost</span>
+<span class="n">u_penalty</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;force&quot;</span><span class="p">:</span> <span class="mf">1e-2</span><span class="p">}</span>
+<span class="n">display_array</span><span class="p">(</span><span class="s2">&quot;Setpoint&quot;</span><span class="p">,</span> <span class="n">setpoint</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">stage_cost</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">terminal_cost</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \begin{equation*}Setpoint = \begin{bmatrix}0.0 \\0.0 \\\end{bmatrix}\end{equation*}\end{split}\]</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>stage_cost=SX((((100*theta)*theta)+sq(dtheta)))
+terminal_cost=SX((((100*theta)*theta)+sq(dtheta)))
+</pre></div>
+</div>
+</div>
+</div>
+<p>We define as well upper and lower limits for the state and force</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_limits</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])}</span>
+<span class="n">u_limits</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;force&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span><span class="o">-</span><span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">force_max</span><span class="p">,</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">force_max</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>After that, we create the controller:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inverted_pendulum_mpc_controller</span> <span class="o">=</span> <span class="n">build_mpc_controller</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">inverted_pendulum_lin_model</span><span class="p">,</span>
+    <span class="n">t_step</span><span class="o">=</span><span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+    <span class="n">n_horizon</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">stage_cost</span><span class="o">=</span><span class="n">stage_cost</span><span class="p">,</span>
+    <span class="n">terminal_cost</span><span class="o">=</span><span class="n">terminal_cost</span><span class="p">,</span>
+    <span class="n">u_penalty</span><span class="o">=</span><span class="n">u_penalty</span><span class="p">,</span>
+    <span class="n">x_limits</span><span class="o">=</span><span class="n">x_limits</span><span class="p">,</span>
+    <span class="n">u_limits</span><span class="o">=</span><span class="n">u_limits</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">21</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">inverted_pendulum_mpc_controller</span> <span class="o">=</span> <span class="n">build_mpc_controller</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">model</span><span class="o">=</span><span class="n">inverted_pendulum_lin_model</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">t_step</span><span class="o">=</span><span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">n_horizon</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">stage_cost</span><span class="o">=</span><span class="n">stage_cost</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">terminal_cost</span><span class="o">=</span><span class="n">terminal_cost</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">u_penalty</span><span class="o">=</span><span class="n">u_penalty</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">x_limits</span><span class="o">=</span><span class="n">x_limits</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">u_limits</span><span class="o">=</span><span class="n">u_limits</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="p">)</span>
+
+<span class="nn">File /opt/conda/lib/python3.10/site-packages/training_ml_control/control.py:174,</span> in <span class="ni">build_mpc_controller</span><span class="nt">(model, t_step, n_horizon, terminal_cost, stage_cost, x_limits, u_limits, u_penalty, uncertainty_values)</span>
+<span class="g g-Whitespace">    </span><span class="mi">172</span> <span class="k">if</span> <span class="n">x_limits</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">173</span>     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">x_limits</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">174</span>         <span class="n">mpc</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="s2">&quot;lower&quot;</span><span class="p">,</span> <span class="s2">&quot;_x&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">175</span>         <span class="n">mpc</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="s2">&quot;upper&quot;</span><span class="p">,</span> <span class="s2">&quot;_x&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">176</span> <span class="c1"># lower and upper bounds of the input</span>
+
+<span class="nn">File /opt/conda/lib/python3.10/site-packages/do_mpc/tools/_indexedproperty.py:32,</span> in <span class="ni">IndexedProperty.__setitem__</span><span class="nt">(self, ind, val)</span>
+<span class="g g-Whitespace">     </span><span class="mi">31</span> <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ind</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">32</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fset</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span><span class="n">ind</span><span class="p">,</span><span class="n">val</span><span class="p">)</span>
+
+<span class="nn">File /opt/conda/lib/python3.10/site-packages/do_mpc/tools/_indexedproperty.py:43,</span> in <span class="ni">IndexedProperty.setter.&lt;locals&gt;.wrapper</span><span class="nt">(obj, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">43</span>     <span class="k">return</span> <span class="n">fset</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/conda/lib/python3.10/site-packages/do_mpc/optimizer.py:346,</span> in <span class="ni">Optimizer.bounds</span><span class="nt">(self, ind, val)</span>
+<span class="g g-Whitespace">    </span><span class="mi">343</span> <span class="n">var_struct</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">345</span> <span class="n">err_msg</span> <span class="o">=</span> <span class="s1">&#39;Calling .bounds with </span><span class="si">{}</span><span class="s1"> is not valid. Possible keys are </span><span class="si">{}</span><span class="s1">.&#39;</span>
+<span class="nn">--&gt; 346 assert (var_name[0] if isinstance(var_name, tuple) else var_name)</span> in <span class="ni">var_struct.keys(), err_msg.format(ind, var_struct.keys</span><span class="nt">())</span>
+<span class="g g-Whitespace">    </span><span class="mi">348</span> <span class="c1"># Set value on struct:</span>
+<span class="g g-Whitespace">    </span><span class="mi">349</span> <span class="n">var_struct</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+<span class="ne">AssertionError</span>: Calling .bounds with (&#39;lower&#39;, &#39;_x&#39;, &#39;position&#39;) is not valid. Possible keys are [&#39;theta&#39;, &#39;dtheta&#39;].
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Simulation</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="n">inverted_pendulum_lin_simulator</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">x0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">inverted_pendulum_lin_simulator</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">x0</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">u0</span> <span class="o">=</span> <span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">inverted_pendulum_lin_simulator</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">u0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">22</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">inverted_pendulum_lin_simulator</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="ne">NameError</span>: name &#39;inverted_pendulum_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">animate_inverted_pendulum_simulation</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">23</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">animate_inverted_pendulum_simulation</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;inverted_pendulum_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Evaluation</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MPCController</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mpc</span><span class="p">:</span> <span class="n">do_mpc</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">MPC</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span> <span class="o">=</span> <span class="n">mpc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">set_initial_guess</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">act</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">observation</span><span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="n">mpc_controller</span> <span class="o">=</span> <span class="n">MPCController</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">simulate_environment</span><span class="p">(</span>
+    <span class="n">inverted_pendulum_env</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">mpc_controller</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">25</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">mpc_controller</span> <span class="o">=</span> <span class="n">MPCController</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">results</span> <span class="o">=</span> <span class="n">simulate_environment</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">inverted_pendulum_env</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">mpc_controller</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;inverted_pendulum_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_video</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">26</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">show_video</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;results&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">))</span> <span class="o">*</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span>
+<span class="n">plot_inverted_pendulum_results</span><span class="p">(</span>
+    <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">,</span> <span class="n">actions</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">actions</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">27</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">))</span> <span class="o">*</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">plot_inverted_pendulum_results</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">,</span> <span class="n">actions</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">actions</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="p">);</span>
+
+<span class="ne">NameError</span>: name &#39;results&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</section>
+<section id="exercise-non-linear">
+<h3>Exercise (Non-linear)<a class="headerlink" href="#exercise-non-linear" title="Link to this heading">#</a></h3>
+<div class="exercise admonition" id="non-linear-inverted-pendulum-mpc">
+
+<p class="admonition-title"><span class="caption-number">Exercise 5 </span> (Non-Linear Inverted Pendulum MPC)</p>
+<section id="exercise-content">
+<ul class="simple">
+<li><p>Design an MPC Controller for the non-linear inverted pendulum system for two different cases:</p>
+<ol class="arabic simple">
+<li><p>Cart at origin and upright Pendulum: Set the reference for the cart position to the origin.</p></li>
+<li><p>Pendulum Swing-up: Set the initial angle to to <span class="math notranslate nohighlight">\(-\pi\)</span> i.e. start with the pendulum at the bottom.</p></li>
+<li><p>Same as 2 but set the reference for the cart position to the origin.</p></li>
+<li><p>Make the pendulum rotate as fast as possible.</p></li>
+</ol>
+</li>
+</ul>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Use the following to create the environment with initial angle set to -np.pi and cutoff angle to np.inf for second &gt; case.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">env</span> <span class="o">=</span> <span class="n">create_inverted_pendulum_environment</span><span class="p">(</span><span class="n">theta_threshold</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">initial_angle</span><span class="o">=-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can access the inverted pendulum’s kinetic, respectively potential, energy using <code class="docutils literal notranslate"><span class="pre">inverted_pendulum_lin_model.aux[&quot;E_kinetic&quot;]</span></code>, respectively <code class="docutils literal notranslate"><span class="pre">inverted_pendulum_lin_model.aux[&quot;E_potential&quot;]</span></code>)</p>
+</div>
+</section>
+</div>
+<div class="solution admonition" id="notebooks/nb_50_MPC-solution-4">
+
+<p class="admonition-title">Solution to<a class="reference internal" href="#non-linear-inverted-pendulum-mpc">  ( 5</a></p>
+<section id="solution-content">
+</section>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Your solution here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="solution">
+<h4>Solution<a class="headerlink" href="#solution" title="Link to this heading">#</a></h4>
+<div class="solution dropdown admonition" id="notebooks/nb_50_MPC-solution-5">
+
+<p class="admonition-title">Solution to<a class="reference internal" href="#non-linear-inverted-pendulum-mpc">  ( 5</a></p>
+<section id="solution-content">
+<p><strong>Fast Rotation</strong></p>
+<p>We first need the environment, non-linear model and simulator:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inverted_pendulum_env</span> <span class="o">=</span> <span class="n">create_inverted_pendulum_environment</span><span class="p">(</span>
+    <span class="n">max_steps</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">theta_threshold</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="p">)</span>
+<span class="n">inverted_pendulum_nonlin_model</span> <span class="o">=</span> <span class="n">build_inverted_pendulum_nonlinear_model</span><span class="p">(</span>
+    <span class="n">inverted_pendulum_env</span>
+<span class="p">)</span>
+<span class="n">inverted_pendulum_nonlin_simulator</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">(</span><span class="n">inverted_pendulum_nonlin_model</span><span class="p">)</span>
+<span class="n">inverted_pendulum_nonlin_simulator</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="n">t_step</span><span class="o">=</span><span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">inverted_pendulum_nonlin_simulator</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The goal is to keep the inverted pendulum upright. For that we define the following costs and force penalty:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rotation_cost</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span> <span class="o">*</span> <span class="n">inverted_pendulum_nonlin_model</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;dtheta&quot;</span><span class="p">]</span>
+<span class="n">terminal_cost</span> <span class="o">=</span> <span class="n">rotation_cost</span>
+<span class="n">stage_cost</span> <span class="o">=</span> <span class="n">rotation_cost</span>
+<span class="n">force_penalty</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">stage_cost</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">terminal_cost</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>stage_cost=SX((-1000*dtheta))
+terminal_cost=SX((-1000*dtheta))
+</pre></div>
+</div>
+</div>
+</div>
+<p>We define as well upper and lower limits for the force:</p>
+<p>u_limits = {“force”: np.array([-inverted_pendulum_env.force_max, inverted_pendulum_env.force_max])}</p>
+<p>After that, we create the controller:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inverted_pendulum_mpc_controller</span> <span class="o">=</span> <span class="n">build_mpc_controller</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">inverted_pendulum_nonlin_model</span><span class="p">,</span>
+    <span class="n">t_step</span><span class="o">=</span><span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+    <span class="n">n_horizon</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">stage_cost</span><span class="o">=</span><span class="n">stage_cost</span><span class="p">,</span>
+    <span class="n">terminal_cost</span><span class="o">=</span><span class="n">terminal_cost</span><span class="p">,</span>
+    <span class="n">force_penalty</span><span class="o">=</span><span class="n">force_penalty</span><span class="p">,</span>
+    <span class="n">u_limits</span><span class="o">=</span><span class="n">u_limits</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">31</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">inverted_pendulum_mpc_controller</span> <span class="o">=</span> <span class="n">build_mpc_controller</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">model</span><span class="o">=</span><span class="n">inverted_pendulum_nonlin_model</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">t_step</span><span class="o">=</span><span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">n_horizon</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">stage_cost</span><span class="o">=</span><span class="n">stage_cost</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">terminal_cost</span><span class="o">=</span><span class="n">terminal_cost</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">force_penalty</span><span class="o">=</span><span class="n">force_penalty</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">u_limits</span><span class="o">=</span><span class="n">u_limits</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="p">)</span>
+
+<span class="ne">TypeError</span>: build_mpc_controller() got an unexpected keyword argument &#39;force_penalty&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Simulation</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">x0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="n">inverted_pendulum_nonlin_simulator</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="n">inverted_pendulum_nonlin_simulator</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">x0</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+    <span class="n">u0</span> <span class="o">=</span> <span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">inverted_pendulum_nonlin_simulator</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">u0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">32</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">x0</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">inverted_pendulum_nonlin_simulator</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">inverted_pendulum_nonlin_simulator</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">x0</span>
+
+<span class="ne">NameError</span>: name &#39;inverted_pendulum_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">animate_full_inverted_pendulum_simulation</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">33</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">animate_full_inverted_pendulum_simulation</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;inverted_pendulum_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Evaluation</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MPCController</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mpc</span><span class="p">:</span> <span class="n">do_mpc</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">MPC</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span> <span class="o">=</span> <span class="n">mpc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">set_initial_guess</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">act</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="n">mpc_controller</span> <span class="o">=</span> <span class="n">MPCController</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">simulate_environment</span><span class="p">(</span>
+    <span class="n">inverted_pendulum_env</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">mpc_controller</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">35</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">mpc_controller</span> <span class="o">=</span> <span class="n">MPCController</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">results</span> <span class="o">=</span> <span class="n">simulate_environment</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">inverted_pendulum_env</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">mpc_controller</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;inverted_pendulum_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_video</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">36</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">show_video</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;results&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">))</span> <span class="o">*</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span>
+<span class="n">plot_inverted_pendulum_results</span><span class="p">(</span>
+    <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">,</span> <span class="n">actions</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">actions</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">37</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">))</span> <span class="o">*</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">plot_inverted_pendulum_results</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">observations</span><span class="p">,</span> <span class="n">actions</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">actions</span><span class="p">,</span> <span class="n">reference</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="p">);</span>
+
+<span class="ne">NameError</span>: name &#39;results&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</section>
+</section>
+</section>
+<section id="mpc-controller-design-challenges">
+<h2>MPC Controller Design Challenges<a class="headerlink" href="#mpc-controller-design-challenges" title="Link to this heading">#</a></h2>
+<p>Some of the challenges that we are faced with when designing an MPC controller include:</p>
+<ul class="simple">
+<li><p>Choosing the right hyper-parameters to ensure optimality as well as feasibility.</p></li>
+<li><p>Ensuring recursive feasibility and achieving optimality despite a short prediction horizon.</p></li>
+<li><p>Satisfying input and state constraints in the presence of uncertainty.</p></li>
+<li><p>Ensuring computational tractability by properly reformulating constraints and costs and parameterizing control policies</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="robust-mpc">
+<h1>Robust MPC<a class="headerlink" href="#robust-mpc" title="Link to this heading">#</a></h1>
+<p>Robust Model Predictive Control (RMPC) is related to a variety of methods designed to guarantee control performance using optimization algorithms while considering systems with uncertainties. It is concerned with the control of system that are only approximately known. Usually, it is assumed that the system lies in a set of possible systems and this set can be quantitatively characterized</p>
+<ul class="simple">
+<li><p>Robust MPC guarantees constraint satisfaction for all uncertain element realizations.</p></li>
+<li><p>The model is split into a nominal part and additive uncertainty in a compact set.</p></li>
+<li><p>The controller is designed to be robust against the uncertainty.</p></li>
+<li><p>The MPC cost is typically optimized for the nominal system.</p></li>
+</ul>
+<section id="multi-stage-mpc">
+<h2>Multi-Stage MPC<a class="headerlink" href="#multi-stage-mpc" title="Link to this heading">#</a></h2>
+<p>The basic idea for the multi-stage approach is to consider various scenarios, where a scenario is defined by one possible realization of all uncertain parameters at every control instant within the horizon. The family of all considered discrete scenarios can be represented as a tree structure, called the scenario tree</p>
+<figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="../_images/40_multi_state_mpc.png"><img alt="../_images/40_multi_state_mpc.png" src="../_images/40_multi_state_mpc.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 15 </span><span class="caption-text">Scenario tree representation of the uncertainty
+evolution for multi-stage MPC.</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Each node in the tree denotes the possible state of the system at every prediction step.</p></li>
+<li><p>The branches represent the different possible realizations of the uncertainty.</p></li>
+<li><p>The initial state of the system forms the root node of the tree.</p></li>
+<li><p>The root node branches into several nodes in the first stage depending on the number of vertex matrix pairs of the parametric uncertainty.</p></li>
+<li><p>All the nodes in the first stage branch again in the second stage.</p></li>
+<li><p>The sequence continues until the end of prediction horizon N to form the complete scenario tree.</p></li>
+<li><p>A path from the root node to the leaf node represents a scenario.</p></li>
+</ul>
+<section id="id1">
+<h3>Inverted Pendulum<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>In a real system, we cannot usually determine the model parameters exactly and this represents an important source of uncertainty.</p>
+<p>In this example, we consider that the mass of the pole is not known precisely and is different from its nominal value but we know which possible values it may take.</p>
+<section id="model">
+<h4>Model<a class="headerlink" href="#model" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inverted_pendulum_env</span> <span class="o">=</span> <span class="n">create_inverted_pendulum_environment</span><span class="p">(</span>
+    <span class="n">max_steps</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">theta_initial</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">theta_threshold</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="p">)</span>
+
+<span class="n">inverted_pendulum_nonlin_model</span> <span class="o">=</span> <span class="n">build_inverted_pendulum_nonlinear_model</span><span class="p">(</span>
+    <span class="n">inverted_pendulum_env</span><span class="p">,</span> <span class="n">with_uncertainty</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m_p_values</span> <span class="o">=</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">masspole</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.30</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">])</span>
+<span class="n">uncertainty_values</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;m_p&quot;</span><span class="p">:</span> <span class="n">m_p_values</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">setpoint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">setpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">distance_cost</span> <span class="o">=</span> <span class="n">casadi</span><span class="o">.</span><span class="n">bilin</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">inverted_pendulum_nonlin_model</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">cat</span> <span class="o">-</span> <span class="n">setpoint</span>
+<span class="p">)</span>
+<span class="n">terminal_cost</span> <span class="o">=</span> <span class="n">distance_cost</span>
+<span class="n">stage_cost</span> <span class="o">=</span> <span class="n">distance_cost</span>
+<span class="n">force_penalty</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="n">display_array</span><span class="p">(</span><span class="s2">&quot;Setpoint&quot;</span><span class="p">,</span> <span class="n">setpoint</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">stage_cost</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">terminal_cost</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \begin{equation*}Setpoint = \begin{bmatrix}1.0 \\0.0 \\0.0 \\0.0 \\\end{bmatrix}\end{equation*}\end{split}\]</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>stage_cost=SX((sq((position-1))+((100*theta)*theta)))
+terminal_cost=SX((sq((position-1))+((100*theta)*theta)))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_limits</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">force_max</span><span class="p">,</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">force_max</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inverted_pendulum_mpc_controller</span> <span class="o">=</span> <span class="n">build_mpc_controller</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">inverted_pendulum_nonlin_model</span><span class="p">,</span>
+    <span class="n">t_step</span><span class="o">=</span><span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+    <span class="n">n_horizon</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">stage_cost</span><span class="o">=</span><span class="n">stage_cost</span><span class="p">,</span>
+    <span class="n">terminal_cost</span><span class="o">=</span><span class="n">terminal_cost</span><span class="p">,</span>
+    <span class="n">force_penalty</span><span class="o">=</span><span class="n">force_penalty</span><span class="p">,</span>
+    <span class="n">u_limits</span><span class="o">=</span><span class="n">u_limits</span><span class="p">,</span>
+    <span class="n">uncertainty_values</span><span class="o">=</span><span class="n">uncertainty_values</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">42</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">inverted_pendulum_mpc_controller</span> <span class="o">=</span> <span class="n">build_mpc_controller</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">model</span><span class="o">=</span><span class="n">inverted_pendulum_nonlin_model</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">t_step</span><span class="o">=</span><span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">n_horizon</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">stage_cost</span><span class="o">=</span><span class="n">stage_cost</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">terminal_cost</span><span class="o">=</span><span class="n">terminal_cost</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">force_penalty</span><span class="o">=</span><span class="n">force_penalty</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">u_limits</span><span class="o">=</span><span class="n">u_limits</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">uncertainty_values</span><span class="o">=</span><span class="n">uncertainty_values</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="p">)</span>
+
+<span class="ne">TypeError</span>: build_mpc_controller() got an unexpected keyword argument &#39;force_penalty&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id2">
+<h4>Evaluation<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MPCController</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mpc</span><span class="p">:</span> <span class="n">do_mpc</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">MPC</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span> <span class="o">=</span> <span class="n">mpc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">reset_history</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">set_initial_guess</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">act</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observation</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpc</span><span class="o">.</span><span class="n">make_step</span><span class="p">(</span><span class="n">observation</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="n">max_steps</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">controller</span> <span class="o">=</span> <span class="n">MPCController</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">simulate_environment</span><span class="p">(</span>
+    <span class="n">inverted_pendulum_env</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">controller</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">44</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">max_steps</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">controller</span> <span class="o">=</span> <span class="n">MPCController</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">results</span> <span class="o">=</span> <span class="n">simulate_environment</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">inverted_pendulum_env</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="n">max_steps</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">controller</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;inverted_pendulum_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_video</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">45</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">show_video</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">inverted_pendulum_env</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;results&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">animate_full_inverted_pendulum_simulation</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">46</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">animate_full_inverted_pendulum_simulation</span><span class="p">(</span><span class="n">inverted_pendulum_mpc_controller</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;inverted_pendulum_mpc_controller&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="nb_40_LQR.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Linear Quadratic Regulator</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nb_60_MCTS.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">MPC and AlphaZero</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Model Predictive Control</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cart">Cart</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#controller">Controller</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simulation">Simulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverted-pendulum">Inverted Pendulum</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-linear">Exercise (Linear)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-non-linear">Exercise (Non-linear)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#solution">Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mpc-controller-design-challenges">MPC Controller Design Challenges</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#robust-mpc">Robust MPC</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-stage-mpc">Multi-Stage MPC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Inverted Pendulum</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Evaluation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By appliedAI TransferLab
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

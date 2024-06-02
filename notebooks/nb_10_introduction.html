@@ -1,0 +1,1004 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Introduction &#8212; Machine Learning Control Training</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/exercise.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"loader": {"load": ["[tex]/configmacros"]}, "tex": {"packages": {"[+]": ["configmacros"]}, "macros": {"vect": ["{\\mathbf{\\boldsymbol{#1}} }", 1], "E": "{\\mathbb{E}}", "P": "{\\mathbb{P}}", "R": "{\\mathbb{R}}", "abs": ["{\\left| #1 \\right|}", 1], "simpl": ["{\\Delta^{#1} }", 1], "amax": "{\\text{argmax}}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/nb_10_introduction';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Dynamic Programming" href="nb_20_dynamic_programming.html" />
+    <link rel="prev" title="Machine Learning Control Training" href="home.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="home.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/transferlab-logo.svg" class="logo__image only-light" alt="Machine Learning Control Training - Home"/>
+    <script>document.write(`<img src="../_static/transferlab-logo-dark.svg" class="logo__image only-dark" alt="Machine Learning Control Training - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Notebook Pages</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="nb_20_dynamic_programming.html">Dynamic Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb_30_systems.html">Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb_40_LQR.html">Linear Quadratic Regulator</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="nb_50_MPC.html">Model Predictive Control</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="nb_60_MCTS.html">MPC and AlphaZero</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nb_70_machine_learning_control.html">Machine Learning &amp; Control</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="nb_80_safe_learning_control.html">Safe Learning in Robotics</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="nb_90_practice.html">Practice</a></li>
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Code</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../apidocs/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.grid_world.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.grid_world</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.utils</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.cart.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.cart</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.environments.inverted_pendulum.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.environments.inverted_pendulum</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.models.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.sindy.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.sindy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.models.dmd.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.models.dmd</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.nb_utils.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.nb_utils</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.shortest_path_problem.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.shortest_path_problem</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.plots.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.plots</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.hyperopt.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.hyperopt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../apidocs/training_ml_control/training_ml_control.control.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">training_ml_control.control</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/nb_10_introduction.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introduction</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introduction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branches-of-control-theory">Branches of Control Theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-systems-classification">Control Systems Classification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-systems">Types of Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controller-design">Controller Design</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#control-theory-and-machine-learning">Control Theory and Machine Learning</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-theory-for-machine-learning">Control Theory for Machine Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-for-control-theory">Machine Learning for Control Theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-theory-and-reinforcement-learning">Control Theory and Reinforcement Learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#terminology">Terminology</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#planning">Planning</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-transition-systems">State-Transition Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plans">Plans</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#optimal-control">Optimal Control</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-time">Continuous-time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-time">Discrete-time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variants">Variants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-cost-function">Choosing the cost function</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h1>
+<p>Control theory is a field of control engineering and applied mathematics that deals with influencing the behavior of dynamical systems. The objective is to drive a system towards a desired state by calculating and applying system inputs, while minimizing errors and taking into considerations any additional constraints (e.g. overshoot), and ensuring stability. The aim is often to achieve a degree of optimal and robust control performance in the presence of uncertainty.</p>
+<p>The fundamental challenge in control theory is to determine a technically feasible way to act on a system so its behavior closely matches some desired behavior, despite uncertainties in the system’s model and external disturbances. The key elements of this control problem are:</p>
+<ul class="simple">
+<li><p><strong>Desired behavior</strong> The target behavior must be clearly defined as part of the control design problem. Common examples include tracking a reference trajectory, regulating around a setpoint, or optimizing some performance index.</p></li>
+<li><p><strong>Feasibility</strong> The control solution must satisfy constraints on the available inputs, actuator capabilities, safety limits, etc. The controller must be realizable with available technology.</p></li>
+<li><p><strong>Uncertainty</strong> Precise knowledge of the system is rarely possible. There will always be some uncertainty in the model parameters, unmodeled dynamics, disturbances, and measurements.</p></li>
+<li><p><strong>Action</strong> Control action is applied through manipulated inputs that command the system actuators. The choice of manipulated inputs and pairing with actuators is a key design decision.</p></li>
+<li><p><strong>Disturbances</strong> Real systems experience unknown external disturbances that affect the system behavior and must be accounted for. Rejecting disturbances is often a key control objective.</p></li>
+<li><p><strong>Approximate behavior</strong> Due to uncertainty, no controller can achieve perfect setpoint tracking or disturbance rejection. There will always be some approximation error. Controllers must be designed to achieve some acceptable level of performance in spite of these challenges.</p></li>
+<li><p><strong>Measurements</strong> Measuring the system outputs is essential for closing the feedback loop and allowing the controller to determine the effect of its inputs on the system behavior. Noise on measurements must also be accounted for.</p></li>
+</ul>
+<p>In this training, we will focus on optimal control methods applied to linear and non-linear systems. Through the use of practical examples with a cart (double-integrator) system and an inverted pendulum system, you’ll learn how to design controllers that achieve optimal performance.</p>
+<p>This training is structured as follows:</p>
+<ul class="simple">
+<li><p>Introduction to Control Theory, planning and optimal control.</p></li>
+<li><p>Dynamic Programming.</p></li>
+<li><p>Linear Quadratic Regulator (LQR).</p></li>
+<li><p>Model Predictive Control (MPC).</p></li>
+<li><p>Monte-Carlo Tree Search (MCTS).</p></li>
+<li><p>Machine Learning in Control.</p></li>
+<li><p>Safe Learning Control.</p></li>
+</ul>
+<section id="branches-of-control-theory">
+<h2>Branches of Control Theory<a class="headerlink" href="#branches-of-control-theory" title="Link to this heading">#</a></h2>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/10_control_theory_map.png"><img alt="../_images/10_control_theory_map.png" src="../_images/10_control_theory_map.png" style="width: 90%;" /></a>
+</figure>
+<p>There are different branches of Control Theory:</p>
+<ul>
+<li><p><strong>Classical Control</strong></p>
+<p>deals with the behavior of linear dynamical systems with inputs, and how their behavior is modified by feedback, using the Laplace transform as a basic tool to model such systems. It is limited to single-input and single-output (<strong>SISO</strong>) system design.</p>
+<p>The most common controllers designed using classical control theory are PID controllers.</p>
+</li>
+<li><p><strong>Modern Control</strong></p>
+<p>deals with the behavior of linear or non-linear dynamical systems with inputs, and how their behavior is modified by feedback, using the state-space representation as a basic tool to model such systems. It can deal with multiple-input and multiple-output (<strong>MIMO</strong>) systems.</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>Optimal Control</strong></p>
+<p>deals with finding a control for a dynamical system over a period of time such that an objective function is optimized.</p>
+</li>
+<li><p><strong>Adaptive Control</strong></p>
+<p>adapt to a controlled system with parameters which vary, or are initially uncertain.</p>
+</li>
+<li><p><strong>Robust Control</strong></p>
+<p>an approach to controller design that explicitly deals with uncertainty.</p>
+</li>
+</ul>
+</section>
+<section id="control-systems-classification">
+<h2>Control Systems Classification<a class="headerlink" href="#control-systems-classification" title="Link to this heading">#</a></h2>
+<p>There are two types of control loops:</p>
+<ul>
+<li><p><strong>Open-loop control (feedforward)</strong></p>
+<p>An open-loop control system operates without feedback, which means that the output is not measured or compared to the desired input. They are simple and inexpensive to implement. They are often used in systems where the output does not need to be precisely controlled. For example, a washing machine may use an open-loop control system to regulate the water level.</p>
+</li>
+<li><p><strong>Closed-loop control (feedback)</strong></p>
+<p>A closed-loop control system, on the other hand, operates with feedback, meaning that the output is measured, and corrective action is taken to ensure it always matches the desired input. They are more complex and expensive to implement. However, they offer greater precision and accuracy in controlling the system’s output. Closed-loop control systems are often used in critical applications, such as aerospace engineering or medical devices</p>
+</li>
+</ul>
+</section>
+<section id="types-of-systems">
+<h2>Types of Systems<a class="headerlink" href="#types-of-systems" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Time-Invariant (TI) or Time-Variant (TV).</p></li>
+<li><p>Linear or Non-Linear.</p></li>
+<li><p>Continuous-time or Discrete-time.</p></li>
+<li><p>Deterministic or Stochastic.</p></li>
+</ul>
+</section>
+<section id="controller-design">
+<h2>Controller Design<a class="headerlink" href="#controller-design" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Problem Formulation</p></li>
+<li><p>Modeling</p>
+<ol class="arabic simple">
+<li><p>Define a mathematical model that represents the system.</p></li>
+<li><p>Determine properties of this system: Identifiability, Stability, Observability and Controllability.</p></li>
+<li><p>Determine model’s parameters, if they’re not known already.</p></li>
+<li><p>(Optional) Linearize model around operating point.</p></li>
+<li><p>(Optional) If it’s a continuous-time system and we’re using a digital controller,
+discretize it to obtain a discrete-time system.</p></li>
+</ol>
+</li>
+</ol>
+<ol class="arabic simple" start="3">
+<li><p>Control Design</p>
+<ul class="simple">
+<li><p>Design a controller to stabilize the system.</p></li>
+</ul>
+</li>
+<li><p>Evaluation</p>
+<ol class="arabic simple">
+<li><p>Simulate the closed-loop system in order to validate the controller design.</p></li>
+<li><p>Use controller with actual system.</p></li>
+</ol>
+</li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="control-theory-and-machine-learning">
+<h1>Control Theory and Machine Learning<a class="headerlink" href="#control-theory-and-machine-learning" title="Link to this heading">#</a></h1>
+<p>Modern machine learning and control theory share deep theoretical connections. Framing machine learning problems as dynamical systems, which we refer to as <strong>control theory for machine learning</strong>, opens up new ways to analyze neural network training and design adaptive controllers.</p>
+<p>Conversely, we can use machine learning to help solve large and complex control problems, which we refer to as <strong>machine learning for control theory</strong>.</p>
+<section id="control-theory-for-machine-learning">
+<h2>Control Theory for Machine Learning<a class="headerlink" href="#control-theory-for-machine-learning" title="Link to this heading">#</a></h2>
+<p>Control theory provides key concepts to guide the development of machine learning algorithms.</p>
+<ul class="simple">
+<li><p>Viewing neural networks like deep residual networks (ResNet) as dynamical systems allows control stability and optimality principles to ensure robust training.</p></li>
+<li><p>Using state-space models (SSMs) in neural networks for long-range sequence modelling. Structure state-space sequence (S4) model or the more recent Mamba are examples of this.</p></li>
+</ul>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../_images/10_state_space_model_sequence.png"><img alt="../_images/10_state_space_model_sequence.png" src="../_images/10_state_space_model_sequence.png" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Sequence modeling using state-space models (SSMs) <span id="id1">[<a class="reference internal" href="home.html#id17">GGR</a>]</span>.</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Framing learning as an optimization problem enables control techniques like differential dynamic programming to improve convergence of algorithms like stochastic gradient descent.</p></li>
+<li><p>The need to balance exploration and exploitation in reinforcement learning is addressed by stochastic optimal control theory.</p></li>
+</ul>
+<p>Overall, control theory provides a rigorous mathematical framework to guarantee crucial learning properties. The system dynamics perspective further allows the training process itself to be controlled for faster convergence. Bridging machine learning with concepts from control is leading to new theories and training methods with stability and optimality guarantees.</p>
+</section>
+<section id="machine-learning-for-control-theory">
+<h2>Machine Learning for Control Theory<a class="headerlink" href="#machine-learning-for-control-theory" title="Link to this heading">#</a></h2>
+<p>Modern machine learning provides useful tools and perspectives for control theory. Framing control problems as data modeling tasks enables powerful function approximation, estimation, and optimization techniques from machine learning to be applied. For example:</p>
+<ul class="simple">
+<li><p>Gaussian process based model learning can be used to improve the predictions of a system’s nominal model with data.</p></li>
+</ul>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../_images/70_learning_based_mpc_gp.png"><img alt="../_images/70_learning_based_mpc_gp.png" src="../_images/70_learning_based_mpc_gp.png" style="width: 70%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Gaussian process–based MPC for autonomous racing. (b,c) The resulting trajectories of a similar approach applied to miniature radio-controlled cars, with the initial nominal controller shown in panel b and the improved trajectories after learning shown in panel c <span id="id2">[<a class="reference internal" href="home.html#id20">HWMZ</a>]</span>.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Neural networks can learn to approximate complex dynamics for model-predictive control (MPC).</p></li>
+<li><p>Reinforcement learning explores optimal policies like dynamic programming to control complex robots.</p></li>
+<li><p>Kernel methods enable non-parametric system identification without relying on predefined model structures.</p></li>
+<li><p>The Koopman operator is a data-driven tool to infer properties and facilitate control of unknown nonlinear systems.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%html</span>
+<span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;800&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;480&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://www.youtube.com/embed/-cdXw1MyTUA?si=S3DXY90f8QEPFddI&quot;</span> <span class="na">title</span><span class="o">=</span><span class="s">&quot;YouTube video player&quot;</span> <span class="na">frameborder</span><span class="o">=</span><span class="s">&quot;0&quot;</span> <span class="na">allow</span><span class="o">=</span><span class="s">&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;</span> <span class="na">allowfullscreen</span><span class="p">&gt;&lt;/</span><span class="nt">iframe</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><iframe width="800" height="480" src="https://www.youtube.com/embed/-cdXw1MyTUA?si=S3DXY90f8QEPFddI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div></div>
+</div>
+<p>Beyond specific techniques, a machine learning viewpoint focuses on what can be learned from data about a control system’s unknown dynamics. This data-driven approach is key for adaptive and nonlinear control of complex systems.</p>
+</section>
+<section id="control-theory-and-reinforcement-learning">
+<h2>Control Theory and Reinforcement Learning<a class="headerlink" href="#control-theory-and-reinforcement-learning" title="Link to this heading">#</a></h2>
+<p>The predominant sub-field of machine learning is supervised learning. Its goal is make the output of the model mimic the labels <span class="math notranslate nohighlight">\(y\)</span> given in the training set. In that setting, the labels give an unambiguous <strong>right answer</strong> for each of the inputs.</p>
+<p>In reinforcement learning (RL), we do not have labels for the inputs and instead have to rely on a <strong>reward function</strong>, which indicates to the learning agent (i.e. model) when it is doing well, and when it is doing poorly.</p>
+<p>RL studies how to use past data (experience) to enhance (learning) the future manipulation of a system, which is precisely the scope of Control Theory. Despite that, the two communities have remained disjointed and that has led to the co-development of vastly different approaches to the same problems.</p>
+<p>The main differences between the two lie in how the system is modeled and the approaches taken to design controllers/agents:</p>
+<ul class="simple">
+<li><p>In <strong>control theory</strong>:</p>
+<ul>
+<li><p>we explicitly model the system using knowledge about the equations governing its behaviour, by estimating the parameters of such equations or by fitting a model on measurements from the system.</p></li>
+<li><p>we generally deal with dynamical systems governed by differential equations.</p></li>
+<li><p>we synthesize a controller by <strong>minimizing</strong> a cost function, in the case of optimal control.</p></li>
+<li><p>we may have to reconstruct the state from measurements using an observer.</p></li>
+</ul>
+</li>
+<li><p>Whereas in <strong>reinforcement learning</strong>:</p>
+<ul>
+<li><p>we do have to model the system and instead can directly learn the agent that maximizes the expected reward while interacting with the environment.</p></li>
+<li><p>We generally deal with systems modelled by Markov Decision Processes (MDPs).</p></li>
+<li><p>we train an agent by <strong>maximing</strong> a reward function.</p></li>
+<li><p>we directly use the measurements from the environment.</p></li>
+</ul>
+</li>
+</ul>
+<figure class="align-default" id="feedback-control-block">
+<img alt="../_images/10_feedback_block_diagram.svg" src="../_images/10_feedback_block_diagram.svg" /><figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Feedback Control in Control Engineering</span><a class="headerlink" href="#feedback-control-block" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="rl-block">
+<img alt="../_images/10_reinforcement_learning_block_diagram.svg" src="../_images/10_reinforcement_learning_block_diagram.svg" /><figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Feedback Control in Reinforcement Learning</span><a class="headerlink" href="#rl-block" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The two are not mutually exclusive. For example, enforcing safety constraints when using reinforcement learning can be achieved by combining it with model-predictive control (MPC).</p>
+<figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="../_images/80_safety_filter.svg"><img alt="../_images/80_safety_filter.svg" src="../_images/80_safety_filter.svg" width="50%" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Based on the current state <span class="math notranslate nohighlight">\(x\)</span>, a learning-based controller provides an input
+<span class="math notranslate nohighlight">\(u_L = \pi_L(x) \in \mathbb{R}^m\)</span>, which is processed by the safety filter <span class="math notranslate nohighlight">\(u = \pi_S(x, u_S)\)</span> and applied to the real system <span id="id3">[<a class="reference internal" href="home.html#id20">HWMZ</a>]</span>.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="terminology">
+<h3>Terminology<a class="headerlink" href="#terminology" title="Link to this heading">#</a></h3>
+<p>Here are a list of terms commonly used in Reinforcement Learning, and their control counterparts:</p>
+<ol class="arabic simple">
+<li><p><strong>Environment</strong> = System.</p></li>
+<li><p><strong>Agent (Policy)</strong> = Controller or Regulator.</p></li>
+<li><p><strong>Action <span class="math notranslate nohighlight">\(a\)</span></strong> = Decision or Control <span class="math notranslate nohighlight">\(u\)</span>.</p></li>
+<li><p><strong>Observation</strong> = Measurement.</p></li>
+<li><p><strong>Reward <span class="math notranslate nohighlight">\(r\)</span></strong> = (Opposite of) Cost <span class="math notranslate nohighlight">\(c\)</span>.</p></li>
+</ol>
+<p>If you want to learn about reinforcement learning, consider attending our <a class="reference external" href="https://transferlab.ai/trainings/intro-rl/">Safe and efficient deep reinforcement learning</a> training.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="planning">
+<h1>Planning<a class="headerlink" href="#planning" title="Link to this heading">#</a></h1>
+<p>Planning refers to the explicit deliberation process that chooses and organizes actions by anticipating their
+outcomes with the goal to achieve some pre-stated objectives.</p>
+<p>Automated planning and scheduling, sometimes denoted as simply AI planning, is a branch of artificial intelligence that concerns the realization of strategies or action sequences, typically for execution by intelligent agents, autonomous robots and unmanned vehicles. Unlike classical control problems, the solutions are complex and must be discovered and optimized in multidimensional space.</p>
+<p>In planning we use a model of the environment/system to predict the effect of taking a certain action in a certain state. Thus it is a <strong>model-based</strong> approach.</p>
+<section id="state-transition-systems">
+<h2>State-Transition Systems<a class="headerlink" href="#state-transition-systems" title="Link to this heading">#</a></h2>
+<p>A state-transition system is a 3-tuple <span class="math notranslate nohighlight">\(\Sigma = (S, U,\gamma)\)</span>, where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S = \{s_1,s_2,\dots\}\)</span> is a finite or recursively enumerable set of states.</p></li>
+<li><p><span class="math notranslate nohighlight">\(U = \{u_1,u_2,\dots\}\)</span> is a finite or recursively enumerable set of actions.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\gamma: S\times U \rightarrow 2^S\)</span> is a state transition function.</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(u \in U\)</span> and <span class="math notranslate nohighlight">\(\gamma(s,u) \neq \emptyset\)</span> then <span class="math notranslate nohighlight">\(a\)</span> is applicable in <span class="math notranslate nohighlight">\(s\)</span>.</p></li>
+<li><p>applying <span class="math notranslate nohighlight">\(u\)</span> in <span class="math notranslate nohighlight">\(s\)</span> will take the system to <span class="math notranslate nohighlight">\(s^{\prime} \in \gamma(s,u).\)</span></p></li>
+</ul>
+<p>A state-transition system can be represented by a directed labelled graph <span class="math notranslate nohighlight">\(G = (N_G,E_G)\)</span> where:</p>
+<ul class="simple">
+<li><p>the nodes correspond to the states in <span class="math notranslate nohighlight">\(S\)</span>, i.e. <span class="math notranslate nohighlight">\(N_G = S.\)</span></p></li>
+<li><p>there is an arc from <span class="math notranslate nohighlight">\(s \in N_G\)</span> to <span class="math notranslate nohighlight">\(s^\prime \in N_G\)</span>, i.e.<span class="math notranslate nohighlight">\(s \rightarrow s^\prime \in E_G\)</span>, with label <span class="math notranslate nohighlight">\(u \in U\)</span> if and only if <span class="math notranslate nohighlight">\(s^\prime \in \gamma(s,u).\)</span></p></li>
+</ul>
+</section>
+<section id="plans">
+<h2>Plans<a class="headerlink" href="#plans" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>a plan <span class="math notranslate nohighlight">\(\pi\)</span> is a finite sequence of actions, <span class="math notranslate nohighlight">\(\pi = \{u_1, \dots, u_n\}\)</span></p></li>
+<li><p>a planning problem is a triple <span class="math notranslate nohighlight">\(P = (\Sigma, s_0, S_g)\)</span>, where <span class="math notranslate nohighlight">\(\Sigma\)</span> is a
+state-transition system, <span class="math notranslate nohighlight">\(s_0 \in S\)</span> is an initial state, and <span class="math notranslate nohighlight">\(S_g \subset S\)</span> is a set of goal states.</p></li>
+<li><p>each node is written as a pair <span class="math notranslate nohighlight">\(v = (\pi, s)\)</span> where <span class="math notranslate nohighlight">\(\pi\)</span> is a plan and <span class="math notranslate nohighlight">\(s = \gamma(s_0, \pi)\)</span></p></li>
+</ul>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/10_planning_and_plan_execution.png"><img alt="../_images/10_planning_and_plan_execution.png" src="../_images/10_planning_and_plan_execution.png" style="width: 30%;" /></a>
+</figure>
+<ul class="simple">
+<li><p>Planner:</p>
+<ul>
+<li><p>given: description of an environment/system <span class="math notranslate nohighlight">\(\Sigma\)</span>, initial state, and objective.</p></li>
+<li><p>generate: plan that achieves objective.</p></li>
+</ul>
+</li>
+<li><p>Controller:</p>
+<ul>
+<li><p>given: plan, current state (observation function: <span class="math notranslate nohighlight">\(\eta:S \rightarrow O\)</span>)</p></li>
+<li><p>generate: action.</p></li>
+</ul>
+</li>
+<li><p>Environment/System:</p>
+<ul>
+<li><p>evolves as actions are executed and events occur</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="optimal-control">
+<h1>Optimal Control<a class="headerlink" href="#optimal-control" title="Link to this heading">#</a></h1>
+<p>Optimal control theory is a branch of control theory that emerged an independent field emerged in the 1950s. It deals with finding a control for a dynamical system over a period of time such that an objective function is optimized. The fundamental idea in optimal control is to formulate the goal of control as the long-term optimization of a scalar cost function as opposed to formulating the objective as direct constraints on the system’s behaviour (e.g. overshoot) as done in classical control.</p>
+<p>Optimal control is one of the most useful systematic methods for controller design. It has several advantages:</p>
+<ul class="simple">
+<li><p>It gives a systematic approach to the solution of control problems.</p></li>
+<li><p>There are normally many possible solutions to a control problem. Some are good, others are poor.
+Optimal control reduces this redundancy by selecting a controller that is optimal according to some cost function.</p></li>
+</ul>
+<p>The optimal control problem is to find a control <span class="math notranslate nohighlight">\(u^* \in \mathbf{U}\)</span> which causes the system <span class="math notranslate nohighlight">\(\dot{x}(t) = f(x(t), u(t))\)</span> to follow a trajectory <span class="math notranslate nohighlight">\(x^* \in \mathbf{X}\)</span> that minimizes the cost (performance measure).</p>
+<section id="continuous-time">
+<h2>Continuous-time<a class="headerlink" href="#continuous-time" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{lll}
+\displaystyle  \min_{u} &amp; J(x_0, u, t_0, t_f) &amp; \text{(cost)}\\
+\text{subject to} &amp; \dot{x}(t) = f(x(t), u(t)) &amp; \text{(dynamical feasibility)}\\
+&amp; x(t_f) \in \mathbf{X_{t_f}} &amp; \text{(boundary conditions)}\\
+&amp; x(t) \in \mathbf{X} , \forall t \in [0, t_f] &amp; \text{(state constraints)}\\
+&amp; u(t) \in \mathbf{U}, \forall t \in [0, t_f] &amp; \text{(input constraints)}\\
+\end{array}
+\end{split}\]</div>
+</section>
+<section id="discrete-time">
+<h2>Discrete-time<a class="headerlink" href="#discrete-time" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{array}{lll}
+\displaystyle  \min_{u} &amp; J(x_0, u, N) &amp; \text{(cost)}\\
+\text{subject to} &amp; x_{t+1} = f(x_t, u_t) &amp; \text{(dynamical feasibility)}\\
+&amp; x_N \in \mathbf{X_N} &amp; \text{(boundary conditions)}\\
+&amp; x_t \in \mathbf{X} , \forall t \in \{0, 1, \dots , N - 1\} &amp; \text{(state constraints)}\\
+&amp; u_t \in \mathbf{U}, \forall t \in \{0, 1, \dots , N - 1\} &amp; \text{(input constraints)}\\
+\end{array}
+\end{split}\]</div>
+</section>
+<section id="variants">
+<h2>Variants<a class="headerlink" href="#variants" title="Link to this heading">#</a></h2>
+<p>There are many variants of the optimal control problem:</p>
+<ul>
+<li><p>Finite Horizon:</p>
+<div class="math notranslate nohighlight">
+\[
+   J(x_0, u, N) = c_N(x_N) + \sum \limits_{k = 0}^{N-1} c_k(x_k, u_k)
+   \]</div>
+</li>
+<li><p>Infinite Horizon:</p>
+<div class="math notranslate nohighlight">
+\[
+  J(x_0, u) = \sum \limits_{k = 0}^{\infty} c_k(x_k, u_k)
+  \]</div>
+</li>
+<li><p>Stochastic finite horizon:</p>
+<div class="math notranslate nohighlight">
+\[
+  J(x_0, u) = E\left[\sum \limits_{k=0}^{T} c_k(x_k, u_k)\right]
+  \]</div>
+</li>
+</ul>
+<p>This approach is powerful for a number of reasons. First and foremost, it is very general - allowing us to specify the goal of control equally well for fully- or under-actuated, linear or nonlinear, deterministic or stochastic, and continuous or discrete systems. Second, it permits concise descriptions of potentially very complex desired behaviours, specifying the goal of control as a scalar objective (plus a list of constraints).</p>
+<figure class="align-center" id="id8">
+<a class="reference internal image-reference" href="../_images/10_optimal_control_methods.svg"><img alt="../_images/10_optimal_control_methods.svg" src="../_images/10_optimal_control_methods.svg" width="80%" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6 </span><span class="caption-text">Classification of different methods to solve optimal control problems and related formulations and
+solution algorithms <span id="id4">[]</span></span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Optimal control problems solving methods can be classified in three main families:
+Dynamic Programming (DP), Indirect Methods based on calculus of variation and Direct Methods.</p>
+<ul>
+<li><p>DP is helpful where the number of states is limited and the dynamics are known. It divides an optimal control problem into smaller subproblems and recursively solves each one of them.</p></li>
+<li><p>Indirect methods rely on Pontryagin’s Minimum Principle (PMP) to derive the necessary conditions for optimality.
+This method uses the Hamiltonian of the system to reduce the global optimal control problem
+to the solution of a system of <span class="math notranslate nohighlight">\(2N\)</span> equations given in the form of a two-point boundary value problem (BVP).<br />
+Problems involving continuous states and control inputs benefit most from it.</p></li>
+<li><p>Direct methods rely on the discretization in time of the original optimal control problem which is then transcribed to
+a nonlinear programming problem (NLP) solved numerically using a well-established optimisation method.</p>
+<p>There are many direct methods. They differ on how the variables (i.e. control and states) are discretised
+and on how the continuous time dynamics is approximated.</p>
+<p>In the case of shooting and multiple shooting the control are parameterised
+with piecewise linear functions and the differential equations
+are solved via numerical integration. These approaches make use of robust
+and available ordinary differential equations solvers
+but need sensitivity analysis to compute the jacobians
+of the continuity and boundary conditions with respect to the initial and intermediate conditions.</p>
+<p>In the case of state and control parameterisation (direct collocation),
+both states and controls are approximated with polynomial functions,
+therefore the continuous time differential equations are converted into algebraic constraints.</p>
+</li>
+</ul>
+</section>
+<section id="choosing-the-cost-function">
+<h2>Choosing the cost function<a class="headerlink" href="#choosing-the-cost-function" title="Link to this heading">#</a></h2>
+<p>Choosing a cost function means translating the system’s desired physical state into a mathematical formulation.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>Minimum-time problems: <span class="math notranslate nohighlight">\(J = t_f - t_0\)</span></p></li>
+<li><p>Terminal control problems: <span class="math notranslate nohighlight">\(J = || x(t_f) - r(t_f) ||^2\)</span></p></li>
+<li><p>Minimum control-effort problems: <span class="math notranslate nohighlight">\(J = \sum \limits_{k = t_0}^{t_f} |u(t_k)|\)</span></p></li>
+</ul>
+<div class="exercise admonition" id="rc-circuit-exercise">
+
+<p class="admonition-title"><span class="caption-number">Exercise 1 </span> (RC-Circuit Exercise)</p>
+<section id="exercise-content">
+<p>Given the following RC circuit with an external voltage source:</p>
+<figure class="align-default" id="rc-circuit">
+<a class="reference internal image-reference" href="../_images/10_rc_circuit.svg"><img alt="../_images/10_rc_circuit.svg" src="../_images/10_rc_circuit.svg" width="60%" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 7 </span><span class="caption-text">Schematic created using <a class="reference external" href="https://www.circuitlab.com">CircuitLab</a></span><a class="headerlink" href="#rc-circuit" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The differential equation governing the charge of capacitor is given by:</p>
+<div class="math notranslate nohighlight">
+\[R \frac{d y(t)}{dt} + \frac{1}{C} y(t) = u(t)\]</div>
+<p>with <span class="math notranslate nohighlight">\(y(0) = 0\)</span> i.e. the capacitor is uncharged at <span class="math notranslate nohighlight">\(t=0\)</span></p>
+<p>The current in the circuit is given by: <span class="math notranslate nohighlight">\(i(t) = \frac{d y(t)}{dt}\)</span></p>
+<p><strong>Questions</strong>:</p>
+<ul class="simple">
+<li><p>Suppose our only goal is to charge the capacitor as quickly as possible without worrying about anything else. What would be your choice for a cost function?</p></li>
+<li><p>Suppose that we additionally want to limit the current running throught the circuit. What would then be your choice for a cost function?</p></li>
+</ul>
+<div class="dropdown admonition tip">
+<p class="admonition-title">Tip</p>
+<p>State-space representation of circuit (For the curious ones)</p>
+<p>If we wanted to represent the system in a state-space form, we could define the following state vector:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\mathbf{X} = \begin{bmatrix}
+x_1 \\ x_2
+\end{bmatrix} 
+= \begin{bmatrix}
+y(t) \\ \dot{y}(t)
+\end{bmatrix} 
+\end{split}\]</div>
+<p>Taking the derivate of the state vector gives us:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dot{\mathbf{X}} = \begin{bmatrix}
+\dot{x}_1 \\ \dot{x}_2
+\end{bmatrix} 
+= \begin{bmatrix}
+x_2 \\ \frac{1}{R} u - \frac{1}{RC} x_1 
+\end{bmatrix} 
+\end{split}\]</div>
+<p>Which is a linear system with the following matrices:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\dot{\mathbf{X}} = \begin{bmatrix}
+\dot{x}_1 \\ \dot{x}_2
+\end{bmatrix} 
+= \begin{bmatrix}
+0 &amp; 1 \\ - \frac{1}{RC}  &amp; 0
+\end{bmatrix} 
+\begin{bmatrix}
+x_1 \\ x_2
+\end{bmatrix} 
++
+\begin{bmatrix}
+0 \\ \frac{1}{R}
+\end{bmatrix} 
+u
+\end{split}\]</div>
+</div>
+</section>
+</div>
+<div class="solution dropdown admonition" id="notebooks/nb_10_introduction-solution-1">
+
+<p class="admonition-title">Solution to<a class="reference internal" href="#rc-circuit-exercise">  ( 1</a></p>
+<section id="solution-content">
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(c = - y(t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(c = - y(t) + \lambda i(t), \quad \lambda &gt; 0\)</span></p></li>
+</ul>
+</section>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="home.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Machine Learning Control Training</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nb_20_dynamic_programming.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Dynamic Programming</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Introduction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branches-of-control-theory">Branches of Control Theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-systems-classification">Control Systems Classification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-systems">Types of Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#controller-design">Controller Design</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#control-theory-and-machine-learning">Control Theory and Machine Learning</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-theory-for-machine-learning">Control Theory for Machine Learning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#machine-learning-for-control-theory">Machine Learning for Control Theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control-theory-and-reinforcement-learning">Control Theory and Reinforcement Learning</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#terminology">Terminology</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#planning">Planning</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#state-transition-systems">State-Transition Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plans">Plans</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#optimal-control">Optimal Control</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-time">Continuous-time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-time">Discrete-time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variants">Variants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-cost-function">Choosing the cost function</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By appliedAI TransferLab
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
