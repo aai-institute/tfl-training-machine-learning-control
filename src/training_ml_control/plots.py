@@ -13,6 +13,7 @@ __all__ = [
     "animate_cart_simulation",
     "animate_inverted_pendulum_simulation",
     "animate_full_inverted_pendulum_simulation",
+    "animate_pendulum_simulation",
 ]
 
 
@@ -328,6 +329,60 @@ def animate_full_inverted_pendulum_simulation(
         )
         line = np.stack([line_x, line_y])
         bar[0].set_data(line)
+        graphics.plot_results(t_ind)
+        if isinstance(data, MPCData):
+            graphics.plot_predictions(t_ind)
+
+    anim = FuncAnimation(
+        fig, update, frames=len(data["_time"]), repeat=False, interval=100
+    )
+    return HTML(anim.to_html5_video())
+
+
+def animate_pendulum_simulation(
+    data: Data | MPCData,
+) -> HTML:
+    """Animated plots of pendulum simulation."""
+    plt.close()
+    plt.ioff()
+    plt.figure()
+    graphics = Graphics(data)
+
+    fig, axes = plt.subplots(2, 2, sharex=True)
+    axes = axes.ravel()
+
+    axes[0].set_ylabel(r"$\cos(\theta)$")
+    axes[1].set_ylabel(r"$\sin(\theta)$")
+    axes[2].set_ylabel(r"$\dot{\theta}$")
+    axes[3].set_ylabel(r"$u$")
+
+    graphics.add_line(var_type="_x", var_name="x0", axis=axes[0])
+    graphics.add_line(var_type="_x", var_name="x1", axis=axes[1])
+    graphics.add_line(var_type="_x", var_name="x2", axis=axes[2])
+    graphics.add_line(var_type="_u", var_name="u0", axis=axes[3])
+
+    fig.align_ylabels()
+    fig.tight_layout()
+
+    plt.ion()
+    factor = 0.2
+    x_arr = data["_x"]
+    x_max = np.max(x_arr, axis=0)
+    x_min = np.min(x_arr, axis=0)
+    x_max, x_min = x_max + factor * (x_max - x_min), x_min - factor * (x_max - x_min)
+
+    u_arr = data["_u"]
+    u_max = np.max(u_arr, axis=0)
+    u_min = np.min(u_arr, axis=0)
+    u_max, u_min = u_max + factor * (u_max - u_min), u_min - factor * (u_max - u_min)
+
+    # Axis limits
+    axes[0].set_ylim(x_min[0], x_max[0])
+    axes[1].set_ylim(x_min[1], x_max[1])
+    axes[2].set_ylim(x_min[2], x_max[2])
+    axes[3].set_ylim(u_min[0], u_max[0])
+
+    def update(t_ind):
         graphics.plot_results(t_ind)
         if isinstance(data, MPCData):
             graphics.plot_predictions(t_ind)

@@ -4,12 +4,12 @@ from dataclasses import dataclass
 import networkx as nx
 import numpy as np
 from gymnasium import Env
+from gymnasium.envs.classic_control.pendulum import PendulumEnv
 from gymnasium.wrappers import OrderEnforcing, PassiveEnvChecker, TimeLimit
 from gymnasium.wrappers.render_collection import RenderCollection
 from numpy.typing import NDArray
 
 from training_ml_control.control import FeedbackController, Observer, RandomController
-from training_ml_control.environments.acrobot import ContinuousAcrobotEnv
 from training_ml_control.environments.cart import CartEnv
 from training_ml_control.environments.grid_world import GridWorldEnv
 from training_ml_control.environments.inverted_pendulum import InvertedPendulumEnv
@@ -18,7 +18,7 @@ __all__ = [
     "create_inverted_pendulum_environment",
     "create_grid_world_environment",
     "create_cart_environment",
-    "create_acrobot_environment",
+    "create_pendulum_environment",
     "simulate_environment",
     "value_iteration",
     "compute_best_path_and_actions_from_values",
@@ -54,21 +54,15 @@ def create_cart_environment(
     return env
 
 
-def create_acrobot_environment(
+def create_pendulum_environment(
     render_mode: str | None = "rgb_array",
     *,
     max_steps: int = 200,
-    target_height: float = 1.0,
-    max_torque: float = 1.0,
 ) -> Env:
-    """Creates instance of ContinuousAcrobotEnv with some wrappers
+    """Creates instance of PendulumEnv with some wrappers
     to ensure correctness, limit the number of steps and store rendered frames.
     """
-    env = ContinuousAcrobotEnv(
-        render_mode=render_mode,
-        target_height=target_height,
-        max_torque=max_torque,
-    )
+    env = PendulumEnv(render_mode=render_mode)
     env = TimeLimit(env, max_steps)
     # env = PassiveEnvChecker(env)
     env = OrderEnforcing(env)
@@ -153,11 +147,12 @@ def simulate_environment(
     max_steps: int = 500,
     controller: FeedbackController | None = None,
     observer: Observer | None = None,
+    seed: int = 16,
 ) -> SimulationResults:
     if controller is None:
         controller = RandomController(env)
 
-    observation, _ = env.reset()
+    observation, _ = env.reset(seed=seed)
     actions = []
     observations = [observation]
     estimated_observations = []
@@ -180,10 +175,11 @@ def simulate_environment(
 
         # Check if we need to stop the simulation
         if terminated or truncated:
-            if env.render_mode is not None:
-                frames = env.render()
-            env.reset()
             break
+
+    if env.render_mode is not None:
+        frames = env.render()
+    env.reset()
     env.close()
 
     actions = np.stack(actions)

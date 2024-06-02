@@ -80,14 +80,12 @@ class SchroederSweepController:
     def __init__(
         self,
         env: Env,
-        u_max: NDArray = np.asarray([10]),
         n_time_steps: int = 200,
         input_power: float = 10,
         n_harmonics: int = 3,
         frequency: float = 1,
     ) -> None:
         self.dt = env.unwrapped.dt
-        self.u_max = u_max
         self.input_power = input_power
         self.n_time_steps = n_time_steps
         self.n_harmonics = n_harmonics
@@ -148,9 +146,9 @@ def build_mpc_controller(
     n_horizon: int | None,
     terminal_cost,
     stage_cost,
-    x_limits: NDArray,
-    u_limits: NDArray,
-    force_penalty: float,
+    x_limits: dict[str, NDArray] | None = None,
+    u_limits: dict[str, NDArray] | None = None,
+    u_penalty: dict[str, float] | None = None,
     *,
     uncertainty_values: dict[str, NDArray] | None = None,
 ) -> MPC:
@@ -168,13 +166,18 @@ def build_mpc_controller(
     }
     mpc.set_param(**mpc_params)
     mpc.set_objective(mterm=terminal_cost, lterm=stage_cost)
-    mpc.set_rterm(force=force_penalty)
+    if u_penalty is not None:
+        mpc.set_rterm(**u_penalty)
     # lower and upper bounds of the position
-    mpc.bounds["lower", "_x", "position"] = x_limits[0]
-    mpc.bounds["upper", "_x", "position"] = x_limits[1]
+    if x_limits is not None:
+        for key, value in x_limits.items():
+            mpc.bounds["lower", "_x", key] = value[0]
+            mpc.bounds["upper", "_x", key] = value[1]
     # lower and upper bounds of the input
-    mpc.bounds["lower", "_u", "force"] = u_limits[0]
-    mpc.bounds["upper", "_u", "force"] = u_limits[1]
+    if u_limits is not None:
+        for key, value in u_limits.items():
+            mpc.bounds["lower", "_u", key] = value[0]
+            mpc.bounds["upper", "_u", key] = value[1]
     # Parameter uncertainty
     if uncertainty_values is not None:
         mpc.set_uncertainty_values(**uncertainty_values)
