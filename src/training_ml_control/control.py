@@ -151,11 +151,13 @@ def build_mpc_controller(
     u_penalty: dict[str, float] | None = None,
     *,
     uncertainty_values: dict[str, NDArray] | None = None,
+    n_robust: int = 1,
 ) -> MPC:
     mpc = MPC(model)
     mpc_params = {
         "n_horizon": n_horizon,
         "t_step": t_step,
+        "n_robust": n_robust,
         "state_discretization": "collocation",
         "collocation_type": "radau",
         "collocation_deg": 3,

@@ -26,6 +26,7 @@ def plot_cart_results(
     """As its name suggests, this function plots the results
     of a run of the cart environment.
     """
+    plt.close()
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3, sharex=True)
     ax1.plot(T, observations[:, 0])
     ax1.hlines(reference, T[0], T[-1], "r")
@@ -50,6 +51,7 @@ def plot_inverted_pendulum_results(
     """As its name suggests, this function plots the results
     of a run of the inverted pendulum environment.
     """
+    plt.close()
     fig, axes = plt.subplots(3, 2, sharex=True)
     axes = axes.ravel()
 

@@ -27,12 +27,9 @@ def build_cart_model(env: CartEnv) -> LinearModel:
     D = np.zeros(1)
 
     model = LinearModel("continuous")
-    pos = model.set_variable(var_type="_x", var_name="position")
-    dpos = model.set_variable(var_type="_x", var_name="velocity")
+    model.set_variable(var_type="_x", var_name="position")
+    model.set_variable(var_type="_x", var_name="velocity")
     model.set_variable(var_type="_u", var_name="force")
-    # Energy
-    E_kin = 0.5 * dpos**2
-    model.set_expression("E_kinetic", E_kin)
 
     model.setup(A, B, C, D)
     model = model.discretize(env.dt)
