@@ -254,7 +254,7 @@ Bases: {py:obj}`typing.Protocol`
 ```
 ````
 
-````{py:function} build_mpc_controller(model: do_mpc.model.Model, t_step: float, n_horizon: int | None, terminal_cost, stage_cost, x_limits: dict[str, numpy.typing.NDArray] | None = None, u_limits: dict[str, numpy.typing.NDArray] | None = None, u_penalty: dict[str, float] | None = None, *, uncertainty_values: dict[str, numpy.typing.NDArray] | None = None) -> do_mpc.controller.MPC
+````{py:function} build_mpc_controller(model: do_mpc.model.Model, t_step: float, n_horizon: int | None, terminal_cost, stage_cost, x_limits: dict[str, numpy.typing.NDArray] | None = None, u_limits: dict[str, numpy.typing.NDArray] | None = None, u_penalty: dict[str, float] | None = None, *, uncertainty_values: dict[str, numpy.typing.NDArray] | None = None, n_robust: int = 1) -> do_mpc.controller.MPC
 :canonical: training_ml_control.control.build_mpc_controller
 
 ```{autodoc2-docstring} training_ml_control.control.build_mpc_controller

@@ -528,11 +528,13 @@ document.write(`
     <span class="n">u_penalty</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">uncertainty_values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">n_robust</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MPC</span><span class="p">:</span>
     <span class="n">mpc</span> <span class="o">=</span> <span class="n">MPC</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
     <span class="n">mpc_params</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;n_horizon&quot;</span><span class="p">:</span> <span class="n">n_horizon</span><span class="p">,</span>
         <span class="s2">&quot;t_step&quot;</span><span class="p">:</span> <span class="n">t_step</span><span class="p">,</span>
+        <span class="s2">&quot;n_robust&quot;</span><span class="p">:</span> <span class="n">n_robust</span><span class="p">,</span>
         <span class="s2">&quot;state_discretization&quot;</span><span class="p">:</span> <span class="s2">&quot;collocation&quot;</span><span class="p">,</span>
         <span class="s2">&quot;collocation_type&quot;</span><span class="p">:</span> <span class="s2">&quot;radau&quot;</span><span class="p">,</span>
         <span class="s2">&quot;collocation_deg&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>

@@ -400,183 +400,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="cell tag_ActiveScene docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
-<span class="o">%</span><span class="n">load_ext</span> <span class="n">training_ml_control</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell tag_ActiveScene docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">presentation_style</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_html"><style>/*
-This file is mainly copy-pasta from rise's examples
-https://github.com/damianavila/RISE/blob/master/examples/rise.css
-that was further customized for appliedAI purposes
-*/
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400&display=swap');
-
-
-/*
-body {
-    font-family: 'Work Sans', sans-serif !important;
-    text-transform: initial !important;
-    letter-spacing: initial !important;
-    font-weight: 400 !important;
-    line-height: 1.5 !important;
-    text-size-adjust: 100% !important;
-    ‑webkit‑text‑size‑adjust: 100% !important;
-}
-
-
-.reveal, div.text_cell_render, .md-slide, .sidebar-wrapper {
-    font-size: 1.5rem !important;
-}
-*/
-
-.navbar-default .navbar-nav > li > a {
-    color: #00747b !important;
-}
-
-.filename {
-    font-size: 2.4rem !important;
-    color: #212529 !important;
-    font-weight: 600 !important;
-}
-
-.reveal, .md-slide {
-    color: white !important;
-}
-
-h1, h2 {
-    color: #00747b !important;
-}
-
-h3, h4, h5, h6 {
-    color: #808080 !important;
-}
-
-.reveal p, .reveal ol, .reveal dl, .reveal ul,
-div.text_cell_render {
-    color: #212529 !important;
-}
-
-/*copied from stackoverflow, better spacing between list items*/
-li + li {
-  margin-top: 0.2em;
-}
-
-body.rise-enabled .reveal ol, body.rise-enabled .reveal dl, body.rise-enabled .reveal ul {
-    margin-left: 0.1em;
-    margin-top: 0.2em;
-}
-
-.reveal .rendered_html h1:first-child,
-.reveal .rendered_html h2:first-child,
-.reveal .rendered_html h3:first-child,
-.reveal .rendered_html h4:first-child,
-.reveal .rendered_html h5:first-child {
-    margin-top: 0.2em;
-}
-
-/*
-.CodeMirror-lines, .output_text {
-    font-size: 1.5rem !important;
-}
-*/
-
-h1.plan, h2.plan, h3.plan {
-    text-align: center;
-    padding-bottom: 30px;
-}
-
-ul.plan>li>span.plan-bold {
-    font-size: 110%;
-    padding: 4px;
-    font-weight: bold;
-    background-color: #eee;
-}
-
-ul.plan>li>ul.subplan>li>span.plan-bold {
-    font-weight: bold;
-}
-
-.plan-strike {
-    opacity: 0.4;
-/*    text-decoration: line-through; */
-}
-
-div.plan-container {
-    display: grid;
-    grid-template-columns: 50% 50%;
-}
-
-/*
- * this is to void xarray's html output to show the fallback textual representation
- * see also
-   * xarray.md and
-   * https://github.com/damianavila/RISE/issues/594
- */
-.reveal pre.xr-text-repr-fallback {
-    display: none;
-}
-
-#toc-header, .toc-item li {
-    margin: auto !important;
-    color: #808080 !important;
-}
-
-#toc, #toc-wrapper, .toc-item-num, #toc a, .toc {
-    margin: auto !important;
-    color: #00747b !important;
-}
-
-#toc-wrapper {
-    top: auto !important;
-    bottom: auto !important;
-    margin-top: 2rem !important;
-    color: #00747b !important;
-}
-
-
-#rise-header {
-    margin: 10px;
-    left: 5%;
-}
-
-#rise-footer {
-    margin: 10px;
-    right: 5%;
-}
-
-#rise-backimage {
-    opacity: 0.70;
-}
-
-.reveal img {
-    max-width: 100%;
-}
-
-
-.md-slide.title {
-    position: relative;
-    top: -50%;
-    margin-left: 5%;
-    font-size: 4em !important;
-    line-height: 1.6;
-}
-</style></div></div>
-</div>
-<figure class="align-center">
-<a class="reference internal image-reference" href="../_images/aai-institute-cover.png"><img alt="aai-institute" src="../_images/aai-institute-cover.png" style="width: 90%;" /></a>
-</figure>
-<section class="tex2jax_ignore mathjax_ignore" id="safe-learning-in-robotics">
+  <section class="tex2jax_ignore mathjax_ignore" id="safe-learning-in-robotics">
 <h1>Safe Learning in Robotics<a class="headerlink" href="#safe-learning-in-robotics" title="Link to this heading">#</a></h1>
 <ul class="simple">
 <li><p>Robot learning aims to enable autonomous operation in complex, uncertain environments.</p></li>
@@ -601,7 +425,7 @@ div.plan-container {
 <figure class="align-default" id="id6">
 <a class="reference internal image-reference" href="../_images/80_comparison_model_driven_data_driven.svg"><img alt="../_images/80_comparison_model_driven_data_driven.svg" src="../_images/80_comparison_model_driven_data_driven.svg" width="80%" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 24 </span><span class="caption-text">A comparison of model-driven, data-driven, and combined approaches. <em>Taken from <span id="id1">[<a class="reference internal" href="home.html#id5">BGH+</a>]</span></em>.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 24 </span><span class="caption-text">A comparison of model-driven, data-driven, and combined approaches. <em>Taken from <span id="id1">[<a class="reference internal" href="home.html#id5" title="Lukas Brunke, Melissa Greeff, Adam W. Hall, Zhaocong Yuan, Siqi Zhou, Jacopo Panerati, and Angela P. Schoellig. Safe Learning in Robotics: From Learning-Based Control to Safe Reinforcement Learning. Annual Review of Control, Robotics, and Autonomous Systems, 5(1):411–444, May 2022. doi:10.1146/annurev-control-042920-020211.">BGH+22</a>]</span></em>.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <ul class="simple">
@@ -618,7 +442,7 @@ div.plan-container {
 <figure class="align-default" id="id7">
 <a class="reference internal image-reference" href="../_images/80_safe_control_block_diagram.svg"><img alt="../_images/80_safe_control_block_diagram.svg" src="../_images/80_safe_control_block_diagram.svg" width="80%" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 25 </span><span class="caption-text">Block diagram representing safe learning control approaches. <em>Taken from <span id="id2">[<a class="reference internal" href="home.html#id5">BGH+</a>]</span></em>.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 25 </span><span class="caption-text">Block diagram representing safe learning control approaches. <em>Taken from <span id="id2">[<a class="reference internal" href="home.html#id5" title="Lukas Brunke, Melissa Greeff, Adam W. Hall, Zhaocong Yuan, Siqi Zhou, Jacopo Panerati, and Angela P. Schoellig. Safe Learning in Robotics: From Learning-Based Control to Safe Reinforcement Learning. Annual Review of Control, Robotics, and Autonomous Systems, 5(1):411–444, May 2022. doi:10.1146/annurev-control-042920-020211.">BGH+22</a>]</span></em>.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <section id="safety-constraints">
@@ -626,7 +450,7 @@ div.plan-container {
 <figure class="align-default" id="id8">
 <a class="reference internal image-reference" href="../_images/80_safety_levels.svg"><img alt="../_images/80_safety_levels.svg" src="../_images/80_safety_levels.svg" width="100%" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 26 </span><span class="caption-text">Illustration of Safety Levels. <em>Taken from <span id="id3">[<a class="reference internal" href="home.html#id5">BGH+</a>]</span></em>.</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 26 </span><span class="caption-text">Illustration of Safety Levels. <em>Taken from <span id="id3">[<a class="reference internal" href="home.html#id5" title="Lukas Brunke, Melissa Greeff, Adam W. Hall, Zhaocong Yuan, Siqi Zhou, Jacopo Panerati, and Angela P. Schoellig. Safe Learning in Robotics: From Learning-Based Control to Safe Reinforcement Learning. Annual Review of Control, Robotics, and Autonomous Systems, 5(1):411–444, May 2022. doi:10.1146/annurev-control-042920-020211.">BGH+22</a>]</span></em>.</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <section id="safety-level-iii-constraint-satisfaction-guaranteed">
@@ -708,7 +532,7 @@ without safety certificates can be applied out of the box.</p></li>
 <a class="reference internal image-reference" href="../_images/80_safety_filter.svg"><img alt="../_images/80_safety_filter.svg" src="../_images/80_safety_filter.svg" width="60%" /></a>
 <figcaption>
 <p><span class="caption-number">Fig. 27 </span><span class="caption-text">Based on the current state <span class="math notranslate nohighlight">\(x\)</span>, a learning-based controller provides an input
-<span class="math notranslate nohighlight">\(u_L = \pi_L(x) \in \mathbb{R}^m\)</span>, which is processed by the safety filter <span class="math notranslate nohighlight">\(u = \pi_S(x, u_S)\)</span> and applied to the real system. <em>Taken from <span id="id4">[<a class="reference internal" href="home.html#id20">HWMZ</a>]</span></em>.</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+<span class="math notranslate nohighlight">\(u_L = \pi_L(x) \in \mathbb{R}^m\)</span>, which is processed by the safety filter <span class="math notranslate nohighlight">\(u = \pi_S(x, u_S)\)</span> and applied to the real system. <em>Taken from <span id="id4">[<a class="reference internal" href="home.html#id20" title="Lukas Hewing, Kim P. Wabersich, Marcel Menner, and Melanie N. Zeilinger. Learning-Based Model Predictive Control: Toward Safe Learning in Control. Annual Review of Control, Robotics, and Autonomous Systems, 3(1):269–296, May 2020. doi:10.1146/annurev-control-090419-075625.">HWMZ20</a>]</span></em>.</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <ul class="simple">
@@ -737,7 +561,7 @@ and can often be carried out over a reasonably short horizon.</p></li>
 <figure class="align-default" id="id10">
 <a class="reference internal image-reference" href="../_images/80_safe_learning_approaches.svg"><img alt="../_images/80_safe_learning_approaches.svg" src="../_images/80_safe_learning_approaches.svg" width="70%" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 28 </span><span class="caption-text">Summary of safe learning control approaches. <em>Taken from <span id="id5">[<a class="reference internal" href="home.html#id5">BGH+</a>]</span></em>.</span><a class="headerlink" href="#id10" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 28 </span><span class="caption-text">Summary of safe learning control approaches. <em>Taken from <span id="id5">[<a class="reference internal" href="home.html#id5" title="Lukas Brunke, Melissa Greeff, Adam W. Hall, Zhaocong Yuan, Siqi Zhou, Jacopo Panerati, and Angela P. Schoellig. Safe Learning in Robotics: From Learning-Based Control to Safe Reinforcement Learning. Annual Review of Control, Robotics, and Autonomous Systems, 5(1):411–444, May 2022. doi:10.1146/annurev-control-042920-020211.">BGH+22</a>]</span></em>.</span><a class="headerlink" href="#id10" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
