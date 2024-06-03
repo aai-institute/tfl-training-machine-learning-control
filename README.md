@@ -17,7 +17,8 @@ You have received this file as part of the training materials.
 There are multiple ways of viewing/executing the content. 
 
 1. If you just want to view the rendered notebooks, 
-   open `html/index.html` in your browser.
+   open `_build/html/index.html` in your browser.
+
 2. If you want to execute the notebooks, you will either need to
    install the dependencies or use docker.
    For running without docker, create a [poetry](https://python-poetry.org/) environment (with python 3.11),
@@ -26,8 +27,13 @@ There are multiple ways of viewing/executing the content.
    Then, install the dependencies and the package with
 
    ```shell
-   poetry install --with=add1,add2,control,offline
-   bash build_scripts/install_presentation_requirements.sh
+   poetry install
+   ```
+
+   and after that launch jupyter lab
+
+   ```shell
+   jupyter lab
    ```
 
 3. If you want to use docker instead,
@@ -48,10 +54,8 @@ There are multiple ways of viewing/executing the content.
    ```shell
    bash build_scripts/build_docs.sh
    ```
-
-   and then open `docs/build/html/index.html` in your browser.
-   This will also rebuild the jupyter-book based notebook documentation
-   that was originally found in the `html` directory.
+   
+   This will execute and cache the notebooks and render them nicely.
 
 6. In case you experience some issues with the rendering when using docker
    make sure to add the docker user to xhost. So run on your local machine: 
