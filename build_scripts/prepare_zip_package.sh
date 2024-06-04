@@ -44,25 +44,17 @@ BUILD_DIR=$(dirname "$0")
 
   echo "Validating build prerequisites..."
 
-  if grep "PARTICIPANT_BUCKET_READ_SECRET" config.yml ; then
-    echo "You must replace the secret in config.yml with the actual secret, not
-a reference to an environment variable. Use the value of the env var there instead, just be careful not to commit it!"
-    exit 255
-  fi
-  echo "Done"
-
   check_notebooks_for_non_executed_load
 
   echo "Building exercise notebooks with jupyter-book..."
-  jupyter-book build notebooks
+  bash build_scripts/build_docs.sh
   echo "Done"
 
   echo "Done. Building the zip package..."
 
-  echo "Adding source files to thesan_output.zip"
-  zip -r thesan_output.zip ./* -x@.zipignore
-  cd notebooks/_build
-  echo "Adding documentation in html to thesan_output.zip"
-  zip -ur ../../thesan_output.zip html
+  echo "Adding source files to training_ml_control_content.zip"
+  git archive --output=./training_ml_control_content.zip --format=zip HEAD
+  echo "Adding documentation in html to training_ml_control_content.zip"
+  zip -ur training_ml_control_content.zip _build/html
   echo "Done"
 )

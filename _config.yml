@@ -3,8 +3,8 @@
 
 title: Machine Learning Control Training
 author: appliedAI TransferLab
-copyright: '2023'
-exclude_patterns: [".github", ".venv", "**.ipynb_checkpoints", "_config.yml", "_toc.yml"]
+copyright: "2023"
+exclude_patterns: [".github", ".venv", "**__pycache__", "**.ipynb_checkpoints", "_config.yml", "_toc.yml"]
 # Auto-exclude files not in the toc
 only_build_toc_files: true
 
