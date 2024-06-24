@@ -6,7 +6,7 @@ on:
       python_version:
         required: false
         type: string
-        default: '3.11'
+        default: '3.10'
 
 jobs:
   lint_and_test:

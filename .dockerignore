@@ -2,6 +2,7 @@
 
 !src
 !notebooks
+notebooks/.ipynb_checkpoints
 !setup.py
 !scripts
 !build_scripts
